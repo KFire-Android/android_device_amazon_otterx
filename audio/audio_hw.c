@@ -39,63 +39,54 @@
 #include <audio_effects/effect_aec.h>
 
 /* Mixer control names */
-#define MIXER_DL2_LEFT_EQUALIZER            "DL2 Left Equalizer"
-#define MIXER_DL2_RIGHT_EQUALIZER           "DL2 Right Equalizer"
 #define MIXER_DL1_MEDIA_PLAYBACK_VOLUME     "DL1 Media Playback Volume"
 #define MIXER_DL1_VOICE_PLAYBACK_VOLUME     "DL1 Voice Playback Volume"
-#define MIXER_DL2_MEDIA_PLAYBACK_VOLUME     "DL2 Media Playback Volume"
-#define MIXER_DL2_VOICE_PLAYBACK_VOLUME     "DL2 Voice Playback Volume"
-#define MIXER_SDT_DL_VOLUME                 "SDT DL Volume"
-#define MIXER_SDT_UL_VOLUME                 "SDT UL Volume"
+#define MIXER_DL1_CAPTURE_PLAYBACK_VOLUME	"DL1 Capture Playback Volume"
 
-//#define MIXER_HEADSET_PLAYBACK_VOLUME       "Headset Playback Volume"
-//#define MIXER_HANDSFREE_PLAYBACK_VOLUME     "Handsfree Playback Volume"
-//#define MIXER_EARPHONE_PLAYBACK_VOLUME      "Earphone Playback Volume"
+#define MIXER_SDT_DL_VOLUME                 "SDT DL Volume"
+//#define MIXER_SDT_UL_VOLUME                 "SDT UL Volume"
+
 #define MIXER_BT_UL_VOLUME                  "BT UL Volume"
 
 #define MIXER_DL1_EQUALIZER                 "DL1 Equalizer"
 #define MIXER_DL1_MIXER_MULTIMEDIA          "DL1 Mixer Multimedia"
 #define MIXER_DL1_MIXER_VOICE               "DL1 Mixer Voice"
-#define MIXER_DL2_MIXER_MULTIMEDIA          "DL2 Mixer Multimedia"
-#define MIXER_DL2_MIXER_VOICE               "DL2 Mixer Voice"
+
 #define MIXER_SIDETONE_MIXER_PLAYBACK       "Sidetone Mixer Playback"
 #define MIXER_SIDETONE_MIXER_CAPTURE        "Sidetone Mixer Capture"
-#define MIXER_DL2_MONO_MIXER                "DL2 Mono Mixer"
-#define MIXER_DL1_PDM_SWITCH                "DL1 PDM Switch"
-#define MIXER_DL1_BT_VX_SWITCH              "DL1 BT_VX Switch"
-#define MIXER_VOICE_CAPTURE_MIXER_CAPTURE   "Voice Capture Mixer Capture"
 
-//#define MIXER_HS_LEFT_PLAYBACK              "HS Left Playback"
-//#define MIXER_HS_RIGHT_PLAYBACK             "HS Right Playback"
-//#define MIXER_HF_LEFT_PLAYBACK              "HF Left Playback"
-//#define MIXER_HF_RIGHT_PLAYBACK             "HF Right Playback"
-//#define MIXER_EARPHONE_ENABLE_SWITCH        "Earphone Enable Switch"
+#define MIXER_DL1_MM_EXT_SWITCH				"DL1 MM_EXT Switch"
 
-//#define MIXER_ANALOG_LEFT_CAPTURE_ROUTE     "Analog Left Capture Route"
-//#define MIXER_ANALOG_RIGHT_CAPTURE_ROUTE    "Analog Right Capture Route"
-//#define MIXER_CAPTURE_PREAMPLIFIER_VOLUME   "Capture Preamplifier Volume"
-//#define MIXER_CAPTURE_VOLUME                "Capture Volume"
 #define MIXER_AMIC_UL_VOLUME                "AMIC UL Volume"
 #define MIXER_AUDUL_VOICE_UL_VOLUME         "AUDUL Voice UL Volume"
-#define MIXER_MUX_VX0                       "MUX_VX0"
-#define MIXER_MUX_VX1                       "MUX_VX1"
-#define MIXER_MUX_UL10                      "MUX_UL10"
-#define MIXER_MUX_UL11                      "MUX_UL11"
+
+#define MIXER_MUX_UL00						"MUX_UL00"
+#define MIXER_MUX_UL01						"MUX_UL01"
+
+#define MIXER_LEFT_DAC_MUTE					"Left DAC Mute"
+#define MIXER_RIGHT_DAC_MUTE				"Right DAC Mute"
+
+#define MIXER_LEFT_DAC_INPUT_SELECTION		"Left DAC input selection"
+#define MIXER_RIGHT_DAC_INPUT_SELECTION		"Right DAC input selection"
+
+#define MIXER_MIC_BIAS_VOLTAGE				"Mic Bias Voltage"
+#define MIXER_LDAC_PWR_CTL					"LDAC_PWR_CTL"
+#define MIXER_RDAC_PWR_CTL					"RDAC_PWR_CTL"
 
 /* Mixer control gain and route values */
 #define MIXER_ABE_GAIN_0DB                  120
-//#define MIXER_PLAYBACK_HS_DAC               "HS DAC"
-//#define MIXER_PLAYBACK_HF_DAC               "HF DAC"
-#define MIXER_MAIN_MIC                      "Main Mic"
-#define MIXER_SUB_MIC                       "Sub Mic"
-#define MIXER_HS_MIC                        "Headset Mic"
-#define MIXER_AMIC0                         "AMic0"
-#define MIXER_AMIC1                         "AMic1"
-#define MIXER_BT_LEFT                       "BT Left"
-#define MIXER_BT_RIGHT                      "BT Right"
 #define MIXER_450HZ_HIGH_PASS               "450Hz High-pass"
 #define MIXER_FLAT_RESPONSE                 "Flat response"
 #define MIXER_4KHZ_LPF_0DB                  "4Khz LPF   0dB"
+
+#define MIXER_MM_EXT_IN_RIGHT				"MM_EXT_IN Right"
+#define MIXER_MM_EXT_IN_LEFT				"MM_EXT_IN Left"
+
+#define MIXER_MUTE							"Mute"
+#define MIXER_UNMUTE						"Unmute"
+#define MIXER_RIGHT_DATA					"right data"
+#define MIXER_LEFT_DATA						"left data"
+#define MIXER_OFF							"off"
 
 
 /* ALSA cards for OMAP4 */
@@ -106,22 +97,22 @@
 /* ALSA ports for OMAP4 */
 #define PORT_MM 0
 #define PORT_MM2_UL 1
-#define PORT_VX 2
-#define PORT_TONES 3
-#define PORT_VIBRA 4
-#define PORT_MODEM 5
-#define PORT_MM_LP 6
-#define PORT_SPDIF 9
+//#define PORT_VX 2
+//#define PORT_TONES 3
+//#define PORT_VIBRA 4
+//#define PORT_MODEM 5
+//#define PORT_MM_LP 6
+//#define PORT_SPDIF 9
 
 #define PORT_HDMI 0
 
 /* constraint imposed by ABE: all period sizes must be multiples of 24 */
-#define ABE_BASE_FRAME_COUNT 24
+//#define ABE_BASE_FRAME_COUNT 24
 /* number of base blocks in a short period (low latency) */
-#define SHORT_PERIOD_MULTIPLIER 512  /* ~ 278 ms */
+//#define SHORT_PERIOD_MULTIPLIER 512  /* ~ 278 ms */
 /* number of frames per short period (low latency) */
-#define SHORT_PERIOD_SIZE (ABE_BASE_FRAME_COUNT * SHORT_PERIOD_MULTIPLIER)
-
+//#define SHORT_PERIOD_SIZE (ABE_BASE_FRAME_COUNT * SHORT_PERIOD_MULTIPLIER)
+#define SHORT_PERIOD_SIZE 4096 // 4096 / 4 (1024 sample/s) ~=23ms
 /* number of short periods in a long period (low power) */
 #define LONG_PERIOD_MULTIPLIER 1  /* 308 ms */
 /* number of frames per long period (low power) */
@@ -145,9 +136,9 @@
 /* sampling rate when using MM full power port */
 #define MM_FULL_POWER_SAMPLING_RATE DEFAULT_OUT_SAMPLING_RATE
 /* sampling rate when using VX port for narrow band */
-#define VX_NB_SAMPLING_RATE 8000
+//#define VX_NB_SAMPLING_RATE 8000
 /* sampling rate when using VX port for wide band */
-#define VX_WB_SAMPLING_RATE 16000
+//#define VX_WB_SAMPLING_RATE 16000
 
 /* conversions from dB to ABE and codec gains */
 #define DB_TO_ABE_GAIN(x) ((x) + MIXER_ABE_GAIN_0DB)
@@ -196,11 +187,6 @@
 #define HEADPHONE_VOLUME_TTY -2
 #define RINGTONE_HEADSET_VOLUME_OFFSET -14
 
-/* product-specific defines */
-#define PRODUCT_DEVICE_PROPERTY "ro.product.device"
-#define PRODUCT_NAME_PROPERTY   "ro.product.name"
-#define PRODUCT_NAME_YAKJU      "yakju"
-
 enum tty_modes {
     TTY_MODE_OFF,
     TTY_MODE_VCO,
@@ -214,26 +200,18 @@ struct pcm_config pcm_config_mm = {
     .rate = MM_FULL_POWER_SAMPLING_RATE,
     .period_size = LONG_PERIOD_SIZE,
     .period_count = PLAYBACK_LONG_PERIOD_COUNT,
-    .format = PCM_FORMAT_S32_LE,
+    .format = PCM_FORMAT_S16_LE,
 };
+
 
 struct pcm_config pcm_config_mm_ul = {
     .channels = 2,
     .rate = MM_FULL_POWER_SAMPLING_RATE,
     .period_size = SHORT_PERIOD_SIZE,
     .period_count = CAPTURE_PERIOD_COUNT,
-    .format = PCM_FORMAT_S32_LE,
-};
-
-/*
-struct pcm_config pcm_config_vx = {
-    .channels = 2,
-    .rate = VX_NB_SAMPLING_RATE,
-    .period_size = 160,
-    .period_count = 2,
     .format = PCM_FORMAT_S16_LE,
 };
-*/
+
 
 #define MIN(x, y) ((x) > (y) ? (y) : (x))
 
@@ -248,27 +226,15 @@ struct route_setting
 struct route_setting defaults[] = {
     /* general */
     {
-        .ctl_name = MIXER_DL2_LEFT_EQUALIZER,
-        .strval = MIXER_450HZ_HIGH_PASS,
-    },
-    {
-        .ctl_name = MIXER_DL2_RIGHT_EQUALIZER,
-        .strval = MIXER_450HZ_HIGH_PASS,
-    },
-    {
         .ctl_name = MIXER_DL1_MEDIA_PLAYBACK_VOLUME,
-        .intval = MIXER_ABE_GAIN_0DB,
-    },
-    {
-        .ctl_name = MIXER_DL2_MEDIA_PLAYBACK_VOLUME,
         .intval = MIXER_ABE_GAIN_0DB,
     },
     {
         .ctl_name = MIXER_DL1_VOICE_PLAYBACK_VOLUME,
         .intval = MIXER_ABE_GAIN_0DB,
     },
-    {
-        .ctl_name = MIXER_DL2_VOICE_PLAYBACK_VOLUME,
+	{
+        .ctl_name = MIXER_DL1_CAPTURE_PLAYBACK_VOLUME,
         .intval = MIXER_ABE_GAIN_0DB,
     },
     {
@@ -279,33 +245,59 @@ struct route_setting defaults[] = {
         .ctl_name = MIXER_AUDUL_VOICE_UL_VOLUME,
         .intval = MIXER_ABE_GAIN_0DB,
     },
-/*    {
-        .ctl_name = MIXER_CAPTURE_PREAMPLIFIER_VOLUME,
-        .intval = DB_TO_CAPTURE_PREAMPLIFIER_VOLUME(0),
-    },
-    {
-        .ctl_name = MIXER_CAPTURE_VOLUME,
-        .intval = DB_TO_CAPTURE_VOLUME(30),
-    },*/
-    {
-        .ctl_name = MIXER_SDT_UL_VOLUME,
-        .intval = MIXER_ABE_GAIN_0DB - 17,
-    },
     {
         .ctl_name = MIXER_SIDETONE_MIXER_CAPTURE,
         .intval = 0,
     },
 
     /* headset */
+
     {
         .ctl_name = MIXER_SIDETONE_MIXER_PLAYBACK,
         .intval = 1,
     },
     {
-        .ctl_name = MIXER_DL1_PDM_SWITCH,
+        .ctl_name = MIXER_DL1_MM_EXT_SWITCH,
         .intval = 1,
     },
+	{
+        .ctl_name = MIXER_MUX_UL00,
+        .strval = MIXER_MM_EXT_IN_LEFT,
+    },
+    {
+        .ctl_name = MIXER_MUX_UL01,
+        .strval = MIXER_MM_EXT_IN_RIGHT,
+    },
+	{
+        .ctl_name = MIXER_LEFT_DAC_MUTE,
+        .strval = MIXER_UNMUTE,
+    },
+	{
+        .ctl_name = MIXER_RIGHT_DAC_MUTE,
+        .strval = MIXER_UNMUTE,
+    },
+	{
+        .ctl_name = MIXER_LEFT_DAC_INPUT_SELECTION,
+        .strval = MIXER_LEFT_DATA,
+    },
+	{
+        .ctl_name = MIXER_RIGHT_DAC_INPUT_SELECTION,
+        .strval = MIXER_RIGHT_DATA,
+    },
+	{
+        .ctl_name = MIXER_MIC_BIAS_VOLTAGE,
+        .strval = MIXER_OFF,
+    },
 
+	{
+        .ctl_name = MIXER_LDAC_PWR_CTL,
+        .intval = 1,
+    },
+    {
+        .ctl_name = MIXER_RDAC_PWR_CTL,
+        .intval = 3,
+    },
+	
     /* bt */
     {
         .ctl_name = MIXER_BT_UL_VOLUME,
@@ -344,125 +336,18 @@ struct route_setting hs_output[] = {
     },
 };*/
 
-/* MM UL front-end paths */
-struct route_setting mm_ul2_bt[] = {
-    {
-        .ctl_name = MIXER_MUX_UL10,
-        .strval = MIXER_BT_LEFT,
-    },
-    {
-        .ctl_name = MIXER_MUX_UL11,
-        .strval = MIXER_BT_LEFT,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
-struct route_setting mm_ul2_amic_left[] = {
-    {
-        .ctl_name = MIXER_MUX_UL10,
-        .strval = MIXER_AMIC0,
-    },
-    {
-        .ctl_name = MIXER_MUX_UL11,
-        .strval = MIXER_AMIC0,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
-struct route_setting mm_ul2_amic_right[] = {
-    {
-        .ctl_name = MIXER_MUX_UL10,
-        .strval = MIXER_AMIC1,
-    },
-    {
-        .ctl_name = MIXER_MUX_UL11,
-        .strval = MIXER_AMIC1,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
-/* VX UL front-end paths */
-struct route_setting vx_ul_amic_left[] = {
-    {
-        .ctl_name = MIXER_MUX_VX0,
-        .strval = MIXER_AMIC0,
-    },
-    {
-        .ctl_name = MIXER_MUX_VX1,
-        .strval = MIXER_AMIC0,
-    },
-    {
-        .ctl_name = MIXER_VOICE_CAPTURE_MIXER_CAPTURE,
-        .intval = 1,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
-struct route_setting vx_ul_amic_right[] = {
-    {
-        .ctl_name = MIXER_MUX_VX0,
-        .strval = MIXER_AMIC1,
-    },
-    {
-        .ctl_name = MIXER_MUX_VX1,
-        .strval = MIXER_AMIC1,
-    },
-    {
-        .ctl_name = MIXER_VOICE_CAPTURE_MIXER_CAPTURE,
-        .intval = 1,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-/*
-struct route_setting vx_ul_bt[] = {
-    {
-        .ctl_name = MIXER_MUX_VX0,
-        .strval = MIXER_BT_LEFT,
-    },
-    {
-        .ctl_name = MIXER_MUX_VX1,
-        .strval = MIXER_BT_LEFT,
-    },
-    {
-        .ctl_name = MIXER_VOICE_CAPTURE_MIXER_CAPTURE,
-        .intval = 1,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};*/
 
 struct mixer_ctls
 {
     struct mixer_ctl *dl1_eq;
-    struct mixer_ctl *mm_dl2_volume;
-    struct mixer_ctl *vx_dl2_volume;
     struct mixer_ctl *mm_dl1;
-    struct mixer_ctl *mm_dl2;
-    struct mixer_ctl *vx_dl1;
-    struct mixer_ctl *vx_dl2;
-    //struct mixer_ctl *earpiece_enable;
-    struct mixer_ctl *dl2_mono;
-    struct mixer_ctl *dl1_headset;
-    struct mixer_ctl *dl1_bt;
-    //struct mixer_ctl *left_capture;
-    //struct mixer_ctl *right_capture;
+//    struct mixer_ctl *vx_dl1;
+//    struct mixer_ctl *vx_dl2;
+//    struct mixer_ctl *dl1_headset;
+//    struct mixer_ctl *dl1_bt;
     struct mixer_ctl *amic_ul_volume;
     struct mixer_ctl *voice_ul_volume;
     struct mixer_ctl *sidetone_capture;
-    //struct mixer_ctl *headset_volume;
-    //struct mixer_ctl *speaker_volume;
-    //struct mixer_ctl *earpiece_volume;
 };
 
 struct otter_audio_device {
@@ -895,21 +780,16 @@ static void select_output_device(struct otter_audio_device *adev)
         }
     }
 
-    dl1_on = headset_on | headphone_on | earpiece_on | bt_on;
-
+    //dl1_on = headset_on | headphone_on | earpiece_on | bt_on;
+	dl1_on = 1;
     /* Select front end */
-    mixer_ctl_set_value(adev->mixer_ctls.mm_dl2, 0, speaker_on);
-    mixer_ctl_set_value(adev->mixer_ctls.vx_dl2, 0,
-                        speaker_on && (adev->mode == AUDIO_MODE_IN_CALL));
     mixer_ctl_set_value(adev->mixer_ctls.mm_dl1, 0, dl1_on);
-    mixer_ctl_set_value(adev->mixer_ctls.vx_dl1, 0,
-                        dl1_on && (adev->mode == AUDIO_MODE_IN_CALL));
+//    mixer_ctl_set_value(adev->mixer_ctls.vx_dl1, 0,
+//                        dl1_on && (adev->mode == AUDIO_MODE_IN_CALL));
     /* Select back end */
-    mixer_ctl_set_value(adev->mixer_ctls.dl1_headset, 0,
-                        headset_on | headphone_on | earpiece_on);
-    mixer_ctl_set_value(adev->mixer_ctls.dl1_bt, 0, bt_on);
-    mixer_ctl_set_value(adev->mixer_ctls.dl2_mono, 0,
-                        (adev->mode != AUDIO_MODE_IN_CALL) && speaker_on);
+//    mixer_ctl_set_value(adev->mixer_ctls.dl1_headset, 0,
+//                        headset_on | headphone_on | earpiece_on);
+//    mixer_ctl_set_value(adev->mixer_ctls.dl1_bt, 0, bt_on);
 
     //mixer_ctl_set_value(adev->mixer_ctls.earpiece_enable, 0, earpiece_on);
 
@@ -951,13 +831,14 @@ static void select_output_device(struct otter_audio_device *adev)
                     break;
             }
 
+/*
             if (headset_on || headphone_on || earpiece_on)
                 set_route_by_array(adev->mixer, vx_ul_amic_left, 1);
             else if (speaker_on)
                 set_route_by_array(adev->mixer, vx_ul_amic_right, 1);
             else
                 set_route_by_array(adev->mixer, vx_ul_amic_left, 0);
-/*
+
 
             mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
                                         (earpiece_on || headphone_on) ? MIXER_MAIN_MIC :
@@ -987,6 +868,7 @@ static void select_output_device(struct otter_audio_device *adev)
 
 static void select_input_device(struct otter_audio_device *adev)
 {
+#if 0
     int headset_on = 0;
     int main_mic_on = 0;
     int sub_mic_on = 0;
@@ -1008,6 +890,7 @@ static void select_input_device(struct otter_audio_device *adev)
    /* TODO: check how capture is possible during voice calls or if
     * both use cases are mutually exclusive.
     */
+
     if (bt_on)
         set_route_by_array(adev->mixer, mm_ul2_bt, 1);
     else {
@@ -1020,16 +903,17 @@ static void select_input_device(struct otter_audio_device *adev)
             set_route_by_array(adev->mixer, mm_ul2_amic_left, 0);
 
         /* Select back end */
-/*
+
         mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture,
                                      sub_mic_on ? MIXER_SUB_MIC : "Off");
         mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
                                      main_mic_on ? MIXER_MAIN_MIC :
                                      (headset_on ? MIXER_HS_MIC : "Off"));
-*/
+
     }
 
     set_input_volumes(adev, main_mic_on, headset_on, sub_mic_on);
+#endif
 }
 
 /* must be called with hw device and output stream mutexes locked */
@@ -2518,59 +2402,22 @@ static int adev_open(const hw_module_t* module, const char* name,
 
     adev->mixer_ctls.dl1_eq = mixer_get_ctl_by_name(adev->mixer,
                                            MIXER_DL1_EQUALIZER);
-    adev->mixer_ctls.mm_dl2_volume = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL2_MEDIA_PLAYBACK_VOLUME);
-    adev->mixer_ctls.vx_dl2_volume = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL2_VOICE_PLAYBACK_VOLUME);
     adev->mixer_ctls.mm_dl1 = mixer_get_ctl_by_name(adev->mixer,
                                            MIXER_DL1_MIXER_MULTIMEDIA);
-    adev->mixer_ctls.vx_dl1 = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL1_MIXER_VOICE);
-    adev->mixer_ctls.mm_dl2 = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL2_MIXER_MULTIMEDIA);
-    adev->mixer_ctls.vx_dl2 = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL2_MIXER_VOICE);
-    adev->mixer_ctls.dl2_mono = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL2_MONO_MIXER);
-    adev->mixer_ctls.dl1_headset = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL1_PDM_SWITCH);
-    adev->mixer_ctls.dl1_bt = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL1_BT_VX_SWITCH);
-/*
-    adev->mixer_ctls.earpiece_enable = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_EARPHONE_ENABLE_SWITCH);
-    adev->mixer_ctls.left_capture = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_ANALOG_LEFT_CAPTURE_ROUTE);
-    adev->mixer_ctls.right_capture = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_ANALOG_RIGHT_CAPTURE_ROUTE);
-*/
+//    adev->mixer_ctls.vx_dl1 = mixer_get_ctl_by_name(adev->mixer,
+//                                           MIXER_DL1_MIXER_VOICE);
+//    adev->mixer_ctls.dl1_headset = mixer_get_ctl_by_name(adev->mixer,
+//                                           MIXER_DL1_PDM_SWITCH);
+//    adev->mixer_ctls.dl1_bt = mixer_get_ctl_by_name(adev->mixer,
+//                                           MIXER_DL1_BT_VX_SWITCH);
     adev->mixer_ctls.amic_ul_volume = mixer_get_ctl_by_name(adev->mixer,
                                            MIXER_AMIC_UL_VOLUME);
     adev->mixer_ctls.voice_ul_volume = mixer_get_ctl_by_name(adev->mixer,
                                            MIXER_AUDUL_VOICE_UL_VOLUME);
     adev->mixer_ctls.sidetone_capture = mixer_get_ctl_by_name(adev->mixer,
                                            MIXER_SIDETONE_MIXER_CAPTURE);
-/*
-    adev->mixer_ctls.headset_volume = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_HEADSET_PLAYBACK_VOLUME);
-    adev->mixer_ctls.speaker_volume = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_HANDSFREE_PLAYBACK_VOLUME);
-    adev->mixer_ctls.earpiece_volume = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_EARPHONE_PLAYBACK_VOLUME);
-*/
-
-	//!adev->mixer_ctls.earpiece_enable ||
-	//!adev->mixer_ctls.left_capture ||
-    //!adev->mixer_ctls.right_capture ||
-	//!adev->mixer_ctls.headset_volume || 
-	//!adev->mixer_ctls.speaker_volume ||
-	//!adev->mixer_ctls.earpiece_volume ||
 	
-    if (!adev->mixer_ctls.dl1_eq || !adev->mixer_ctls.vx_dl2_volume ||
-        !adev->mixer_ctls.mm_dl2_volume || !adev->mixer_ctls.mm_dl1 ||
-        !adev->mixer_ctls.vx_dl1 || !adev->mixer_ctls.mm_dl2 ||
-        !adev->mixer_ctls.vx_dl2 || !adev->mixer_ctls.dl2_mono ||
-        !adev->mixer_ctls.dl1_headset || !adev->mixer_ctls.dl1_bt ||
+    if (!adev->mixer_ctls.dl1_eq || !adev->mixer_ctls.mm_dl1 || 
 		!adev->mixer_ctls.amic_ul_volume || !adev->mixer_ctls.voice_ul_volume || 
 		!adev->mixer_ctls.sidetone_capture
         ) {
