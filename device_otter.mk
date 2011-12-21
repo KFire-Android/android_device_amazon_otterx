@@ -48,20 +48,22 @@ PRODUCT_PACKAGES += \
 	audio.a2dp.default \
 	libaudioutils
 
-PRODUCT_COPY_FILES := \
+PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
-	device/amazon/otter/init.omap4430.rc:root/init.omap4430.rc \
-	device/amazon/otter/init.omap4430.usb.rc:root/init.omap4430.usb.rc \
-	device/amazon/otter/ueventd.omap4430.rc:root/ueventd.omap4430.rc \
-	device/amazon/otter/media_profiles.xml:system/etc/media_profiles.xml \
-	device/amazon/otter/twl4030_pwrbutton.kl:system/usr/keylayout/twl4030_pwrbutton.kl 
+	device/amazon/otter/root/init.omap4430.rc:root/init.omap4430.rc \
+	device/amazon/otter/root/init.omap4430.usb.rc:root/init.omap4430.usb.rc \
+	device/amazon/otter/root/ueventd.omap4430.rc:root/ueventd.omap4430.rc
 
 PRODUCT_COPY_FILES += \
-	device/amazon/otter/ilitek_i2c.idc:system/usr/idc/ilitek_i2c.idc
+	device/amazon/otter/etc/media_profiles.xml:system/etc/media_profiles.xml \
+	device/amazon/otter/usr/idc/ilitek_i2c.idc:system/usr/idc/ilitek_i2c.idc \
+	device/amazon/otter/usr/keylayout/twl4030_pwrbutton.kl:system/usr/keylayout/twl4030_pwrbutton.kl 
+
 
 # Bluetooth configuration files
 PRODUCT_COPY_FILES += \
 	system/bluetooth/data/main.le.conf:system/etc/bluetooth/main.conf
+
 
 # Wifi
 ifneq ($(TARGET_PREBUILT_WIFI_MODULE),)
@@ -69,9 +71,11 @@ PRODUCT_COPY_FILES += \
 	$(TARGET_PREBUILT_WIFI_MODULE):system/lib/modules/bcmdhd.ko
 endif
 
+
 PRODUCT_PROPERTY_OVERRIDES := \
 	wifi.interface=wlan0 \
 	wifi.supplicant_scan_interval=15
+
 
 # Set default USB interface
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
@@ -95,31 +99,40 @@ PRODUCT_COPY_FILES += \
 	frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
 	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml 
 
+
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.opengles.version = 131072
+
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.sf.lcd_density = 160
 
+
 PRODUCT_PROPERTY_OVERRIDES += \
 	keyguard.no_require_sim=1
 
+
 PRODUCT_CHARACTERISTICS := nosdcard tablet
+
 
 PRODUCT_TAGS += dalvik.gc.type-precise
 
+
 PRODUCT_PACKAGES += \
 	librs_jni 
+
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
 	make_ext4fs \
 	setup_fs
 
+
 PRODUCT_PACKAGES += \
 	dhcpcd.conf \
 	TQS_D_1.7.ini \
 	calibrator
+
 
 # for bugmailer
 ifneq ($(TARGET_BUILD_VARIANT),user)
@@ -131,5 +144,5 @@ endif
 
 $(call inherit-product, frameworks/base/build/phone-hdpi-512-dalvik-heap.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
-$(call inherit-product-if-exists, vendor/ti/proprietary/omap4/ti-omap4-vendor.mk)
+$(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ti-omap4-vendor.mk)
 

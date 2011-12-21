@@ -1,5 +1,4 @@
-#
-# Copyright (C) 2011 The Android Open Source Project
+# Copyright (C) 2009 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +11,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+#
+# AndroidBoard.mk is a legacy mechanism to deal with a few
+# edge-cases that can't be managed otherwise. No new rules
+# should be added to this file.
 #
 
-add_lunch_combo full_otter-userdebug
-add_lunch_combo cm_otter-userdebug
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+
+#file := $(TARGET_RECOVERY_ROOT_OUT)/sbin/postrecoveryboot.sh
+#ALL_PREBUILT += $(file)
+#$(file) : $(LOCAL_PATH)/recovery/postrecoveryboot.sh | $(ACP)
+#	$(transform-prebuilt-to-target)
+
+# include the non-open-source counterpart to this file
+-include vendor/amazon/otter/AndroidBoardVendor.mk

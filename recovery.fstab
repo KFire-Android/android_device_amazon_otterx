@@ -11,5 +11,5 @@
 /data		ext4		/dev/block/platform/mmci-omap-hs.1/by-name/userdata
 /cache		ext4		/dev/block/platform/mmci-omap-hs.1/by-name/cache
 /mnt/sdcard     vfat		/dev/block/platform/mmci-omap-hs.1/by-name/media
-/misc		emmc		/misc
+#/misc		emmc		/misc
 /backup		ext4		/dev/block/platform/mmci-omap-hs.1/by-name/backup

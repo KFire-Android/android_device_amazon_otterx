@@ -12,24 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
-# This file is the build configuration for a full Android
-# build for toro hardware. This cleanly combines a set of
-# device-specific aspects (drivers) with a device-agnostic
-# product configuration (apps). Except for a few implementation
-# details, it only fundamentally contains two inherit-product
-# lines, full and toro, hence its name.
-#
-
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 # This is where we'd set a backup provider if we had one
 #$(call inherit-product, device/sample/products/backup_overlay.mk)
 # Inherit from otter device
-$(call inherit-product, device/amazon/otter/device.mk)
+$(call inherit-product, device/amazon/otter/device_otter.mk)
 
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_otter
 PRODUCT_DEVICE := otter
-PRODUCT_BRAND := Android
+PRODUCT_BRAND := Amazon
 PRODUCT_MODEL := Amazon Kindle Fire

@@ -1,4 +1,4 @@
-# Copyright (C) 2011 The Android Open Source Project
+# Copyright (C) 2011 Texas Instruments
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,9 +16,22 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := audio.primary.omap4430
+ifneq (,$(findstring blaze_tablet, $(TARGET_PRODUCT)))
+    LOCAL_MODULE := audio.primary.blaze_tablet
+else ifneq (,$(findstring blaze, $(TARGET_PRODUCT)))
+    LOCAL_MODULE := audio.primary.blaze
+else
+    LOCAL_MODULE := audio.primary.generic
+endif
+
+ifeq ($(strip $(BOARD_USES_TI_OMAP_MODEM_AUDIO)),true)
+	LOCAL_CFLAGS := -DUSE_RIL
+endif
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
-LOCAL_SRC_FILES := audio_hw.c 
+LOCAL_SRC_FILES := audio_hw.c
+ifeq ($(strip $(BOARD_USES_TI_OMAP_MODEM_AUDIO)),true)
+	LOCAL_SRC_FILES += ril_interface.c
+endif
 LOCAL_C_INCLUDES += \
 	external/tinyalsa/include \
 	system/media/audio_utils/include \
@@ -27,4 +40,3 @@ LOCAL_SHARED_LIBRARIES := liblog libcutils libtinyalsa libaudioutils libdl
 LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_SHARED_LIBRARY)
-

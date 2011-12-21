@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Android Sensor Test Application
+ *
+ * Copyright 2010 Texas Instruments, Inc. - http://www.ti.com/
+ *
+ * Written by Dan Murphy <dmurphy@ti.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/scrllvwNo1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    >
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:scrollbars="horizontal"
+	    android:background="#FF000000">
+
+			<!-- Proximity Sensor Layout -->
+			<TextView android:text="@string/prox_header_string"
+					  android:id="@+id/prox_lbl_id"
+					  android:layout_width="wrap_content"
+					  android:layout_height="wrap_content"
+					  android:textColor="#FFFF0000"
+					  android:textSize="24dip">
+			</TextView>
+
+			<CheckBox android:text="@string/prox_enable_string"
+				  android:id="@+id/prox_check_box"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</CheckBox>
+			<TextView android:text="@string/prox_state_string"
+				  android:id="@+id/proximity"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<TextView android:id="@+id/blank_line_1"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+
+			<!-- Ambient Light Sensor Layout -->
+			<TextView android:text="@string/als_header_string"
+				  android:id="@+id/als_lbl_id"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"
+				  android:textColor="#FFFF0000"
+				  android:textSize="24dip">
+			</TextView>
+			<TextView android:text="@string/als_state_string"
+				  android:id="@+id/light"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<TextView android:id="@+id/blank_line_1_1"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+
+			<!-- Pressure Sensor Layout -->
+			<TextView android:text="@string/press_header_string"
+				  android:id="@+id/pressure_lbl_id"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"
+				  android:textColor="#FFFF0000"
+				  android:textSize="24dip">
+			</TextView>
+			<CheckBox android:text="@string/press_enable_string"
+			          android:id="@+id/pressure_check_box"
+			          android:layout_width="wrap_content"
+			          android:layout_height="wrap_content">
+			</CheckBox>
+			<TextView android:text="@string/press_state_string"
+				  android:id="@+id/pressure"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<TextView android:id="@+id/blank_line_2"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<Button android:text="@string/press_units_string"
+				android:id="@+id/press_unit"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+			</Button>
+			<TextView android:id="@+id/blank_line_2_1"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+
+			<!-- Temperature Sensor Layout -->
+			<TextView android:text="@string/temp_header_string"
+				  android:id="@+id/temp_lbl_id"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"
+				  android:textColor="#FFFF0000"
+				  android:textSize="24dip">
+			</TextView>
+			<CheckBox android:text="@string/temp_enable_string"
+			          android:id="@+id/temp_check_box"
+			          android:layout_width="wrap_content"
+			          android:layout_height="wrap_content">
+			</CheckBox>
+			<TextView android:text="@string/temp_state_string"
+				  android:id="@+id/temperature"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<TextView android:id="@+id/blank_line_2"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<Button android:text="@string/temp_units_string"
+				android:id="@+id/temp_unit"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+			</Button>
+			<TextView android:id="@+id/blank_line_2_1"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+
+			<!-- Accelerometer Sensor Layout -->
+			<TextView android:text="@string/acc_header_string"
+					  android:textColor="#FFFF0000"
+			          android:id="@+id/accel_lbl_id"
+			          android:layout_width="wrap_content"
+			          android:layout_height="wrap_content"
+			          android:textSize="24dip">
+			</TextView>
+			<CheckBox android:text="@string/acc_enable_string"
+			          android:id="@+id/accel_check_box"
+			          android:layout_width="wrap_content"
+			          android:layout_height="wrap_content">
+			</CheckBox>
+			<TextView android:text="@string/x_data_string"
+				  android:id="@+id/accel_x"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<TextView android:text="@string/y_data_string"
+				  android:id="@+id/accel_y"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<TextView android:text="@string/z_data_string"
+				  android:id="@+id/accel_z"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+
+			<TextView android:id="@+id/blank_line_3"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+
+			<Button android:text="@string/acc_delay_string"
+			        android:id="@+id/acc_delay"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content">
+			</Button>
+			<TextView android:id="@+id/blank_line_4"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+
+			<!-- Magnetometer Sensor Layout -->
+			<TextView android:text="@string/mag_header_string"
+					  android:textColor="#FFFF0000"
+				  android:id="@+id/mag_lbl_id"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"
+				  android:textSize="24dip">
+			</TextView>
+			<CheckBox android:text="@string/mag_enable_string"
+			          android:id="@+id/mag_check_box"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</CheckBox>
+			<TextView android:text="@string/x_data_string"
+				  android:id="@+id/mag_x"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<TextView android:text="@string/y_data_string"
+				  android:id="@+id/mag_y"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<TextView android:text="@string/z_data_string"
+				  android:id="@+id/mag_z"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<TextView android:id="@+id/blank_line_5"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<Button android:text="@string/mag_delay_string"
+			     android:id="@+id/mag_delay"
+			     android:layout_width="wrap_content"
+			     android:layout_height="wrap_content">
+			</Button>
+
+			<!-- Gyroscope Sensor Layout -->
+			<TextView android:text="@string/gyro_header_string"
+					  android:textColor="#FFFF0000"
+				  android:id="@+id/gyro_lbl_id"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content"
+				  android:textSize="24dip">
+			</TextView>
+			<CheckBox android:text="@string/gyro_enable_string"
+			          android:id="@+id/gyro_check_box"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</CheckBox>
+			<TextView android:text="@string/x_data_string"
+				  android:id="@+id/gyro_x"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<TextView android:text="@string/y_data_string"
+				  android:id="@+id/gyro_y"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<TextView android:text="@string/z_data_string"
+				  android:id="@+id/gyro_z"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<TextView android:id="@+id/blank_line_5"
+				  android:layout_width="wrap_content"
+				  android:layout_height="wrap_content">
+			</TextView>
+			<Button android:text="@string/gyro_delay_string"
+			     android:id="@+id/gyro_delay"
+			     android:layout_width="wrap_content"
+			     android:layout_height="wrap_content">
+			</Button>
+	</LinearLayout>
+</ScrollView>
