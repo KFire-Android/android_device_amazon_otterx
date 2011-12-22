@@ -43,6 +43,7 @@ TARGET_NO_RADIOIMAGE := true
 TARGET_NO_BOOTLOADER := true
 TARGET_BOOTLOADER_BOARD_NAME := otter
 TARGET_BOARD_INFO_FILE := device/amazon/otter/board-info.txt
+TARGET_PREBUILT_KERNEL := device/amazon/otter/kernel
 
 
 # Filesystem
