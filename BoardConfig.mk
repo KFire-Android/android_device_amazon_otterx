@@ -91,8 +91,8 @@ BOARD_HAVE_BLUETOOTH_BCM := true
 
 
 # Graphics
-BOARD_EGL_CFG := device/motorola/solana/prebuilt/etc/egl.cfg
-USE_OPENGL_RENDERER := true
+BOARD_EGL_CFG := device/amazon/otter/prebuilt/etc/egl.cfg
+#USE_OPENGL_RENDERER := true
 
 
 # OMX
@@ -123,9 +123,9 @@ FM_CHR_DEV_ST := true
 TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_otter
 TARGET_RELEASETOOLS_EXTENSIONS := device/amazon/otter/releastools
 #TARGET_PROVIDES_RELEASETOOLS := true
-#TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/motorola/solana/releasetools/solana_ota_from_target_files
-#TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/motorola/solana/releasetools/solana_img_from_target_files
-#TARGET_CUSTOM_RELEASETOOL := ./device/motorola/solana/releasetools/squisher
+#TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/amazon/otter/releasetools/otter_ota_from_target_files
+#TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/amazon/otter/releasetools/otter_img_from_target_files
+#TARGET_CUSTOM_RELEASETOOL := ./device/amazon/otter/releasetools/squisher
 
 
 # Recovery
