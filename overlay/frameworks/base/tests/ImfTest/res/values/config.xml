@@ -14,13 +14,6 @@
      limitations under the License.
 -->
 
-<!-- These resources are around just to allow their values to be customized
-     for different hardware and product builds. -->
 <resources>
-    <!-- Control whether status bar should have statusbar buttons (home, menu, and back) available for tablet devices -->
-    <bool name="config_statusbar_buttons">true</bool>
-    <!-- Control whether the status bar buttons should have the home button hidden -->
-    <bool name="config_statusbar_hide_home">true</bool>
-    <!-- Control whether the phone signal should be hidden for devices without a radio -->
-    <bool name="config_statusbar_hide_phone_signal">true</bool>
+    <bool name="def_expect_ime_autopop">true</bool>
 </resources>

@@ -1,3 +1,0 @@
-require board=otter
-require version-bootloader=PRIMEKJ08
-
