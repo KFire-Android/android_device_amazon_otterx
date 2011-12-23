@@ -1,42 +1,32 @@
-# Copyright (C) 2011 Texas Instruments
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+ifeq ($(BOARD_USES_AUDIO_LEGACY),true)
 
 LOCAL_PATH := $(call my-dir)
 
-include $(CLEAR_VARS)
+# output for libaudio intermediates
+LIBAUDIO_INTERMEDIATES_PREREQS := $(PRODUCT_OUT)/obj/lib
 
-ifneq (,$(findstring blaze_tablet, $(TARGET_PRODUCT)))
-    LOCAL_MODULE := audio.primary.blaze_tablet
-else ifneq (,$(findstring blaze, $(TARGET_PRODUCT)))
-    LOCAL_MODULE := audio.primary.blaze
-else
-    LOCAL_MODULE := audio.primary.generic
-endif
+# prerequisites for building audio
+file := $(LIBAUDIO_INTERMEDIATES_PREREQS)/libaudio.so
+$(file) : device/motorola/solana/audio/libaudio.so
+	@echo "Copy libaudio.so -> $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) cp -a device/motorola/solana/audio/libaudio.so $@
 
-ifeq ($(strip $(BOARD_USES_TI_OMAP_MODEM_AUDIO)),true)
-	LOCAL_CFLAGS := -DUSE_RIL
-endif
-LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
-LOCAL_SRC_FILES := audio_hw.c
-ifeq ($(strip $(BOARD_USES_TI_OMAP_MODEM_AUDIO)),true)
-	LOCAL_SRC_FILES += ril_interface.c
-endif
-LOCAL_C_INCLUDES += \
-	external/tinyalsa/include \
-	system/media/audio_utils/include \
-	system/media/audio_effects/include
-LOCAL_SHARED_LIBRARIES := liblog libcutils libtinyalsa libaudioutils libdl
-LOCAL_MODULE_TAGS := optional
+file := $(LIBAUDIO_INTERMEDIATES_PREREQS)/libasound.so
+$(file) : device/motorola/solana/audio/libasound.so
+	@echo "Copy libasound.so -> $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) cp -a device/motorola/solana/audio/libasound.so $@
 
-include $(BUILD_SHARED_LIBRARY)
+file := $(LIBAUDIO_INTERMEDIATES_PREREQS)/libaudiopolicy.so
+$(file) : device/motorola/solana/audio/libaudiopolicy.so
+	@echo "Copy libaudiopolicy.so -> $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) cp -a device/motorola/solana/audio/libaudiopolicy.so $@
+
+include $(all-subdir-makefiles)
+
+endif # BOARD_USES_AUDIO_LEGACY
