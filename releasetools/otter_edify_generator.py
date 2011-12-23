@@ -15,7 +15,7 @@
 import os
 import re
 
-import solana_common as common
+import otter_common as common
 
 class EdifyGenerator(object):
   """Class to generate scripts in the 'edify' recovery script language

@@ -48,9 +48,9 @@ PRODUCT_COPY_FILES += \
 
 
 # Hardware HALs
+#    sensors.omap4 \
 PRODUCT_PACKAGES := \
-    lights.otter \
-    sensors.otter \
+    lights.omap4 \
     libinvensense_mpl
 
 
@@ -132,22 +132,51 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/base/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
+    frameworks/base/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
     frameworks/base/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
     frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
     packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml 
 
 
-# Prebuilts
-#    device/amazon/otter/etc/media_profiles.xml:system/etc/media_profiles.xml \
+# Prebuilts /bin
 PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/bin/320x240.nv12:system/bin/320x240.nv12 \
+    device/amazon/otter/prebuilt/bin/battery_log.sh:system/bin/battery_log.sh \
+    device/amazon/otter/prebuilt/bin/idme:system/bin/idme \
     device/amazon/otter/prebuilt/bin/strace:system/bin/strace \
+    device/amazon/otter/prebuilt/bin/touch_firmware.sh:system/bin/touch_firmware.sh \
+
+
+# Prebuilts /system/etc
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/etc/wifi/softap/firmware_ap.bin:system/etc/wifi/softap/firmware_ap.bin \
+    device/amazon/otter/prebuilt/etc/wifi/softap/tiwlan_ap.ini:system/etc/wifi/softap/tiwlan_ap.ini \
+    device/amazon/otter/prebuilt/etc/wifi/firmware.bin:system/etc/wifi/firmware.bin \
+    device/amazon/otter/prebuilt/etc/wifi/tiwlan.ini:system/etc/wifi/tiwlan.ini \
+    device/amazon/otter/prebuilt/etc/wifi/tiwlan.ini.activemode:system/etc/wifi/tiwlan.ini.activemode \
+    device/amazon/otter/prebuilt/etc/asound.conf:system/etc/asound.conf \
+    device/amazon/otter/prebuilt/etc/Audible.param:system/etc/Audible.param \
+    device/amazon/otter/prebuilt/etc/gps.conf:system/etc/gps.conf \
+    device/amazon/otter/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
+    device/amazon/otter/prebuilt/etc/vold.conf:system/etc/vold.conf \
     device/amazon/otter/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
-    device/amazon/otter/usr/idc/ilitek_i2c.idc:system/usr/idc/ilitek_i2c.idc \
+
+
+# Prebuilts /system/lib
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/lib/ducati/base_image_app_m3.xem3:system/lib/ducati/base_image_app_m3.xem3 \
+    device/amazon/otter/prebuilt/lib/ducati/base_image_sys_m3.xem3:system/lib/ducati/base_image_sys_m3.xem3 \
+    device/amazon/otter/prebuilt/lib/hw/sensors.omap4sdp.so:system/lib/hw/sensors.omap4sdp.so \
+    device/amazon/otter/prebuilt/lib/libaudiomodemgeneric.so:system/lib/libaudiomodemgeneric.so \
+
+
+# Prebuilt /system/usr
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/usr/idc/ilitek_i2c.idc:system/usr/idc/ilitek_i2c.idc \
     device/amazon/otter/prebuilt/usr/keychars/qtouch-touchscreen.kcm:system/usr/keychars/qtouch-touchscreen.kcm \
+    device/amazon/otter/prebuilt/usr/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
     device/amazon/otter/prebuilt/usr/keylayout/qtouch-touchscreen.kl:system/usr/keylayout/qtouch-touchscreen.kl \
     device/amazon/otter/prebuilt/usr/keylayout/twl4030_pwrbutton.kl:system/usr/keylayout/twl4030_pwrbutton.kl \
-    device/amazon/otter/prebuilt/ducati/base_image_app_m3.xem3:system/lib/ducati/base_image_app_m3.xem3 \
-    device/amazon/otter/prebuilt/ducati/base_image_sys_m3.xem3:system/lib/ducati/base_image_sys_m3.xem3
 
 
 # Graphics

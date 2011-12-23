@@ -69,8 +69,8 @@ import tempfile
 import time
 import zipfile
 
-import solana_common as common
-import solana_edify_generator as edify_generator
+import otter_common as common
+import otter_edify_generator as edify_generator
 
 OPTIONS = common.OPTIONS
 OPTIONS.package_key = "build/target/product/security/testkey"
