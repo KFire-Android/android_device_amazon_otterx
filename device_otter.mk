@@ -49,7 +49,7 @@ PRODUCT_COPY_FILES += \
 
 # Hardware HALs
 #    sensors.omap4 \
-PRODUCT_PACKAGES := \
+PRODUCT_PACKAGES += \
     lights.omap4 \
     libinvensense_mpl \
     hwcomposer.default
