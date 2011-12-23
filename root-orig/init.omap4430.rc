@@ -1,13 +1,6 @@
-import init.omap4430.usb.rc
-
 on init
     # mount debugfs
     mount debugfs /sys/kernel/debug /sys/kernel/debug
-    export DOWNLOAD_CACHE /cache/download
-	export EXTERNAL_STORAGE /mnt/sdcard
-	mkdir /mnt/sdcard 0000 system system
-	# for backwards compatibility
-	symlink /mnt/sdcard /sdcard
 
 # power management
 # Enable off mode by default
@@ -18,15 +11,44 @@ on init
     write /sys/kernel/debug/pm_debug/smartreflex/sr_iva/autocomp 1
     write /sys/kernel/debug/pm_debug/smartreflex/sr_mpu/autocomp 1
 
+on boot
+
+    setprop ro.build.product omap4sdp
+    setprop ro.product.device omap4sdp
+    setprop ro.radio.noril yes
+
+# fake some battery state
+    setprop status.battery.state Slow
+    setprop status.battery.level 5
+    setprop status.battery.level_raw  50
+    setprop status.battery.level_scale 9
+
+# wi-fi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+
+# phone
+#    setprop ro.telephony.call_ring.multiple 0
+
 on fs
     mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/system /system wait ro
     mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/userdata /data wait noatime nosuid nodev errors=continue
     mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=continue
     mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/splash /dropbox wait noatime nosuid nodev errors=continue
-	mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/media /mnt/sdcard wait noatime nosuid nodev errors=continue
 
 # permissions for bluetooth.
 #    chown bluetooth bluetooth ro.bt.bdaddr_path
+
+#service gpsd /system/vendor/bin/gpsd -c /vendor/etc/gps.xml
+#    socket gps seqpacket 0660 gps system
+#    user gps
+#    group system inet
+
+# create filesystems if necessary
+#service setup_fs /system/bin/setup_fs /dev/block/platform/s3c-sdhci.0/by-name/userdata
+#    user root
+#    group root
+#    oneshot
 
 # switch CPUfreq from performance to hotplug
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
@@ -197,39 +219,12 @@ on fs
     chown system system /sys/class/power_supply/usb/device/float_voltage
     chown system system /sys/class/power_supply/usb/device/bad_battery
 
-
-on boot
-
-    setprop ro.build.product omap4sdp
-    setprop ro.product.device omap4sdp
-    setprop ro.radio.noril yes
-
-# fake some battery state
-    setprop status.battery.state Slow
-    setprop status.battery.level 5
-    setprop status.battery.level_raw  50
-    setprop status.battery.level_scale 9
-
-# wi-fi
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
-    mkdir /data/misc/dhcp 0770 dhcp dhcp
-
-# phone
-#    setprop ro.telephony.call_ring.multiple 0
-
-on property:persist.service.adb.enable=1
-    start adbd
-
-on property:persist.service.adb.enable=0
-    stop adbd
-
-
 # Initialize the SGX driver
 service pvrsrvinit /system/bin/pvrsrvinit
-	class core
-	user root
-	group root
-	oneshot
+#service pvrsrvinit /system/vendor/bin/pvrsrvinit
+    user root
+    group root
+    oneshot
 
 #Load IVA firmware
 service baseimage /system/bin/syslink_daemon.out -f /system/lib/ducati/base_image_sys_m3.xem3 /system/lib/ducati/base_image_app_m3.xem3
@@ -237,49 +232,38 @@ service baseimage /system/bin/syslink_daemon.out -f /system/lib/ducati/base_imag
     user media
     group media
 
-service wlan_loader /system/bin/wlan_loader -f /system/etc/wifi/fw_wlan1281.bin -i /system/etc/wifi/tiwlan.ini -e /pds/wifi/nvs_map.bin
-    class late_start
-    disabled
-    oneshot
+# WLAN Related services
+service wlan_loader /system/bin/wlan_loader \
+    -f /system/etc/wifi/firmware.bin -i /system/etc/wifi/tiwlan.ini -e /data/misc/wifi/nvs_map.bin
+     disabled
+     oneshot
 
-service ap_fmloader /system/bin/logwrapper /system/bin/tiap_loader -f /system/etc/wifi/fw_wlan1281_AP.bin -i /system/etc/wifi/tiwlan_ap.ini -e /pds/wifi/nvs_map.bin
-    class late_start
-    disabled
-    oneshot
-
-service wpa_supplicant /system/bin/wpa_supplicant -Dtiwlan0 -itiwlan0 -c/data/misc/wifi/wpa_supplicant.conf
-    class late_start
+service wpa_supplicant /system/bin/wpa_supplicant -Dtiwlan0 -itiwlan0 -c/data/misc/wifi/wpa_supplicant.conf -d
     socket wpa_tiwlan0 dgram 660 wifi wifi
     disabled
     oneshot
 
 service dhcpcd_tiwlan0 /system/bin/dhcpcd -ABKL
-    class main
-    disabled
-    oneshot
-
-service dhcpcd_p2p /system/bin/dhcpcd -aABKL
-    class main
-    disabled
-    oneshot
-
-service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
-    class main
     disabled
     oneshot
 
 service iprenew_tiwlan0 /system/bin/dhcpcd -n
-    class main
+	disabled
+	oneshot
+
+# HotSpot Related services
+service wlan_ap_loader /system/bin/tiap_loader \
+    -f /system/etc/wifi/softap/firmware_ap.bin \
+    -i /system/etc/wifi/softap/tiwlan_ap.ini \
+    -e /data/misc/wifi/nvs_map.bin
     disabled
     oneshot
 
-service iprenew_p2p /system/bin/dhcpcd -n
-    class main
+service ifcfg_softap /system/bin/ifconfig tiap0 up
     disabled
     oneshot
 
-service iprenew_bnep0 /system/bin/dhcpcd -n
-    class main
+service hostapd /system/bin/hostap -dd /data/misc/wifi/hostapd.conf
     disabled
     oneshot
 
@@ -287,5 +271,33 @@ service watchdog /sbin/watchdog
     user root
     oneshot
 
+service dumpswver /system/bin/dumpswver
+    oneshot
+
+service printboottime /system/bin/PrintBootTime
+    disabled
+    oneshot
+
+service battery_log /system/bin/battery_log.sh
+    disabled
+    oneshot
+
+service temperature_log /system/bin/temperature_log.sh
+    disabled
+    oneshot
+
+service touch_firmware /system/bin/touch_firmware.sh
+    disabled
+    oneshot
+
+service boot_reason /system/bin/boot_reason
+    oneshot
+
+service adobe_air /system/bin/adobe_air_setup.sh
+    disabled
+    oneshot
+
 on property:sys.boot_completed=1
     start printboottime
+    start touch_firmware
+    start adobe_air

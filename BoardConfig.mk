@@ -38,7 +38,7 @@ TARGET_GLOBAL_CFLAGS += -DNEEDS_ARM_ERRATA_754319_754320
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_PAGESIZE := 0x4096
-BOARD_KERNEL_CMDLINE := console=ttyO2,115200n8 mem=463M@0x80000000 init=/init vram=32M omapfb.vram=0:16M
+BOARD_KERNEL_CMDLINE := console=ttyO2,115200n8 mem=463M@0x80000000 init=/init vram=5M omapfb.vram=0:5M
 TARGET_NO_RADIOIMAGE := true
 TARGET_NO_BOOTLOADER := true
 TARGET_BOOTLOADER_BOARD_NAME := otter
@@ -121,12 +121,12 @@ endif
 
 # OTA Packaging
 # device-specific extensions to the updater binary
-TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_otter
-TARGET_RELEASETOOLS_EXTENSIONS := device/amazon/otter/releastools
-#TARGET_PROVIDES_RELEASETOOLS := true
-#TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/amazon/otter/releasetools/otter_ota_from_target_files
-#TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/amazon/otter/releasetools/otter_img_from_target_files
-#TARGET_CUSTOM_RELEASETOOL := ./device/amazon/otter/releasetools/squisher
+#TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_otter
+#TARGET_RELEASETOOLS_EXTENSIONS := device/amazon/otter/releastools
+TARGET_PROVIDES_RELEASETOOLS := true
+TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/amazon/otter/releasetools/otter_ota_from_target_files
+TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/amazon/otter/releasetools/otter_img_from_target_files
+TARGET_CUSTOM_RELEASETOOL := ./device/amazon/otter/releasetools/squisher
 
 
 # Recovery

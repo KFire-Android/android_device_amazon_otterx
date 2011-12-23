@@ -31,8 +31,8 @@ DEVICE_PACKAGE_OVERLAYS := device/amazon/otter/overlay
 # currently contain all of the bitmaps at xhdpi density so
 # we do this little trick to fall back to the hdpi version
 # if the xhdpi doesn't exist.
-PRODUCT_AAPT_CONFIG := normal mdpi hdpi xhdpi
-PRODUCT_AAPT_PREF_CONFIG := xhdpi
+PRODUCT_AAPT_CONFIG := normal mdpi hdpi
+PRODUCT_AAPT_PREF_CONFIG := hdpi
 
 PRODUCT_PACKAGES := \
     charger \
@@ -122,6 +122,7 @@ PRODUCT_PACKAGES += \
 # Root
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel \
+    device/amazon/otter/root/init.rc:root/init.rc \
     device/amazon/otter/root/init.omap4430.rc:root/init.omap4430.rc \
     device/amazon/otter/root/init.omap4430.usb.rc:root/init.omap4430.usb.rc \
     device/amazon/otter/root/ueventd.omap4430.rc:root/ueventd.omap4430.rc
@@ -151,18 +152,18 @@ PRODUCT_COPY_FILES += \
 
 # Graphics
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/imgtec/gralloc.omap4.1.1.17.4403.so:system/vendor/lib/hw/gralloc.omap4.so \
+    device/amazon/otter/prebuilt/imgtec/gralloc.omap.so.4.1.1.17.4403:system/vendor/lib/hw/gralloc.omap4.so \
     device/amazon/otter/prebuilt/imgtec/pvrsrvinit:system/bin/pvrsrvinit \
-    device/amazon/otter/prebuilt/imgtec/libEGL_POWERVR_SGX540_120.1.1.17.4403.so:system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
-    device/amazon/otter/prebuilt/imgtec/libGLESv1_CM_POWERVR_SGX540_120.1.1.17.4403.so:system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
-    device/amazon/otter/prebuilt/imgtec/libGLESv2_POWERVR_SGX540_120.1.1.17.4403.so:system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
-    device/amazon/otter/prebuilt/imgtec/libglslcompiler.1.1.17.4403.so:system/vendor/lib/libglslcompiler.so \
-    device/amazon/otter/prebuilt/imgtec/libIMGegl.1.1.17.4403.so:system/vendor/lib/libIMGegl.so \
-    device/amazon/otter/prebuilt/imgtec/libpvr2d.1.1.17.4403.so:system/vendor/lib/libpvr2d.so \
-    device/amazon/otter/prebuilt/imgtec/libpvrANDROID_WSEGL.1.1.17.4403.so:system/vendor/lib/libpvrANDROID_WSEGL.so \
-    device/amazon/otter/prebuilt/imgtec/libPVRScopeServices.1.1.17.4403.so:system/vendor/lib/libPVRScopeServices.so \
-    device/amazon/otter/prebuilt/imgtec/libsrv_init.1.1.17.4403.so:system/vendor/lib/libsrv_init.so \
-    device/amazon/otter/prebuilt/imgtec/libsrv_um.1.1.17.4403.so:system/vendor/lib/libsrv_um.so \
+    device/amazon/otter/prebuilt/imgtec/libEGL_POWERVR_SGX540_120.so.1.1.17.4403:system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
+    device/amazon/otter/prebuilt/imgtec/libGLESv1_CM_POWERVR_SGX540_120.so.1.1.17.4403:system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
+    device/amazon/otter/prebuilt/imgtec/libGLESv2_POWERVR_SGX540_120.so.1.1.17.4403:system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
+    device/amazon/otter/prebuilt/imgtec/libglslcompiler.so.1.1.17.4403:system/vendor/lib/libglslcompiler.so \
+    device/amazon/otter/prebuilt/imgtec/libIMGegl.so.1.1.17.4403:system/vendor/lib/libIMGegl.so \
+    device/amazon/otter/prebuilt/imgtec/libpvr2d.so.1.1.17.4403:system/vendor/lib/libpvr2d.so \
+    device/amazon/otter/prebuilt/imgtec/libpvrANDROID_WSEGL.so.1.1.17.4403:system/vendor/lib/libpvrANDROID_WSEGL.so \
+    device/amazon/otter/prebuilt/imgtec/libPVRScopeServices.so.1.1.17.4403:system/vendor/lib/libPVRScopeServices.so \
+    device/amazon/otter/prebuilt/imgtec/libsrv_init.so.1.1.17.4403:system/vendor/lib/libsrv_init.so \
+    device/amazon/otter/prebuilt/imgtec/libsrv_um.so.1.1.17.4403:system/vendor/lib/libsrv_um.so \
     device/amazon/otter/prebuilt/imgtec/libusc.so.1.1.17.4403:system/vendor/lib/libusc.so \
 
 FRAMEWORKS_BASE_SUBDIRS += \
