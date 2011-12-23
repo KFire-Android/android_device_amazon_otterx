@@ -1,6 +1,12 @@
+import init.omap4430.usb.rc
+
 on init
     # mount debugfs
     mount debugfs /sys/kernel/debug /sys/kernel/debug
+	export EXTERNAL_STORAGE /mnt/sdcard
+	mkdir /mnt/sdcard 0000 system system
+	# for backwards compatibility
+	symlink /mnt/sdcard /sdcard
 
 # power management
 # Enable off mode by default
@@ -12,10 +18,8 @@ on init
     write /sys/kernel/debug/pm_debug/smartreflex/sr_mpu/autocomp 1
 
 on boot
-
-    setprop ro.build.product omap4sdp
-    setprop ro.product.device omap4sdp
     setprop ro.radio.noril yes
+	chmod 0666 /dev/pvrsrvkm
 
 # fake some battery state
     setprop status.battery.state Slow
@@ -27,69 +31,11 @@ on boot
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
 
-# phone
-#    setprop ro.telephony.call_ring.multiple 0
-
-on fs
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/system /system wait ro
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/userdata /data wait noatime nosuid nodev errors=continue
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=continue
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/splash /dropbox wait noatime nosuid nodev errors=continue
-
-# permissions for bluetooth.
-#    chown bluetooth bluetooth ro.bt.bdaddr_path
-
-#service gpsd /system/vendor/bin/gpsd -c /vendor/etc/gps.xml
-#    socket gps seqpacket 0660 gps system
-#    user gps
-#    group system inet
-
-# create filesystems if necessary
-#service setup_fs /system/bin/setup_fs /dev/block/platform/s3c-sdhci.0/by-name/userdata
-#    user root
-#    group root
-#    oneshot
-
-# switch CPUfreq from performance to hotplug
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
-    write /sys/devices/system/cpu/cpufreq/hotplug/down_threshold 30
-
-#Give system ownership and permission to boost clock for specified timeout
-#Note boost_timeout cannot be changed from application because of dynamic sysfs creation. It will have default value of 3 sec.
-    chown system system /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
-    chmod 0664  /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
-
-# Boost the CPU for 60 sec for boot optimization
-    write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 60000000
-    write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
-
 # We chown/chmod /data again so because mount is run as root + defaults
     chown system system /data
     chmod 0771 /data
 
-    chown media media /dev/syslink-proc4430
-    chown media media /dev/syslink-procmgr
-    chown media media /dev/syslink_ipc
-    chown media media /dev/omap-rproc0
-    chown media media /dev/omap-rproc1
-    chown media media /dev/omap-rproc2
-    chown media media /dev/iovmm-omap0
-    chown media media /dev/iovmm-omap1
-    chown media media /dev/omap-devh0
-    chown media media /dev/omap-devh1
-    chown media media /dev/omap-devh2
-
-    chmod 660 /dev/syslink-proc4430
-    chmod 660 /dev/syslink-procmgr
-    chmod 660 /dev/syslink_ipc
-    chmod 440 /dev/omap-rproc0
-    chmod 440 /dev/omap-rproc1
-    chmod 440 /dev/omap-rproc2
-    chmod 440 /dev/iovmm-omap0
-    chmod 440 /dev/iovmm-omap1
-    chmod 440 /dev/omap-devh0
-    chmod 440 /dev/omap-devh1
-    chmod 440 /dev/omap-devh2
+	chmod 777 /sys/class/leds/backlight/brightness
 
     chown media media /system/bin/syslink_daemon.out
     chown media media /data/base_image_sys_m3.xem3
@@ -121,16 +67,7 @@ on fs
     chmod 0777 /dev/video0
 
     # change permissions for Sensors
-#    chown system system /sys/bus/i2c/drivers/cma3000_accl/4-001c
-#    chown system system /sys/bus/i2c/drivers/cma3000_accl/4-001c/enable
-#    chown system system /sys/bus/i2c/drivers/cma3000_accl/4-001c/delay
-#    chown system system /sys/devices/platform/sfh7741.1
-#    chown system system /sys/devices/platform/sfh7741.1/state
-#    chown system system /sys/bus/i2c/drivers/bmp085/4-0077
-#    chown system system /sys/bus/i2c/drivers/bmp085/4-0077/enable
-#    chown system system /sys/bus/i2c/drivers/hmc5843/4-001e
-#    chown system system /sys/bus/i2c/drivers/hmc5843/4-001e/enable
-#    chown system system /sys/bus/i2c/drivers/hmc5843/4-001e/rate
+
     chown system system /sys/devices/virtual/input/input0/mode
     chmod 0770 /sys/devices/virtual/input/input0/mode
     chown system system /sys/devices/virtual/input/input0/delay
@@ -183,13 +120,8 @@ on fs
     chown system system /sys/devices/platform/omapdss/display2/code
      # change permissions for Tiler driver
     chown media media /dev/tiler
-    chmod 0660 /dev/tiler
-    chmod 0660 /dev/dmm
-# Enable secondary display on Blaze
-    #write /sys/devices/platform/omapdss/display1/enabled 1
-    #write /sys/devices/platform/omapdss/overlay1/enabled 0
-    #write /sys/devices/platform/omapdss/overlay1/manager "2lcd"
-    #write /sys/devices/platform/omapdss/overlay1/enabled 1
+    chmod 0666 /dev/tiler
+    chmod 0666 /dev/dmm
 
 # Revert the boost_timeout to the default value of 3 sec. Note this won't affect the prev boost
 # request for boot time reduction
@@ -209,22 +141,45 @@ on fs
 # Keypad permissions
     chmod 0444 /system/usr/keychars/omap-keypad.kcm.bin
     chmod 0444 /system/usr/keychars/qwerty.kcm.bin
-
-# SGX driver
-    chmod 0666 /dev/pvrsrvkm
-
-    # Set current permissions for charge protection
+    
+# Set current permissions for charge protection
     chown system system /sys/class/power_supply/usb/device/charge_command
     chown system system /sys/class/power_supply/usb/device/charge_current
     chown system system /sys/class/power_supply/usb/device/float_voltage
     chown system system /sys/class/power_supply/usb/device/bad_battery
 
+on property:persist.service.adb.enable=1
+    start adbd
+
+on property:persist.service.adb.enable=0
+    stop adbd
+
+on fs
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/system /system wait ro
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/userdata /data wait noatime nosuid nodev errors=continue
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=continue
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/splash /dropbox wait noatime nosuid nodev errors=continue
+	mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/media /mnt/sdcard wait noatime nosuid nodev errors=continue
+
+# switch CPUfreq from performance to hotplug
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpufreq/hotplug/down_threshold 30
+
+#Give system ownership and permission to boost clock for specified timeout
+#Note boost_timeout cannot be changed from application because of dynamic sysfs creation. It will have default value of 3 sec.
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
+    chmod 0664  /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
+
+# Boost the CPU for 60 sec for boot optimization
+    write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 60000000
+    write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
+
 # Initialize the SGX driver
 service pvrsrvinit /system/bin/pvrsrvinit
-#service pvrsrvinit /system/vendor/bin/pvrsrvinit
-    user root
-    group root
-    oneshot
+	class core
+	user root
+	group root
+	oneshot
 
 #Load IVA firmware
 service baseimage /system/bin/syslink_daemon.out -f /system/lib/ducati/base_image_sys_m3.xem3 /system/lib/ducati/base_image_app_m3.xem3
@@ -233,68 +188,21 @@ service baseimage /system/bin/syslink_daemon.out -f /system/lib/ducati/base_imag
     group media
 
 # WLAN Related services
-service wlan_loader /system/bin/wlan_loader \
-    -f /system/etc/wifi/firmware.bin -i /system/etc/wifi/tiwlan.ini -e /data/misc/wifi/nvs_map.bin
-     disabled
-     oneshot
-
-service wpa_supplicant /system/bin/wpa_supplicant -Dtiwlan0 -itiwlan0 -c/data/misc/wifi/wpa_supplicant.conf -d
-    socket wpa_tiwlan0 dgram 660 wifi wifi
+sservice wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -dd
+    socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot
 
-service dhcpcd_tiwlan0 /system/bin/dhcpcd -ABKL
+service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
     disabled
     oneshot
 
-service iprenew_tiwlan0 /system/bin/dhcpcd -n
-	disabled
-	oneshot
-
-# HotSpot Related services
-service wlan_ap_loader /system/bin/tiap_loader \
-    -f /system/etc/wifi/softap/firmware_ap.bin \
-    -i /system/etc/wifi/softap/tiwlan_ap.ini \
-    -e /data/misc/wifi/nvs_map.bin
-    disabled
-    oneshot
-
-service ifcfg_softap /system/bin/ifconfig tiap0 up
-    disabled
-    oneshot
-
-service hostapd /system/bin/hostap -dd /data/misc/wifi/hostapd.conf
+service iprenew_wlan0 /system/bin/dhcpcd -n
     disabled
     oneshot
 
 service watchdog /sbin/watchdog
     user root
-    oneshot
-
-service dumpswver /system/bin/dumpswver
-    oneshot
-
-service printboottime /system/bin/PrintBootTime
-    disabled
-    oneshot
-
-service battery_log /system/bin/battery_log.sh
-    disabled
-    oneshot
-
-service temperature_log /system/bin/temperature_log.sh
-    disabled
-    oneshot
-
-service touch_firmware /system/bin/touch_firmware.sh
-    disabled
-    oneshot
-
-service boot_reason /system/bin/boot_reason
-    oneshot
-
-service adobe_air /system/bin/adobe_air_setup.sh
-    disabled
     oneshot
 
 on property:sys.boot_completed=1

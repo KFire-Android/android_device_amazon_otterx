@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Android Open Source Project
+ * Copyright (C) 2011 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,58 +15,91 @@
  */
 
 #include <linux/input.h>
+#include <sys/stat.h>
+#include <errno.h>
+#include <string.h>
 
 #include "recovery_ui.h"
 #include "common.h"
-#include "extendedcommands.h"
 
-char* MENU_HEADERS[] = { NULL };
+char* MENU_HEADERS[] = { "Volume up/down to move highlight;",
+                         "power button to select.",
+                         "",
+                         NULL };
 
-char* MENU_ITEMS[] = { "apply update from sdcard",
-                       "apply update from sdcard",
+char* MENU_ITEMS[] = { "reboot system now",
+                       "apply update from /cache",
                        "wipe data/factory reset",
                        "wipe cache partition",
-                       "install zip from sdcard",
-                       "reboot system now",
-                       "mounts and storage",
-                       "advanced",
-                       "safe boot menu",
-                       "power off",
                        NULL };
 
+void device_ui_init(UIParameters* ui_parameters) {
+}
+
 int device_recovery_start() {
+    // recovery can get started before the kernel has created the EMMC
+    // devices, which will make the wipe_data operation fail (trying
+    // to open a device that doesn't exist).  Hold up the start of
+    // recovery for up to 5 seconds waiting for the userdata partition
+    // block device to exist.
+
+    const char* fn = "/dev/block/platform/omap/omap_hsmmc.0/by-name/userdata";
+
+    int tries = 0;
+    int ret;
+    struct stat buf;
+    do {
+        ++tries;
+        ret = stat(fn, &buf);
+        if (ret) {
+            printf("try %d: %s\n", tries, strerror(errno));
+            sleep(1);
+        }
+    } while (ret && tries < 5);
+    if (!ret) {
+        printf("stat() of %s succeeded on try %d\n", fn, tries);
+    } else {
+        printf("failed to stat %s\n", fn);
+    }
+
+    // We let recovery attempt to carry on even if the stat never
+    // succeeded.
+
     return 0;
 }
 
 int device_toggle_display(volatile char* key_pressed, int key_code) {
-    return 0;
+    // hold power and press volume-up
+    return key_pressed[KEY_POWER] && key_code == KEY_VOLUMEUP;
 }
 
 int device_reboot_now(volatile char* key_pressed, int key_code) {
-    return 0;
+    // Reboot if the power key is pressed five times in a row, with
+    // no other keys in between.
+    static int presses = 0;
+    if (key_code == KEY_POWER) {   // power button
+        ++presses;
+        return presses == 5;
+    } else {
+        presses = 0;
+        return 0;
+    }
 }
 
 int device_handle_key(int key_code, int visible) {
     if (visible) {
         switch (key_code) {
-            case KEY_CAPSLOCK:
             case KEY_DOWN:
             case KEY_VOLUMEDOWN:
-            case KEY_MENU:
                 return HIGHLIGHT_DOWN;
-            case KEY_LEFTSHIFT:
+
             case KEY_UP:
             case KEY_VOLUMEUP:
-            case KEY_HOME:
                 return HIGHLIGHT_UP;
-            case KEY_SEND:
-            case KEY_END:
-            case KEY_POWER:
-            case KEY_SEARCH:
-            case KEY_OK:
+
+            case KEY_ENTER:
+            case KEY_POWER:   // crespo power
                 return SELECT_ITEM;
-            case KEY_BACK:
-                return GO_BACK;
         }
     }
 
@@ -74,7 +107,7 @@ int device_handle_key(int key_code, int visible) {
 }
 
 int device_perform_action(int which) {
-    return which;
+    return which == 1 ? ITEM_APPLY_CACHE : which;
 }
 
 int device_wipe_data() {

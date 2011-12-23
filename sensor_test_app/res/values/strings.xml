@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Android Sensor Test Application
+ *
+ * Copyright 2010 Texas Instruments, Inc. - http://www.ti.com/
+ *
+ * Written by Dan Murphy <dmurphy@ti.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.-->
+
+<resources>
+    <string name="app_name">TI Sensor Test App</string>
+    <string name="app_title">TI Sensor Test Application</string>
+
+    <string name="prox_header_string">Proximity Sensor</string>
+    <string name="prox_enable_string">Proximity Enable</string>
+    <string name="prox_state_string">Prox State: Waiting for data</string>
+
+    <string name="als_header_string">Ambient Light Sensor</string>
+    <string name="als_state_string">ALS Reading: Waiting for data</string>
+
+    <string name="press_header_string">Pressure Sensor</string>
+    <string name="press_enable_string">Pressure Enable</string>
+    <string name="press_state_string">Pressure Reading: Waiting for data</string>
+    <string name="press_units_string">Pressure Units</string>
+
+    <string name="temp_header_string">Temperature Sensor</string>
+    <string name="temp_enable_string">Temperature Enable</string>
+    <string name="temp_state_string">Temperature Reading: Waiting for data</string>
+    <string name="temp_units_string">Temperature Units</string>
+
+    <string name="acc_header_string">Accelerometer Sensor</string>
+    <string name="acc_enable_string">Accelerometer Enable</string>
+    <string name="acc_delay_string">Accelerometer Delay</string>
+
+    <string name="mag_header_string">Magnetometer Sensor</string>
+    <string name="mag_enable_string">Magnetometer Enable</string>
+    <string name="mag_delay_string">Magnetometer Delay</string>
+
+    <string name="gyro_header_string">Gyroscope Sensor</string>
+    <string name="gyro_enable_string">Gyroscope Enable</string>
+    <string name="gyro_delay_string">Gyroscope Delay</string>
+
+    <string name="x_data_string">X Data: Waiting for Data</string>
+    <string name="y_data_string">Y Data: Waiting for Data</string>
+    <string name="z_data_string">Z Data: Waiting for Data</string>
+</resources>
