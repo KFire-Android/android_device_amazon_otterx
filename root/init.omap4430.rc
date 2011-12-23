@@ -139,8 +139,8 @@ on boot
     setprop tv.hdmi.uicloning.enable true
 
 # Keypad permissions
-    chmod 0444 /system/usr/keychars/omap-keypad.kcm.bin
-    chmod 0444 /system/usr/keychars/qwerty.kcm.bin
+#    chmod 0444 /system/usr/keychars/omap-keypad.kcm.bin
+#    chmod 0444 /system/usr/keychars/qwerty.kcm.bin
     
 # Set current permissions for charge protection
     chown system system /sys/class/power_supply/usb/device/charge_command

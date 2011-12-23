@@ -144,7 +144,9 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/usr/idc/ilitek_i2c.idc:system/usr/idc/ilitek_i2c.idc \
     device/amazon/otter/prebuilt/usr/keychars/qtouch-touchscreen.kcm:system/usr/keychars/qtouch-touchscreen.kcm \
     device/amazon/otter/prebuilt/usr/keylayout/qtouch-touchscreen.kl:system/usr/keylayout/qtouch-touchscreen.kl \
-    device/amazon/otter/usr/keylayout/twl4030_pwrbutton.kl:system/usr/keylayout/twl4030_pwrbutton.kl 
+    device/amazon/otter/prebuilt/usr/keylayout/twl4030_pwrbutton.kl:system/usr/keylayout/twl4030_pwrbutton.kl \
+    device/amazon/otter/prebuilt/ducati/base_image_app_m3.xem3:system/lib/ducati/base_image_app_m3.xem3 \
+    device/amazon/otter/prebuilt/ducati/base_image_sys_m3.xem3:system/lib/ducati/base_image_sys_m3.xem3
 
 
 # Graphics
