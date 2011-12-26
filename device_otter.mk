@@ -49,18 +49,18 @@ PRODUCT_COPY_FILES += \
 
 # Hardware HALs
 #    sensors.omap4 \
+
 PRODUCT_PACKAGES += \
     lights.omap4 \
     libinvensense_mpl \
-    hwcomposer.default
 
 
 # Audio
 PRODUCT_PACKAGES += \
     audio.primary.omap4430 \
     audio_policy.omap4430 \
-    libaudioutils
-
+    libaudioutils \
+    hwcomposer.default
 
 # Bluetooth configuration files
 PRODUCT_COPY_FILES += \
@@ -144,6 +144,7 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/bin/320x240.nv12:system/bin/320x240.nv12 \
     device/amazon/otter/prebuilt/bin/battery_log.sh:system/bin/battery_log.sh \
     device/amazon/otter/prebuilt/bin/idme:system/bin/idme \
+    device/amazon/otter/prebuilt/bin/rild:system/bin/rild \
     device/amazon/otter/prebuilt/bin/strace:system/bin/strace \
     device/amazon/otter/prebuilt/bin/touch_firmware.sh:system/bin/touch_firmware.sh \
 
@@ -156,6 +157,7 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/wifi/tiwlan.ini:system/etc/wifi/tiwlan.ini \
     device/amazon/otter/prebuilt/etc/wifi/tiwlan.ini.activemode:system/etc/wifi/tiwlan.ini.activemode \
     device/amazon/otter/prebuilt/etc/asound.conf:system/etc/asound.conf \
+    device/amazon/otter/prebuilt/etc/audio_effects.conf:system/etc/audio_effects.conf \
     device/amazon/otter/prebuilt/etc/Audible.param:system/etc/Audible.param \
     device/amazon/otter/prebuilt/etc/gps.conf:system/etc/gps.conf \
     device/amazon/otter/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
@@ -182,11 +184,30 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/usr/keylayout/twl4030_pwrbutton.kl:system/usr/keylayout/twl4030_pwrbutton.kl \
     device/amazon/otter/prebuilt/usr/keylayout/omap-keypad.kl:system/usr/keylayout/omap-keypad.kl \
 
+# Prebuilt /system/usr/share/alsa
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/usr/share/alsa/alsa.conf:system/usr/share/alsa/alsa.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/cards/aliases.conf:system/usr/share/alsa/cards/aliases.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/center_lfe.conf:system/usr/share/alsa/pcm/center_lfe.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/default.conf:system/usr/share/alsa/pcm/default.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/dmix.conf:system/usr/share/alsa/pcm/dmix.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/dpl.conf:system/usr/share/alsa/pcm/dpl.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/dsnoop.conf:system/usr/share/alsa/pcm/dsnoop.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/front.conf:system/usr/share/alsa/pcm/front.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/iec958.conf:system/usr/share/alsa/pcm/iec958.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/modem.conf:system/usr/share/alsa/pcm/modem.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/rear.conf:system/usr/share/alsa/pcm/rear.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/side.conf:system/usr/share/alsa/pcm/side.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/surround40.conf:system/usr/share/alsa/pcm/surround40.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/surround41.conf:system/usr/share/alsa/pcm/surround41.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/surround50.conf:system/usr/share/alsa/pcm/surround50.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/surround51.conf:system/usr/share/alsa/pcm/surround51.conf \
+    device/amazon/otter/prebuilt/usr/share/alsa/pcm/surround71.conf:system/usr/share/alsa/pcm/surround71.conf \
 
 # Graphics
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/imgtec/gralloc.omap.so.4.1.1.17.4403:system/vendor/lib/hw/gralloc.omap4.so \
-    device/amazon/otter/prebuilt/imgtec/pvrsrvinit:system/bin/pvrsrvinit \
+    device/amazon/otter/prebuilt/imgtec/gralloc.omap4.so.1.1.17.4403:system/vendor/lib/hw/gralloc.omap4.so \
+    device/amazon/otter/prebuilt/imgtec/pvrsrvinit:system/vendor/bin/pvrsrvinit \
     device/amazon/otter/prebuilt/imgtec/libEGL_POWERVR_SGX540_120.so.1.1.17.4403:system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
     device/amazon/otter/prebuilt/imgtec/libGLESv1_CM_POWERVR_SGX540_120.so.1.1.17.4403:system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
     device/amazon/otter/prebuilt/imgtec/libGLESv2_POWERVR_SGX540_120.so.1.1.17.4403:system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
