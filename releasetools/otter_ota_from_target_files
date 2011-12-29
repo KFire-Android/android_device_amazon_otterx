@@ -418,10 +418,8 @@ def WriteFullOTAPackage(input_zip, output_zip):
 #    script.UndoRetouchBinaries(retouch_files)
 #*
 
-#* TODO: Remove boot.img write for now
-#  boot_img = common.GetBootableImage("boot.img", "boot.img",
-#                                     OPTIONS.input_tmp, "BOOT")
-#*
+  boot_img = common.GetBootableImage("boot.img", "boot.img",
+                                     OPTIONS.input_tmp, "BOOT")
 
 #* Remove recovery write
 #  recovery_img = common.GetBootableImage("recovery.img", "recovery.img",
@@ -432,20 +430,16 @@ def WriteFullOTAPackage(input_zip, output_zip):
   Item.GetMetadata(input_zip)
   Item.Get("system").SetPermissions(script)
 
-#* TODO: Remove boot.img write for now
-#  common.CheckSize(boot_img.data, "boot.img", OPTIONS.info_dict)
-#  common.ZipWriteStr(output_zip, "boot.img", boot_img.data)
-#  script.ShowProgress(0.2, 0)
-#*
+  common.CheckSize(boot_img.data, "boot.img", OPTIONS.info_dict)
+  common.ZipWriteStr(output_zip, "boot.img", boot_img.data)
+  script.ShowProgress(0.2, 0)
 
   if OPTIONS.backuptool:
     script.ShowProgress(0.2, 10)
     script.RunBackup("restore")
 
-#* TODO: Remove boot.img write for now
-#  script.ShowProgress(0.2, 10)
-#  script.WriteRawImage("/boot", "boot.img")
-#*
+  script.ShowProgress(0.2, 10)
+  script.WriteRawImage("/boot", "boot.img")
 
   script.ShowProgress(0.1, 0)
   device_specific.FullOTA_InstallEnd()

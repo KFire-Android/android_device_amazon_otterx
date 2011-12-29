@@ -198,7 +198,7 @@ on fs
     mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/userdata /data wait noatime nosuid nodev errors=continue
     mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=continue
     mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/splash /dropbox wait noatime nosuid nodev errors=continue
-#    mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/media /mnt/sdcard wait noatime nosuid nodev errors=continue
+    mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/media /mnt/sdcard wait noatime nosuid nodev errors=continue
 
 # switch CPUfreq from performance to hotplug
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
@@ -214,7 +214,7 @@ on fs
     write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
 
 # Initialize the SGX driver
-service pvrsrvinit /system/bin/strace -ff -F -tt -s 200 -o /data/trace/pvrsrvinit.pid /system/vendor/bin/pvrsrvinit
+service pvrsrvinit /system/bin/strace -ff -F -tt -s 200 -o /mnt/sdcard/trace/pvrsrvinit.pid /system/vendor/bin/pvrsrvinit
 	class core
 	user root
 	group root
