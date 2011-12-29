@@ -38,27 +38,18 @@ PRODUCT_PACKAGES := \
     charger \
     charger_res_images
 
-
-# Audio
-PRODUCT_COPY_FILES += \
-    device/amazon/otter/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
-    device/amazon/otter/audio/libasound.so:/system/lib/libasound.so \
-    device/amazon/otter/audio/libaudio.so:/system/lib/libaudio.so \
-    device/amazon/otter/audio/libaudiopolicy.so:/system/lib/libaudiopolicy.so \
-
-
 # Hardware HALs
 #    sensors.omap4 \
 
 PRODUCT_PACKAGES += \
     lights.omap4 \
-    libinvensense_mpl \
-
+    libinvensense_mpl
 
 # Audio
+#    audio_policy.omap4430 \
+
 PRODUCT_PACKAGES += \
     audio.primary.omap4430 \
-    audio_policy.omap4430 \
     libaudioutils \
     hwcomposer.default
 
@@ -128,6 +119,7 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/root/init.omap4430.usb.rc:root/init.omap4430.usb.rc \
     device/amazon/otter/root/ueventd.omap4430.rc:root/ueventd.omap4430.rc
 
+
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
@@ -141,7 +133,6 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilts /bin
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/bin/320x240.nv12:system/bin/320x240.nv12 \
     device/amazon/otter/prebuilt/bin/battery_log.sh:system/bin/battery_log.sh \
     device/amazon/otter/prebuilt/bin/idme:system/bin/idme \
     device/amazon/otter/prebuilt/bin/rild:system/bin/rild \
@@ -204,44 +195,22 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/usr/share/alsa/pcm/surround51.conf:system/usr/share/alsa/pcm/surround51.conf \
     device/amazon/otter/prebuilt/usr/share/alsa/pcm/surround71.conf:system/usr/share/alsa/pcm/surround71.conf \
 
-# Graphics
-#    device/amazon/otter/prebuilt/imgtec/gralloc.omap4.so:system/vendor/lib/hw/gralloc.omap4.so \
-#    device/amazon/otter/prebuilt/imgtec/libEGL_POWERVR_SGX540_120.so:system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
-#    device/amazon/otter/prebuilt/imgtec/libGLESv1_CM_POWERVR_SGX540_120.so:system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
-#    device/amazon/otter/prebuilt/imgtec/libGLESv2_POWERVR_SGX540_120.so:system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
-#    device/amazon/otter/prebuilt/imgtec/libglslcompiler.so:system/vendor/lib/libglslcompiler.so \
-#    device/amazon/otter/prebuilt/imgtec/libIMGegl.so:system/vendor/lib/libIMGegl.so \
-#    device/amazon/otter/prebuilt/imgtec/libpvr2d.so:system/vendor/lib/libpvr2d.so \
-#    device/amazon/otter/prebuilt/imgtec/libpvrANDROID_WSEGL.so:system/vendor/lib/libpvrANDROID_WSEGL.so \
-#    device/amazon/otter/prebuilt/imgtec/libPVRScopeServices.so:system/vendor/lib/libPVRScopeServices.so \
-#    device/amazon/otter/prebuilt/imgtec/libsrv_init.so:system/vendor/lib/libsrv_init.so \
-#    device/amazon/otter/prebuilt/imgtec/libsrv_um.so:system/vendor/lib/libsrv_um.so \
-#    device/amazon/otter/prebuilt/imgtec/libusc.so:system/vendor/lib/libusc.so \
-#    device/amazon/otter/prebuilt/imgtec/pvrsrvinit:system/vendor/bin/pvrsrvinit \
-#    device/amazon/otter/prebuilt/imgtec/pvrsrvctl:system/vendor/bin/pvrsrvctl \
-#    device/amazon/otter/prebuilt/imgtec/framebuffer_test:system/vendor/bin/framebuffer_test \
-#    device/amazon/otter/prebuilt/imgtec/hal_client_test:system/vendor/bin/hal_client_test \
-#    device/amazon/otter/prebuilt/imgtec/services_test:system/vendor/bin/services_test \
-#    device/amazon/otter/prebuilt/imgtec/sgx_flip_test:system/vendor/bin/sgx_flip_test \
-#    device/amazon/otter/prebuilt/imgtec/sgx_init_test:system/vendor/bin/sgx_init_test \
-#    device/amazon/otter/prebuilt/imgtec/sgx_render_flip_test:system/vendor/bin/sgx_render_flip_test \
-#    device/amazon/otter/prebuilt/imgtec/testwrap:system/vendor/bin/testwrap \
-#    device/amazon/otter/prebuilt/imgtec/texture_benchmark:system/vendor/bin/texture_benchmark \
 
+# Graphics
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/imgtec/gralloc.omap4.so.1.1.17.4403:system/vendor/lib/hw/gralloc.omap4.so \
-    device/amazon/otter/prebuilt/imgtec/libEGL_POWERVR_SGX540_120.so.1.1.17.4403:system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
-    device/amazon/otter/prebuilt/imgtec/libGLESv1_CM_POWERVR_SGX540_120.so.1.1.17.4403:system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
-    device/amazon/otter/prebuilt/imgtec/libGLESv2_POWERVR_SGX540_120.so.1.1.17.4403:system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
-    device/amazon/otter/prebuilt/imgtec/libglslcompiler.so.1.1.17.4403:system/vendor/lib/libglslcompiler.so \
-    device/amazon/otter/prebuilt/imgtec/libIMGegl.so.1.1.17.4403:system/vendor/lib/libIMGegl.so \
-    device/amazon/otter/prebuilt/imgtec/libpvr2d.so.1.1.17.4403:system/vendor/lib/libpvr2d.so \
-    device/amazon/otter/prebuilt/imgtec/libpvrANDROID_WSEGL.so.1.1.17.4403:system/vendor/lib/libpvrANDROID_WSEGL.so \
-    device/amazon/otter/prebuilt/imgtec/libPVRScopeServices.so.1.1.17.4403:system/vendor/lib/libPVRScopeServices.so \
-    device/amazon/otter/prebuilt/imgtec/libsrv_init.so.1.1.17.4403:system/vendor/lib/libsrv_init.so \
-    device/amazon/otter/prebuilt/imgtec/libsrv_um.so.1.1.17.4403:system/vendor/lib/libsrv_um.so \
-    device/amazon/otter/prebuilt/imgtec/libusc.so.1.1.17.4403:system/vendor/lib/libusc.so \
-    device/amazon/otter/prebuilt/imgtec/pvrsrvinit:system/vendor/bin/pvrsrvinit \
+    device/amazon/otter/prebuilt/imgtec/gralloc.omap4.so.1.7.276259:system/vendor/lib/hw/gralloc.omap4.so \
+    device/amazon/otter/prebuilt/imgtec/libEGL_POWERVR_SGX540_120.so.1.7.276259:system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
+    device/amazon/otter/prebuilt/imgtec/libGLESv1_CM_POWERVR_SGX540_120.so.1.7.276259:system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
+    device/amazon/otter/prebuilt/imgtec/libGLESv2_POWERVR_SGX540_120.so.1.7.276259:system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
+    device/amazon/otter/prebuilt/imgtec/libglslcompiler.so.1.7.276259:system/vendor/lib/libglslcompiler.so \
+    device/amazon/otter/prebuilt/imgtec/libIMGegl.so.1.7.276259:system/vendor/lib/libIMGegl.so \
+    device/amazon/otter/prebuilt/imgtec/libpvr2d.so.1.7.276259:system/vendor/lib/libpvr2d.so \
+    device/amazon/otter/prebuilt/imgtec/libpvrANDROID_WSEGL.so.1.7.276259:system/vendor/lib/libpvrANDROID_WSEGL.so \
+    device/amazon/otter/prebuilt/imgtec/libPVRScopeServices.so.1.7.276259:system/vendor/lib/libPVRScopeServices.so \
+    device/amazon/otter/prebuilt/imgtec/libsrv_init.so.1.7.276259:system/vendor/lib/libsrv_init.so \
+    device/amazon/otter/prebuilt/imgtec/libsrv_um.so.1.7.276259:system/vendor/lib/libsrv_um.so \
+    device/amazon/otter/prebuilt/imgtec/libusc.so.1.7.276259:system/vendor/lib/libusc.so \
+    device/amazon/otter/prebuilt/imgtec/pvrsrvinit:system/bin/pvrsrvinit \
 
 FRAMEWORKS_BASE_SUBDIRS += \
     $(addsuffix /java, omapmmlib)
