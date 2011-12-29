@@ -406,7 +406,7 @@ service ril-daemon /system/bin/rild
     user root
     group radio cache inet misc audio sdcard_rw qcom_oncrpc diag
 
-service surfaceflinger /system/bin/strace -ff -F -tt -s 200 -o /mnt/sdcard/trace/surfaceflinger.pid /system/bin/surfaceflinger
+service surfaceflinger /system/bin/surfaceflinger
     class main
     user system
     group graphics
@@ -431,7 +431,7 @@ service media /system/bin/mediaserver
     group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc
     ioprio rt 4
 
-service bootanim /system/bin/strace -ff -F -tt -s 200 -o /mnt/sdcard/trace/bootanim.pid /system/bin/bootanimation
+service bootanim /system/bin/bootanimation
     class main
     user graphics
     group graphics
