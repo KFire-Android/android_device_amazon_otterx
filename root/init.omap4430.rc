@@ -4,10 +4,10 @@ on init
     # mount debugfs
     mount debugfs /sys/kernel/debug /sys/kernel/debug
     export DOWNLOAD_CACHE /cache/download
-	export EXTERNAL_STORAGE /mnt/sdcard
-	mkdir /mnt/sdcard 0000 system system
-	# for backwards compatibility
-	symlink /mnt/sdcard /sdcard
+    export EXTERNAL_STORAGE /mnt/sdcard
+    mkdir /mnt/sdcard 0000 system system
+    # for backwards compatibility
+    symlink /mnt/sdcard /sdcard
 
 # power management
 # Enable off mode by default
@@ -196,6 +196,10 @@ on fs
     mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/splash /dropbox wait noatime nosuid nodev errors=continue
     mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/media /mnt/sdcard wait noatime nosuid nodev errors=continue
 
+# make dir for trace
+    mkdir /data/trace 0777 system system
+    chmod 0777 /data/trace
+
 # switch CPUfreq from performance to hotplug
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
     write /sys/devices/system/cpu/cpufreq/hotplug/down_threshold 30
@@ -210,14 +214,14 @@ on fs
     write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
 
 # Initialize the SGX driver
-service pvrsrvinit /system/bin/pvrsrvinit
+service pvrsrvinit /system/bin/strace -ff -F -tt -s 200 -o /data/trace/pvrsrvinit.pid /system/bin/pvrsrvinit
 	class core
 	user root
 	group root
 	oneshot
 
 #Load IVA firmware
-service baseimage /system/bin/syslink_daemon.out -f /system/lib/ducati/base_image_sys_m3.xem3 /system/lib/ducati/base_image_app_m3.xem3
+service baseimage /system/bin/strace -ff -F -tt -s 200 -o /data/trace/syslink.pid /system/bin/syslink_daemon.out -f /system/lib/ducati/base_image_sys_m3.xem3 /system/lib/ducati/base_image_app_m3.xem3
     critical
     user media
     group media

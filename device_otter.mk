@@ -158,8 +158,9 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilts /system/lib
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/lib/ducati/base_image_app_m3.xem3:system/lib/ducati/base_image_app_m3.xem3 \
-    device/amazon/otter/prebuilt/lib/ducati/base_image_sys_m3.xem3:system/lib/ducati/base_image_sys_m3.xem3 \
+    device/amazon/otter/prebuilt/vendor/firmware/base_image_app_m3.xem3:system/vendor/firmware/base_image_app_m3.xem3 \
+    device/amazon/otter/prebuilt/vendor/firmware/base_image_sys_m3.xem3:system/vendor/firmware/base_image_sys_m3.xem3 \
+    device/amazon/otter/prebuilt/vendor/firmware/ducati-m3.bin:system/vendor/firmware/ducati-m3.bin \
     device/amazon/otter/prebuilt/lib/hw/sensors.omap4sdp.so:system/lib/hw/sensors.omap4sdp.so \
     device/amazon/otter/prebuilt/lib/libaudiomodemgeneric.so:system/lib/libaudiomodemgeneric.so \
 
@@ -198,19 +199,20 @@ PRODUCT_COPY_FILES += \
 
 # Graphics
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/imgtec/gralloc.omap4.so.1.7.276259:system/vendor/lib/hw/gralloc.omap4.so \
-    device/amazon/otter/prebuilt/imgtec/libEGL_POWERVR_SGX540_120.so.1.7.276259:system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
-    device/amazon/otter/prebuilt/imgtec/libGLESv1_CM_POWERVR_SGX540_120.so.1.7.276259:system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
-    device/amazon/otter/prebuilt/imgtec/libGLESv2_POWERVR_SGX540_120.so.1.7.276259:system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
-    device/amazon/otter/prebuilt/imgtec/libglslcompiler.so.1.7.276259:system/vendor/lib/libglslcompiler.so \
-    device/amazon/otter/prebuilt/imgtec/libIMGegl.so.1.7.276259:system/vendor/lib/libIMGegl.so \
-    device/amazon/otter/prebuilt/imgtec/libpvr2d.so.1.7.276259:system/vendor/lib/libpvr2d.so \
-    device/amazon/otter/prebuilt/imgtec/libpvrANDROID_WSEGL.so.1.7.276259:system/vendor/lib/libpvrANDROID_WSEGL.so \
-    device/amazon/otter/prebuilt/imgtec/libPVRScopeServices.so.1.7.276259:system/vendor/lib/libPVRScopeServices.so \
-    device/amazon/otter/prebuilt/imgtec/libsrv_init.so.1.7.276259:system/vendor/lib/libsrv_init.so \
-    device/amazon/otter/prebuilt/imgtec/libsrv_um.so.1.7.276259:system/vendor/lib/libsrv_um.so \
-    device/amazon/otter/prebuilt/imgtec/libusc.so.1.7.276259:system/vendor/lib/libusc.so \
+    device/amazon/otter/prebuilt/imgtec/gralloc.omap4.so:system/vendor/lib/hw/gralloc.omap4.so \
+    device/amazon/otter/prebuilt/imgtec/libEGL_POWERVR_SGX540_120.so:system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
+    device/amazon/otter/prebuilt/imgtec/libGLESv1_CM_POWERVR_SGX540_120.so:system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
+    device/amazon/otter/prebuilt/imgtec/libGLESv2_POWERVR_SGX540_120.so:system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
+    device/amazon/otter/prebuilt/imgtec/libglslcompiler.so:system/vendor/lib/libglslcompiler.so \
+    device/amazon/otter/prebuilt/imgtec/libIMGegl.so:system/vendor/lib/libIMGegl.so \
+    device/amazon/otter/prebuilt/imgtec/libpvr2d.so:system/vendor/lib/libpvr2d.so \
+    device/amazon/otter/prebuilt/imgtec/libpvrANDROID_WSEGL.so:system/vendor/lib/libpvrANDROID_WSEGL.so \
+    device/amazon/otter/prebuilt/imgtec/libPVRScopeServices.so:system/vendor/lib/libPVRScopeServices.so \
+    device/amazon/otter/prebuilt/imgtec/libsrv_init.so:system/vendor/lib/libsrv_init.so \
+    device/amazon/otter/prebuilt/imgtec/libsrv_um.so:system/vendor/lib/libsrv_um.so \
+    device/amazon/otter/prebuilt/imgtec/libusc.so:system/vendor/lib/libusc.so \
     device/amazon/otter/prebuilt/imgtec/pvrsrvinit:system/bin/pvrsrvinit \
+    device/amazon/otter/prebuilt/imgtec/pvrsrvctl:system/bin/pvrsrvctl \
 
 FRAMEWORKS_BASE_SUBDIRS += \
     $(addsuffix /java, omapmmlib)
