@@ -17,6 +17,7 @@
 # This variable is set first, so it can be overridden
 # by BoardConfigVendor.mk
 USE_CAMERA_STUB := true
+BOARD_USES_GENERIC_AUDIO := false
 
 # Use the non-open-source parts, if they're present
 -include vendor/amazon/otter/BoardConfigVendor.mk
@@ -28,18 +29,14 @@ TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
 TARGET_ARCH_VARIANT := armv7-a-neon
-TARGET_ARCH_VARIANT_CPU := cortex-a9
-TARGET_ARCH_VARIANT_FPU := neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
-NEEDS_ARM_ERRATA_754319_754320 := true
-TARGET_GLOBAL_CFLAGS += -DNEEDS_ARM_ERRATA_754319_754320
 
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_PAGESIZE := 4096
 #BOARD_KERNEL_CMDLINE := console=ttyO2,115200n8 mem=463M@0x80000000 init=/init vram=5M omapfb.vram=0:5M
-BOARD_KERNEL_CMDLINE := console=ttyO2,115200n8 mem=463M@0x80000000 init=/init vram=32M omapfb.vram=0:16M
+BOARD_KERNEL_CMDLINE := console=ttyO2,115200n8 console=ttyUSB0,9600n8 mem=463M@0x80000000 init=/init vram=32M omapfb.vram=0:16M
 TARGET_NO_RADIOIMAGE := true
 TARGET_NO_BOOTLOADER := true
 TARGET_BOOTLOADER_BOARD_NAME := otter
@@ -56,70 +53,37 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 1192230912
 BOARD_FLASH_BLOCK_SIZE := 4096
 
 
-# Storage / Sharing
-BOARD_VOLD_MAX_PARTITIONS := 30
-
-
 # Connectivity - Wi-Fi
-BOARD_WPA_SUPPLICANT_DRIVER := CUSTOM
-BOARD_HOSTAPD_DRIVER        := CUSTOM
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := libCustomWifi
-WPA_SUPPLICANT_VERSION      := VER_0_6_X
-HOSTAPD_VERSION             := VER_0_6_X
-BOARD_SOFTAP_DEVICE         := wl1283
-BOARD_WLAN_DEVICE           := wl1283
-#BOARD_WLAN_TI_STA_DK_ROOT   := system/wlan/ti/wilink_6_1
-WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/tiwlan_drv.ko"
-WIFI_DRIVER_MODULE_NAME     := "tiwlan_drv"
-WIFI_DRIVER_MODULE_ARG      := ""
-WIFI_FIRMWARE_LOADER        := "wlan_loader"
-WIFI_DRIVER_FW_STA_PATH     := "/system/etc/wifi/firmware.bin"
-WIFI_DRIVER_FW_AP_PATH      := "/system/etc/wifi/softwap/firmware_ap.bin"
-PRODUCT_WIRELESS_TOOLS      := true
-AP_CONFIG_DRIVER_WILINK     := true
-WPA_SUPPL_APPROX_USE_RSSI   := true
-
-
-# Audio
-BOARD_USES_GENERIC_AUDIO := false
-BOARD_USES_ALSA_AUDIO := true
-BUILD_WITH_ALSA_UTILS := true
-HAVE_2_3_DSP := 1
-BOARD_USES_AUDIO_LEGACY := true
-ifdef BOARD_USES_AUDIO_LEGACY
-    COMMON_GLOBAL_CFLAGS += -DBOARD_USES_AUDIO_LEGACY
+USES_TI_MAC80211 := true
+ifdef USES_TI_MAC80211
+BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
+WPA_SUPPLICANT_VERSION           := VER_0_8_X
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
+BOARD_HOSTAPD_DRIVER             := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
+BOARD_WLAN_DEVICE                := wl12xx_mac80211
+BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
+WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wl12xx_sdio.ko"
+WIFI_DRIVER_MODULE_NAME          := "wl12xx_sdio"
+WIFI_FIRMWARE_LOADER             := ""
+COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
 endif
-TARGET_PROVIDES_LIBAUDIO := true
 
 
 # Bluetooth
-#BOARD_HAVE_BLUETOOTH := true
-#BOARD_HAVE_BLUETOOTH_BCM := true
+BOARD_HAVE_BLUETOOTH := true
 
 
 # Graphics
 BOARD_EGL_CFG := device/amazon/otter/prebuilt/etc/egl.cfg
 #COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12 -DMISSING_GRALLOC_BUFFERS
-
-#USE_OPENGL_RENDERER := true
-
-
-# OMX
-HARDWARE_OMX := true
-ifdef HARDWARE_OMX
-OMX_VENDOR := ti
-OMX_VENDOR_WRAPPER := TI_OMX_Wrapper
-BOARD_OPENCORE_LIBRARIES := libOMX_Core
-BOARD_OPENCORE_FLAGS := -DHARDWARE_OMX=1
-endif
-
-
-# OMAP
+USE_OPENGL_RENDERER := true
 OMAP_ENHANCEMENT := true
+#ENHANCED_DOMX := true
+#BLTSVILLE_ENHANCEMENT :=true
 ifdef OMAP_ENHANCEMENT
 COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
 endif
-
 
 
 # OTA Packaging
@@ -137,7 +101,7 @@ TARGET_PREBUILT_RECOVERY_KERNEL := device/amazon/otter/recovery-kernel
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
-#TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 TARGET_RECOVERY_UI_LIB := librecovery_ui_otter
 
 
