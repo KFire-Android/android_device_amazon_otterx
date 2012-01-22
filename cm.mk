@@ -13,7 +13,7 @@ $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
 PRODUCT_NAME := cm_otter
 PRODUCT_BRAND := Android
 PRODUCT_DEVICE := otter
-PRODUCT_MODEL := otter
+PRODUCT_MODEL := Amazon Kindle Fire
 PRODUCT_MANUFACTURER := Amazon
 PRODUCT_SFX := ics
 
@@ -29,8 +29,8 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
    BUILD_NUMBER=${DATE} \
    TARGET_DEVICE=amz_otter \
    BUILD_DISPLAY_ID=6.2.1_G1011999 \
-   BUILD_FINGERPRINT=amazon/otter_ics/amz_otter:4.0.3/6.2.1_G10111999/${BUILD_NUMBER}:user/release-keys \
-   PRIVATE_BUILD_DESC="amz_otter-user 4.0.3 6.2.1_G10111999 "${BUILD_NUMBER}" release-keys" \
+   BUILD_FINGERPRINT=amazon/otter_ics/amz_otter:4.0.3/6.2.2/${BUILD_NUMBER}:user/release-keys \
+   PRIVATE_BUILD_DESC="amz_otter-user 4.0.3 6.2.2 "${BUILD_NUMBER}" release-keys" \
    PRODUCT_BRAND=verizon \
    BUILD_UTC_DATE= \
    TARGET_BUILD_TYPE=user \

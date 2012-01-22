@@ -1,4 +1,5 @@
 import init.omap4430.usb.rc
+    start hwprops
 
 on init
     # mount debugfs
@@ -195,6 +196,9 @@ on fs
     mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=continue
     mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/splash /dropbox wait noatime nosuid nodev errors=continue
     mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/media /mnt/sdcard wait noatime nosuid nodev errors=continue
+	#fix for sdcard mount error causing some apps to not install (courtesy of HeWhoWas on XDA 1/3/2012)
+    mkdir /sdcard/.android_secure
+    symlink /sdcard/.android_secure /mnt/secure/asec
 
 # make dir for trace
     mkdir /data/trace 0777 system system
@@ -214,68 +218,75 @@ on fs
     write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 60000000
     write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
 
+service hwprops /sbin/hwprops
+    critical
+	disabled
+	oneshot
+
 # Initialize the SGX driver
-service pvrsrvinit /system/bin/strace -ff -F -tt -s 200 -o /data/trace/pvrsrvinit.pid /system/bin/pvrsrvinit
+service pvrsrvinit /system/bin/pvrsrvinit
 	class core
 	user root
 	group root
 	oneshot
 
 #Load IVA firmware
-service baseimage /system/bin/strace -ff -F -tt -s 200 -o /data/trace/syslink.pid /system/bin/syslink_daemon.out -f /system/lib/ducati/base_image_sys_m3.xem3 /system/lib/ducati/base_image_app_m3.xem3
+service baseimage /system/bin/syslink_daemon.out -f /system/lib/ducati/base_image_sys_m3.xem3 /system/lib/ducati/base_image_app_m3.xem3
     critical
     user media
     group media
 
-service wlan_loader /system/bin/wlan_loader -f /system/etc/wifi/fw_wlan1281.bin -i /system/etc/wifi/tiwlan.ini -e /pds/wifi/nvs_map.bin
-    class late_start
-    disabled
-    oneshot
-
-service ap_fmloader /system/bin/logwrapper /system/bin/tiap_loader -f /system/etc/wifi/fw_wlan1281_AP.bin -i /system/etc/wifi/tiwlan_ap.ini -e /pds/wifi/nvs_map.bin
-    class late_start
-    disabled
-    oneshot
+# WLAN Related services
+service wlan_loader /system/bin/wlan_loader \
+    -f /system/etc/wifi/firmware.bin -i /system/etc/wifi/tiwlan.ini -e /data/misc/wifi/nvs_map.bin
+     disabled
+     oneshot
 
 service wpa_supplicant /system/bin/wpa_supplicant -Dtiwlan0 -itiwlan0 -c/data/misc/wifi/wpa_supplicant.conf
-    class late_start
     socket wpa_tiwlan0 dgram 660 wifi wifi
     disabled
     oneshot
 
 service dhcpcd_tiwlan0 /system/bin/dhcpcd -ABKL
-    class main
-    disabled
-    oneshot
-
-service dhcpcd_p2p /system/bin/dhcpcd -aABKL
-    class main
     disabled
     oneshot
 
 service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
-    class main
     disabled
     oneshot
 
 service iprenew_tiwlan0 /system/bin/dhcpcd -n
-    class main
-    disabled
-    oneshot
-
-service iprenew_p2p /system/bin/dhcpcd -n
-    class main
     disabled
     oneshot
 
 service iprenew_bnep0 /system/bin/dhcpcd -n
-    class main
     disabled
     oneshot
+
+# HotSpot Related services
+service wlan_ap_loader /system/bin/tiap_loader \
+    -f /system/etc/wifi/softap/firmware_ap.bin \
+    -i /system/etc/wifi/softap/tiwlan_ap.ini \
+    -e /data/misc/wifi/nvs_map.bin
+    disabled
+    oneshot
+
+service ifcfg_softap /system/bin/netconfig tiwlan0 up
+    disabled
+    oneshot
+
+#service hostapd /system/bin/hostap -dd /data/misc/wifi/hostapd.conf
+#    disabled
+#    oneshot
 
 service watchdog /sbin/watchdog
     user root
     oneshot
 
+service touch_firmware /system/bin/touch_firmware.sh
+    disabled
+    oneshot
+
 on property:sys.boot_completed=1
     start printboottime
+    start touch_firmware

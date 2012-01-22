@@ -1,30 +1,39 @@
-# Copyright (C) 2011 The Android Open Source Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+ifeq ($(BOARD_USES_AUDIO_LEGACY),true)
 
 LOCAL_PATH := $(call my-dir)
 
-include $(CLEAR_VARS)
+# output for libaudio intermediates
+LIBAUDIO_INTERMEDIATES_PREREQS := $(PRODUCT_OUT)/obj/lib
 
-LOCAL_MODULE := audio.primary.omap4430
-LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
-LOCAL_SRC_FILES := audio_hw.c 
-LOCAL_C_INCLUDES += \
-	external/tinyalsa/include \
-	system/media/audio_utils/include \
-	system/media/audio_effects/include
-LOCAL_SHARED_LIBRARIES := liblog libcutils libtinyalsa libaudioutils libdl
-LOCAL_MODULE_TAGS := optional
+# prerequisites for building audio
+file := $(LIBAUDIO_INTERMEDIATES_PREREQS)/libaudio.so
+$(file) : device/amazon/otter/audio/libaudio.so
+	@echo "Copy libaudio.so -> $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) cp -a device/amazon/otter/audio/libaudio.so $@
 
-include $(BUILD_SHARED_LIBRARY)
+file := $(LIBAUDIO_INTERMEDIATES_PREREQS)/alsa.omap4.so
+$(file) : device/amazon/otter/audio/alsa.omap4.so
+	@echo "Copy libaudio.so -> $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) cp -a device/amazon/otter/audio/alsa.omap4.so $@
 
+file := $(LIBAUDIO_INTERMEDIATES_PREREQS)/libaudiomodemgeneric.so
+$(file) : device/amazon/otter/audio/libaudiomodemgeneric.so
+	@echo "Copy libaudio.so -> $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) cp -a device/amazon/otter/audio/libaudiomodemgeneric.so $@
+
+file := $(LIBAUDIO_INTERMEDIATES_PREREQS)/libasound.so
+$(file) : device/amazon/otter/audio/libasound.so
+	@echo "Copy libasound.so -> $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) cp -a device/amazon/otter/audio/libasound.so $@
+
+include $(all-subdir-makefiles)
+
+endif # BOARD_USES_AUDIO_LEGACY

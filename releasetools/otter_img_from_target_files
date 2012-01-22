@@ -47,7 +47,7 @@ import zipfile
 if not hasattr(os, "SEEK_SET"):
   os.SEEK_SET = 0
 
-import otter_common as common
+import common
 
 OPTIONS = common.OPTIONS
 

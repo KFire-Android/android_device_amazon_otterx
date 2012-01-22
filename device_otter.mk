@@ -46,31 +46,19 @@ PRODUCT_PACKAGES += \
     libinvensense_mpl
 
 # Audio
-#    audio_policy.omap4430 \
-
 PRODUCT_PACKAGES += \
     audio.primary.omap4430 \
+    audio_policy.omap4430 \
     libaudioutils \
-    hwcomposer.default
+    hwcomposer.default \
+
+# BlueZ a2dp Audio HAL module
+PRODUCT_PACKAGES += \
+    audio.a2dp.default
 
 # Bluetooth configuration files
 PRODUCT_COPY_FILES += \
     system/bluetooth/data/main.le.conf:system/etc/bluetooth/main.conf
-
-
-# Syslink and Tiler
-PRODUCT_PACKAGES += \
-    syslink_daemon.out \
-    syslink_tilertest.out \
-    syslink_trace_daemon.out \
-    libipc \
-    libipcutils \
-    librcm \
-    libsysmgr \
-    libnotify \
-    libd2cmap \
-    libtimemmgr
-
 
 # Wifi
 PRODUCT_PACKAGES += \
@@ -114,6 +102,7 @@ PRODUCT_PACKAGES += \
 # Root
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel \
+    device/amazon/otter/root/default.prop:root/default.prop \
     device/amazon/otter/root/init.rc:root/init.rc \
     device/amazon/otter/root/init.omap4430.rc:root/init.omap4430.rc \
     device/amazon/otter/root/init.omap4430.usb.rc:root/init.omap4430.usb.rc \
@@ -133,36 +122,26 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilts /bin
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/bin/battery_log.sh:system/bin/battery_log.sh \
-    device/amazon/otter/prebuilt/bin/idme:system/bin/idme \
     device/amazon/otter/prebuilt/bin/rild:system/bin/rild \
     device/amazon/otter/prebuilt/bin/strace:system/bin/strace \
-    device/amazon/otter/prebuilt/bin/touch_firmware.sh:system/bin/touch_firmware.sh \
+
+
+# Prebuilts /system/app
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/app/FileManager.apk:system/app/FileManager.apk \
 
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/etc/wifi/softap/firmware_ap.bin:system/etc/wifi/softap/firmware_ap.bin \
-    device/amazon/otter/prebuilt/etc/wifi/softap/tiwlan_ap.ini:system/etc/wifi/softap/tiwlan_ap.ini \
-    device/amazon/otter/prebuilt/etc/wifi/firmware.bin:system/etc/wifi/firmware.bin \
-    device/amazon/otter/prebuilt/etc/wifi/tiwlan.ini:system/etc/wifi/tiwlan.ini \
-    device/amazon/otter/prebuilt/etc/wifi/tiwlan.ini.activemode:system/etc/wifi/tiwlan.ini.activemode \
-    device/amazon/otter/prebuilt/etc/asound.conf:system/etc/asound.conf \
-    device/amazon/otter/prebuilt/etc/audio_effects.conf:system/etc/audio_effects.conf \
-    device/amazon/otter/prebuilt/etc/Audible.param:system/etc/Audible.param \
     device/amazon/otter/prebuilt/etc/gps.conf:system/etc/gps.conf \
     device/amazon/otter/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
     device/amazon/otter/prebuilt/etc/vold.conf:system/etc/vold.conf \
     device/amazon/otter/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
 
 
-# Prebuilts /system/lib
+# Prebuilt /system/media
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/vendor/firmware/base_image_app_m3.xem3:system/vendor/firmware/base_image_app_m3.xem3 \
-    device/amazon/otter/prebuilt/vendor/firmware/base_image_sys_m3.xem3:system/vendor/firmware/base_image_sys_m3.xem3 \
-    device/amazon/otter/prebuilt/vendor/firmware/ducati-m3.bin:system/vendor/firmware/ducati-m3.bin \
-    device/amazon/otter/prebuilt/lib/hw/sensors.omap4sdp.so:system/lib/hw/sensors.omap4sdp.so \
-    device/amazon/otter/prebuilt/lib/libaudiomodemgeneric.so:system/lib/libaudiomodemgeneric.so \
+    device/amazon/otter/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip \
 
 
 # Prebuilt /system/usr
@@ -175,27 +154,6 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/usr/keylayout/qtouch-touchscreen.kl:system/usr/keylayout/qtouch-touchscreen.kl \
     device/amazon/otter/prebuilt/usr/keylayout/twl4030_pwrbutton.kl:system/usr/keylayout/twl4030_pwrbutton.kl \
     device/amazon/otter/prebuilt/usr/keylayout/omap-keypad.kl:system/usr/keylayout/omap-keypad.kl \
-
-# Prebuilt /system/usr/share/alsa
-PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/usr/share/alsa/alsa.conf:system/usr/share/alsa/alsa.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/cards/aliases.conf:system/usr/share/alsa/cards/aliases.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/center_lfe.conf:system/usr/share/alsa/pcm/center_lfe.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/default.conf:system/usr/share/alsa/pcm/default.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/dmix.conf:system/usr/share/alsa/pcm/dmix.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/dpl.conf:system/usr/share/alsa/pcm/dpl.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/dsnoop.conf:system/usr/share/alsa/pcm/dsnoop.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/front.conf:system/usr/share/alsa/pcm/front.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/iec958.conf:system/usr/share/alsa/pcm/iec958.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/modem.conf:system/usr/share/alsa/pcm/modem.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/rear.conf:system/usr/share/alsa/pcm/rear.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/side.conf:system/usr/share/alsa/pcm/side.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/surround40.conf:system/usr/share/alsa/pcm/surround40.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/surround41.conf:system/usr/share/alsa/pcm/surround41.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/surround50.conf:system/usr/share/alsa/pcm/surround50.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/surround51.conf:system/usr/share/alsa/pcm/surround51.conf \
-    device/amazon/otter/prebuilt/usr/share/alsa/pcm/surround71.conf:system/usr/share/alsa/pcm/surround71.conf \
-
 
 # Graphics
 PRODUCT_COPY_FILES += \

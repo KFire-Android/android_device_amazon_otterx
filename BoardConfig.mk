@@ -35,8 +35,7 @@ ARCH_ARM_HAVE_TLS_REGISTER := true
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_PAGESIZE := 4096
-#BOARD_KERNEL_CMDLINE := console=ttyO2,115200n8 mem=463M@0x80000000 init=/init vram=5M omapfb.vram=0:5M
-BOARD_KERNEL_CMDLINE := console=ttyO2,115200n8 console=ttyUSB0,9600n8 mem=463M@0x80000000 init=/init vram=32M omapfb.vram=0:16M
+BOARD_KERNEL_CMDLINE := console=ttyO2,115200n8 mem=463M@0x80000000 init=/init vram=5M omapfb.vram=0:5M
 TARGET_NO_RADIOIMAGE := true
 TARGET_NO_BOOTLOADER := true
 TARGET_BOOTLOADER_BOARD_NAME := otter
@@ -54,20 +53,23 @@ BOARD_FLASH_BLOCK_SIZE := 4096
 
 
 # Connectivity - Wi-Fi
-USES_TI_MAC80211 := true
-ifdef USES_TI_MAC80211
-BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-WPA_SUPPLICANT_VERSION           := VER_0_8_X
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
-BOARD_HOSTAPD_DRIVER             := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
-BOARD_WLAN_DEVICE                := wl12xx_mac80211
-BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
-WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wl12xx_sdio.ko"
-WIFI_DRIVER_MODULE_NAME          := "wl12xx_sdio"
-WIFI_FIRMWARE_LOADER             := ""
-COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
-endif
+BOARD_WPA_SUPPLICANT_DRIVER := CUSTOM
+BOARD_HOSTAPD_DRIVER        := CUSTOM
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := libCustomWifi
+WPA_SUPPLICANT_VERSION      := VER_0_6_X
+HOSTAPD_VERSION             := VER_0_6_X
+BOARD_SOFTAP_DEVICE         := wl1283
+BOARD_WLAN_DEVICE           := wl1283
+#BOARD_WLAN_TI_STA_DK_ROOT   := system/wlan/ti/wilink_6_1
+WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/tiwlan_drv.ko"
+WIFI_DRIVER_MODULE_NAME     := "tiwlan_drv"
+WIFI_DRIVER_MODULE_ARG      := ""
+WIFI_FIRMWARE_LOADER        := "wlan_loader"
+WIFI_DRIVER_FW_STA_PATH     := "/system/etc/wifi/fw_wlan1283.bin"
+WIFI_DRIVER_FW_AP_PATH      := "/system/etc/wifi/fw_wlan1283_AP.bin"
+PRODUCT_WIRELESS_TOOLS      := true
+AP_CONFIG_DRIVER_WILINK     := true
+WPA_SUPPL_APPROX_USE_RSSI   := true
 
 
 # Bluetooth
