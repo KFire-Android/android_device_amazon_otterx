@@ -218,6 +218,29 @@ on fs
     write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 60000000
     write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
 
+# Load kernel modules
+# Load ipv6 netfilter/tables support
+    insmod /system/lib/modules/xt_hashlimit.ko
+#   insmod /system/lib/modules/xt_HL.ko
+    insmod /system/lib/modules/ip6_tables.ko
+    insmod /system/lib/modules/ip6table_filter.ko
+    insmod /system/lib/modules/ip6table_mangle.ko
+    insmod /system/lib/modules/ip6table_raw.ko
+    insmod /system/lib/modules/ip6t_ah.ko
+    insmod /system/lib/modules/ip6t_eui64.ko
+    insmod /system/lib/modules/ip6t_frag.ko
+    insmod /system/lib/modules/ip6t_hbh.ko
+    insmod /system/lib/modules/ip6t_ipv6header.ko
+    insmod /system/lib/modules/ip6t_LOG.ko
+    insmod /system/lib/modules/ip6t_mh.ko
+    insmod /system/lib/modules/ip6t_REJECT.ko
+    insmod /system/lib/modules/ip6t_rt.ko
+    insmod /system/lib/modules/nf_conntrack_ipv6.ko
+
+# Load Quota2 support modules
+    insmod /system/lib/modules/xt_qtaguid.ko
+    insmod /system/lib/modules/xt_quota2.ko
+
 service hwprops /sbin/hwprops
     critical
 	disabled

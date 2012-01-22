@@ -47,7 +47,7 @@ import zipfile
 if not hasattr(os, "SEEK_SET"):
   os.SEEK_SET = 0
 
-import common
+import otter_common as common
 
 OPTIONS = common.OPTIONS
 
@@ -208,3 +208,4 @@ if __name__ == '__main__':
     print "   ERROR: %s" % (e,)
     print
     sys.exit(1)
+

@@ -39,22 +39,19 @@ PRODUCT_PACKAGES := \
     charger_res_images
 
 # Hardware HALs
-#    sensors.omap4 \
-
 PRODUCT_PACKAGES += \
     lights.omap4 \
-    libinvensense_mpl
+    libinvensense_mpl \
+    hwcomposer.default
+
 
 # Audio
 PRODUCT_PACKAGES += \
-    audio.primary.omap4430 \
-    audio_policy.omap4430 \
     libaudioutils \
-    hwcomposer.default \
+    audio.a2dp.default \
+    libaudiohw_legacy \
+    audio.primary.omap4430
 
-# BlueZ a2dp Audio HAL module
-PRODUCT_PACKAGES += \
-    audio.a2dp.default
 
 # Bluetooth configuration files
 PRODUCT_COPY_FILES += \
@@ -90,7 +87,10 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     Superuser \
-    su
+    su \
+    CMSettings \
+    CMStats \
+    hwprops \
 
 
 PRODUCT_PACKAGES += \
@@ -155,6 +155,7 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/usr/keylayout/twl4030_pwrbutton.kl:system/usr/keylayout/twl4030_pwrbutton.kl \
     device/amazon/otter/prebuilt/usr/keylayout/omap-keypad.kl:system/usr/keylayout/omap-keypad.kl \
 
+#    device/amazon/otter/prebuilt/imgtec/pvrsrvctl:system/bin/pvrsrvctl \
 # Graphics
 PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/imgtec/gralloc.omap4.so:system/vendor/lib/hw/gralloc.omap4.so \
@@ -170,7 +171,6 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/imgtec/libsrv_um.so:system/vendor/lib/libsrv_um.so \
     device/amazon/otter/prebuilt/imgtec/libusc.so:system/vendor/lib/libusc.so \
     device/amazon/otter/prebuilt/imgtec/pvrsrvinit:system/bin/pvrsrvinit \
-    device/amazon/otter/prebuilt/imgtec/pvrsrvctl:system/bin/pvrsrvctl \
 
 FRAMEWORKS_BASE_SUBDIRS += \
     $(addsuffix /java, omapmmlib)
@@ -214,7 +214,7 @@ $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
 $(call inherit-product, hardware/ti/wpan/ti-wpan-products.mk)
 $(call inherit-product-if-exists, vendor/google/google-vendor.mk)
 
-$(call inherit-product-if-exists, vendor/amazon/otter-vendor.mk)
+$(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
 $(call inherit-product-if-exists, vendor/cm/config/common_full_tablet_wifionly.mk.mk)
 
 $(call inherit-product, build/target/product/full_base.mk)

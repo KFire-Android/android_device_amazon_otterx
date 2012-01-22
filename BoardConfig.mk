@@ -61,15 +61,22 @@ HOSTAPD_VERSION             := VER_0_6_X
 BOARD_SOFTAP_DEVICE         := wl1283
 BOARD_WLAN_DEVICE           := wl1283
 #BOARD_WLAN_TI_STA_DK_ROOT   := system/wlan/ti/wilink_6_1
-WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/tiwlan_drv.ko"
+WIFI_DRIVER_MODULE_PATH     := "/system/etc/wifi/tiwlan_drv.ko"
 WIFI_DRIVER_MODULE_NAME     := "tiwlan_drv"
 WIFI_DRIVER_MODULE_ARG      := ""
 WIFI_FIRMWARE_LOADER        := "wlan_loader"
-WIFI_DRIVER_FW_STA_PATH     := "/system/etc/wifi/fw_wlan1283.bin"
-WIFI_DRIVER_FW_AP_PATH      := "/system/etc/wifi/fw_wlan1283_AP.bin"
+WIFI_DRIVER_FW_STA_PATH     := "/system/etc/wifi/firmware.bin"
+WIFI_DRIVER_FW_AP_PATH      := "/system/etc/wifi/softap/firmware_ap.bin"
 PRODUCT_WIRELESS_TOOLS      := true
 AP_CONFIG_DRIVER_WILINK     := true
 WPA_SUPPL_APPROX_USE_RSSI   := true
+
+
+# Audio
+BOARD_USES_AUDIO_LEGACY := true
+ifdef BOARD_USES_AUDIO_LEGACY
+COMMON_GLOBAL_CFLAGS += -DBOARD_USES_AUDIO_LEGACY
+endif
 
 
 # Bluetooth
@@ -78,11 +85,22 @@ BOARD_HAVE_BLUETOOTH := true
 
 # Graphics
 BOARD_EGL_CFG := device/amazon/otter/prebuilt/etc/egl.cfg
-#COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12 -DMISSING_GRALLOC_BUFFERS
-USE_OPENGL_RENDERER := true
+COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12 -DMISSING_GRALLOC_BUFFERS
+#USE_OPENGL_RENDERER := true
+
+# OMX
+HARDWARE_OMX := true
+ifdef HARDWARE_OMX
+OMX_VENDOR := ti
+OMX_VENDOR_WRAPPER := TI_OMX_Wrapper
+BOARD_OPENCORE_LIBRARIES := libOMX_Core
+BOARD_OPENCORE_FLAGS := -DHARDWARE_OMX=1
+endif
+LEGACY_DOMX := true
+
+
+# OMAP
 OMAP_ENHANCEMENT := true
-#ENHANCED_DOMX := true
-#BLTSVILLE_ENHANCEMENT :=true
 ifdef OMAP_ENHANCEMENT
 COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
 endif
