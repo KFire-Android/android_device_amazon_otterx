@@ -42,7 +42,7 @@ PRODUCT_PACKAGES := \
 PRODUCT_PACKAGES += \
     lights.omap4 \
     libinvensense_mpl \
-    hwcomposer.default
+    hwcomposer.omap4 \
 
 
 # Audio
@@ -50,10 +50,18 @@ PRODUCT_PACKAGES += \
     libaudioutils \
     audio.a2dp.default \
     libaudiohw_legacy \
-    audio.primary.omap4430
+    audio.primary.omap4430 \
+    audio_policy.omap4430
 
+# Audio
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/audio/alsa.omap4.so:/system/lib/hw/alsa.solana.so \
+    device/amazon/otter/audio/libasound.so:/system/lib/libasound.so \
+    device/amazon/otter/audio/libaudio.so:/system/lib/libaudio.so \
+    device/amazon/otter/audio/libaudiomodemgeneric.so:/system/lib/libaudiomodemgeneric.so \
+    device/amazon/otter/audio/libaudiopolicy.so:/system/lib/libaudiopolicy.so \
 
-# Bluetooth configuration files
+# Bluetooth configuration
 PRODUCT_COPY_FILES += \
     system/bluetooth/data/main.le.conf:system/etc/bluetooth/main.conf
 
@@ -145,15 +153,15 @@ PRODUCT_COPY_FILES += \
 
 
 # Prebuilt /system/usr
+#    device/amazon/otter/prebuilt/usr/idc/omap-keypad.idc:system/usr/idc/omap-keypad.idc \
+#    device/amazon/otter/prebuilt/usr/keychars/qtouch-touchscreen.kcm:system/usr/keychars/qtouch-touchscreen.kcm \
+#    device/amazon/otter/prebuilt/usr/keychars/omap-keypad.kcm:system/usr/keychars/omap-keypad.kcm \
+#    device/amazon/otter/prebuilt/usr/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
+#    device/amazon/otter/prebuilt/usr/keylayout/qtouch-touchscreen.kl:system/usr/keylayout/qtouch-touchscreen.kl \
+#    device/amazon/otter/prebuilt/usr/keylayout/omap-keypad.kl:system/usr/keylayout/omap-keypad.kl \
 PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/usr/idc/ilitek_i2c.idc:system/usr/idc/ilitek_i2c.idc \
-    device/amazon/otter/prebuilt/usr/idc/omap-keypad.idc:system/usr/idc/omap-keypad.idc \
-    device/amazon/otter/prebuilt/usr/keychars/qtouch-touchscreen.kcm:system/usr/keychars/qtouch-touchscreen.kcm \
-    device/amazon/otter/prebuilt/usr/keychars/omap-keypad.kcm:system/usr/keychars/omap-keypad.kcm \
-    device/amazon/otter/prebuilt/usr/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
-    device/amazon/otter/prebuilt/usr/keylayout/qtouch-touchscreen.kl:system/usr/keylayout/qtouch-touchscreen.kl \
     device/amazon/otter/prebuilt/usr/keylayout/twl4030_pwrbutton.kl:system/usr/keylayout/twl4030_pwrbutton.kl \
-    device/amazon/otter/prebuilt/usr/keylayout/omap-keypad.kl:system/usr/keylayout/omap-keypad.kl \
 
 #    device/amazon/otter/prebuilt/imgtec/pvrsrvctl:system/bin/pvrsrvctl \
 # Graphics

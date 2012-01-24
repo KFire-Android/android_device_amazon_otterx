@@ -13,6 +13,13 @@ $(file) : device/amazon/otter/audio/libaudio.so
 	@rm -rf $@
 	$(hide) cp -a device/amazon/otter/audio/libaudio.so $@
 
+file := $(LIBAUDIO_INTERMEDIATES_PREREQS)/libaudiopolicy.so
+$(file) : device/amazon/otter/audio/libaudiopolicy.so
+	@echo "Copy libaudio.so -> $@"
+	@mkdir -p $(dir $@)
+	@rm -rf $@
+	$(hide) cp -a device/amazon/otter/audio/libaudiopolicy.so $@
+
 file := $(LIBAUDIO_INTERMEDIATES_PREREQS)/alsa.omap4.so
 $(file) : device/amazon/otter/audio/alsa.omap4.so
 	@echo "Copy libaudio.so -> $@"

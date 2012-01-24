@@ -14,17 +14,27 @@
  * limitations under the License.
  */
 
-#include <AudioSystem.h>
-#define LOG_TAG "AudioPolicyManagerDefault"
-//#define LOG_NDEBUG 0
+#define LOG_TAG "AudioPolicyManager"
+#define LOG_NDEBUG 0
+#include <utils/Log.h>
+#include "AudioPolicyManager.h"
+#include <media/mediarecorder.h>
 
-#include "AudioPolicyManagerDefault.h"
+namespace android_audio_legacy {
 
-namespace android {
+
+
+// ----------------------------------------------------------------------------
+// AudioPolicyManager for solana platform (based on jordan)
+// Common audio policy manager code is implemented in AudioPolicyManagerBase class
+// ----------------------------------------------------------------------------
+
+// ---  class factory
+
 
 extern "C" AudioPolicyInterface* createAudioPolicyManager(AudioPolicyClientInterface *clientInterface)
 {
-    return new AudioPolicyManagerDefault(clientInterface);
+    return new AudioPolicyManager(clientInterface);
 }
 
 extern "C" void destroyAudioPolicyManager(AudioPolicyInterface *interface)
@@ -32,4 +42,6 @@ extern "C" void destroyAudioPolicyManager(AudioPolicyInterface *interface)
     delete interface;
 }
 
-}; // namespace android
+
+}; // namespace android_audio_legacy
+

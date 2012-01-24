@@ -224,9 +224,9 @@ on boot
     chown radio system /sys/power/state
     chown radio system /sys/power/wake_lock
     chown radio system /sys/power/wake_unlock
-    chmod 0666 /sys/power/state
-    chmod 0666 /sys/power/wake_lock
-    chmod 0666 /sys/power/wake_unlock
+    chmod 0660 /sys/power/state
+    chmod 0660 /sys/power/wake_lock
+    chmod 0660 /sys/power/wake_unlock
     chown system system /sys/class/timed_output/vibrator/enable
     chown system system /sys/class/leds/keyboard-backlight/brightness
     chown system system /sys/class/leds/lcd-backlight/brightness
@@ -376,7 +376,7 @@ on property:service.adb.root=1
     restart adbd
     write /sys/class/android_usb/android0/enable 1
 
-service servicemanager /system/bin/strace -ff -F -tt -s 200 -o /data/trace/servicemanager.pid /system/bin/servicemanager
+service servicemanager /system/bin/servicemanager
     class core
     user system
     group system
@@ -386,12 +386,12 @@ service servicemanager /system/bin/strace -ff -F -tt -s 200 -o /data/trace/servi
     onrestart restart surfaceflinger
     onrestart restart drm
 
-service vold /system/bin/strace -ff -F -tt -s 200 -o /data/trace/vold.pid /system/bin/vold
+service vold /system/bin/vold
     class core
     socket vold stream 0660 root mount
     ioprio be 2
 
-service /system/bin/strace -ff -F -tt -s 200 -o /data/trace/netd.pid netd /system/bin/netd
+service netd /system/bin/netd
     class main
     socket netd stream 0660 root system
     socket dnsproxyd stream 0660 root inet
@@ -399,14 +399,14 @@ service /system/bin/strace -ff -F -tt -s 200 -o /data/trace/netd.pid netd /syste
 service debuggerd /system/bin/debuggerd
     class main
 
-service ril-daemon /system/bin/strace -ff -F -tt -s 200 -o /data/trace/rild.pid /system/bin/rild
+service ril-daemon /system/bin/rild
     class main
     socket rild stream 660 root radio
     socket rild-debug stream 660 radio system
     user root
     group radio cache inet misc audio sdcard_rw qcom_oncrpc diag
 
-service surfaceflinger /system/bin/strace -ff -F -tt -s 200 -o /data/trace/surfaceflinger.pid /system/bin/surfaceflinger
+service surfaceflinger /system/bin/surfaceflinger
     class main
     user system
     group graphics
@@ -425,7 +425,7 @@ service drm /system/bin/drmserver
     user drm
     group system inet drmrpc
 
-service media /system/bin/strace -ff -F -tt -s 200 -o /data/trace/media.pid /system/bin/mediaserver
+service media /system/bin/mediaserver
     class main
     user media
     group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc
@@ -438,7 +438,7 @@ service bootanim /system/bin/bootanimation
     disabled
     oneshot
 
-service dbus /system/bin/strace -ff -F -tt -s 200 -o /data/trace/dbus.pid /system/bin/dbus-daemon --system --nofork
+service dbus /system/bin/dbus-daemon --system --nofork
     class main
     socket dbus stream 660 bluetooth bluetooth
     user bluetooth
@@ -465,7 +465,7 @@ service racoon /system/bin/racoon
     disabled
     oneshot
 
-service mtpd /system/bin/strace -ff -F -tt -s 200 -o /data/trace/mtpd.pid  /system/bin/mtpd
+service mtpd /system/bin/mtpd
     class main
     socket mtpd stream 600 system system
     user vpn

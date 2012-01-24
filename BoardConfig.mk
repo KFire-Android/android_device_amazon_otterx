@@ -85,8 +85,11 @@ BOARD_HAVE_BLUETOOTH := true
 
 # Graphics
 BOARD_EGL_CFG := device/amazon/otter/prebuilt/etc/egl.cfg
-COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12 -DMISSING_GRALLOC_BUFFERS
-#USE_OPENGL_RENDERER := true
+MISSING_EGL_EXTERNAL_IMAGE := true
+MISSING_GRALLOC_BUFFERS := true
+MISSING_EGL_PIXEL_FORMAT_YV12 := true
+COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_GRALLOC_BUFFERS -DMISSING_EGL_PIXEL_FORMAT_YV12 \
+
 
 # OMX
 HARDWARE_OMX := true
@@ -116,6 +119,11 @@ TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/amazon/otter/releasetools/ot
 TARGET_CUSTOM_RELEASETOOL := ./device/amazon/otter/releasetools/squisher
 
 
+# Storage
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/usb_mass_storage/lun0/file
+BOARD_UMS_LUNFILE := /sys/devices/platform/usb_mass_storage/lun0/file
+
+
 # Recovery
 TARGET_PREBUILT_RECOVERY_KERNEL := device/amazon/otter/recovery-kernel
 BOARD_HAS_NO_SELECT_BUTTON := true
@@ -129,4 +137,4 @@ TARGET_RECOVERY_UI_LIB := librecovery_ui_otter
 BOARD_NEEDS_CUTILS_LOG := true
 BOARD_USES_SECURE_SERVICES := true
 BOARD_LIB_DUMPSTATE := libdumpstate.otter
-
+BOARD_USE_LEGACY_TOUCHSCREEN := true

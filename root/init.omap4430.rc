@@ -2,6 +2,9 @@ import init.omap4430.usb.rc
     start hwprops
 
 on init
+# Enable ADB hack
+    setprop sys.usb.config=adb
+
     # mount debugfs
     mount debugfs /sys/kernel/debug /sys/kernel/debug
     export DOWNLOAD_CACHE /cache/download
@@ -20,9 +23,6 @@ on init
     write /sys/kernel/debug/pm_debug/smartreflex/sr_mpu/autocomp 1
 
 on boot
-# Enable ADB hack
-    write /dev/usb_device_mode msc_adb
-
     setprop ro.radio.noril yes
     chmod 0666 /dev/pvrsrvkm
 
@@ -203,7 +203,6 @@ on fs
 # make dir for trace
     mkdir /data/trace 0777 system system
     chmod 0777 /data/trace
-    write /data/trace/test 1
 
 # switch CPUfreq from performance to hotplug
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
