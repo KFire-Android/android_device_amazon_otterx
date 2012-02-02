@@ -118,7 +118,8 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/root/init.rc:/root/init.rc \
     device/amazon/otter/root/init.omap4430.rc:/root/init.omap4430.rc \
     device/amazon/otter/root/init.omap4430.usb.rc:/root/init.omap4430.usb.rc \
-    device/amazon/otter/root/ueventd.omap4430.rc:/root/ueventd.omap4430.rc
+    device/amazon/otter/root/ueventd.omap4430.rc:/root/ueventd.omap4430.rc \
+    device/amazon/otter/root/ueventd.rc:/root/ueventd.rc
 
 
 #   frameworks/base/data/etc/android.hardware.sensor.accelerometer.xml:/system/etc/permissions/android.hardware.sensor.accelerometer.xml \

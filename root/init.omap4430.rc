@@ -2,6 +2,9 @@ import init.omap4430.usb.rc
     start hwprops
 
 on init
+    # Enable ADB hack
+    write /dev/usb_device_mode msc_adb
+
     # mount debugfs
     mount debugfs /sys/kernel/debug /sys/kernel/debug
     export DOWNLOAD_CACHE /cache/download
@@ -20,12 +23,10 @@ on init
     write /sys/kernel/debug/pm_debug/smartreflex/sr_mpu/autocomp 1
 
 on boot
-# Enable ADB hack
-    write /dev/usb_device_mode msc_adb
 
-on boot
+    setprop ro.build.product omap4sdp
+    setprop ro.product.device omap4sdp
     setprop ro.radio.noril yes
-	chmod 0666 /dev/pvrsrvkm
 
 # fake some battery state
     setprop status.battery.state Slow
@@ -37,11 +38,60 @@ on boot
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
 
+# phone
+#    setprop ro.telephony.call_ring.multiple 0
+
+on fs
+    log "==  init.omap4430.rc: on fs ------------------------"
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/system /system wait ro
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/userdata /data wait noatime nosuid nodev errors=continue
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=continue
+    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/splash /dropbox wait noatime nosuid nodev errors=continue
+#    mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/media /mnt/sdcard wait noatime nosuid nodev errors=continue
+
+# permissions for bluetooth.
+#    chown bluetooth bluetooth ro.bt.bdaddr_path
+
+    #fix for sdcard mount error causing some apps to not install (courtesy of HeWhoWas on XDA 1/3/2012)
+#    mkdir /sdcard/.android_secure
+#    symlink /sdcard/.android_secure /mnt/secure/asec
+
+    # forget what this fixed
+    mkdir /data/tmp 0777 system system
+    symlink /data/tmp /tmp
+
+# make dir for trace
+    mkdir /data/trace 0777 system system
+    chmod 0777 /data/trace
+
+# switch CPUfreq from performance to hotplug
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpufreq/hotplug/down_threshold 30
+
+#Give system ownership and permission to boost clock for specified timeout
+#Note boost_timeout cannot be changed from application because of dynamic sysfs creation. It will have default value of 3 sec.
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
+    chmod 0664  /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
+
+# Boost the CPU for 60 sec for boot optimization
+    write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 60000000
+    write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
+
+# Load Quota2 support modules
+    insmod /system/lib/modules/xt_qtaguid.ko
+    insmod /system/lib/modules/xt_quota2.ko
+
+# Allow everybody to read the xt_qtaguid resource tracking misc dev.
+# This is needed by any process that uses socket tagging.
+    chmod 0644 /dev/xt_qtaguid
+
+# make dir for cache
+    mkdir /cache/download 0777 system system
+
 # We chown/chmod /data again so because mount is run as root + defaults
     chown system system /data
     chmod 0771 /data
 
-	chmod 777 /sys/class/leds/backlight/brightness
     chown media media /dev/syslink-proc4430
     chown media media /dev/syslink-procmgr
     chown media media /dev/syslink_ipc
@@ -75,10 +125,10 @@ on boot
     chmod 640 /data/base_image_app_m3.xem3
 
     # change permissions for alsa nodes
-    chmod 0777 /dev/snd/pcmC0D0c
+    chmod 0777  /dev/snd/pcmC0D0c
     chmod 0777 /dev/snd/pcmC0D0p
-    chmod 0777 /dev/snd/controlC0
-    chmod 0777 /dev/snd/timer
+    chmod 0777  /dev/snd/controlC0
+    chmod 0777  /dev/snd/timer
 
     #change permissions for alsa nodes for audio modem
     chmod 0777 /dev/snd/pcmC0D5c
@@ -160,6 +210,20 @@ on boot
     chown media media /dev/tiler
     chmod 0666 /dev/tiler
     chmod 0666 /dev/dmm
+# LEDs
+    chmod 0777 /dev/ilitek_ctrl
+    chmod 0777 /sys/class/leds/backlight/brightness
+    chmod 0666 /sys/class/leds/led-green/brightness
+    chmod 0666 /sys/class/leds/led-orange/brightness
+    chown system system /sys/class/leds/backlight/brightness
+    chown system system /sys/class/leds/led-green/brightness
+    chown system system /sys/class/leds/led-orange/brightness
+
+# Enable secondary display on Blaze
+    #write /sys/devices/platform/omapdss/display1/enabled 1
+    #write /sys/devices/platform/omapdss/overlay1/enabled 0
+    #write /sys/devices/platform/omapdss/overlay1/manager "2lcd"
+    #write /sys/devices/platform/omapdss/overlay1/enabled 1
 
 # Revert the boost_timeout to the default value of 3 sec. Note this won't affect the prev boost
 # request for boot time reduction
@@ -179,8 +243,11 @@ on boot
 # Keypad permissions
     chmod 0444 /system/usr/keychars/omap-keypad.kcm.bin
     chmod 0444 /system/usr/keychars/qwerty.kcm.bin
-    
-# Set current permissions for charge protection
+
+# SGX driver
+    chmod 0666 /dev/pvrsrvkm
+
+    # Set current permissions for charge protection
     chown system system /sys/class/power_supply/usb/device/charge_command
     chown system system /sys/class/power_supply/usb/device/charge_current
     chown system system /sys/class/power_supply/usb/device/float_voltage
@@ -192,48 +259,10 @@ on property:persist.service.adb.enable=1
 on property:persist.service.adb.enable=0
     stop adbd
 
-on fs
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/system /system wait ro
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/userdata /data wait noatime nosuid nodev errors=continue
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=continue
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/splash /dropbox wait noatime nosuid nodev errors=continue
-    mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/media /mnt/sdcard wait noatime nosuid nodev errors=continue
-	#fix for sdcard mount error causing some apps to not install (courtesy of HeWhoWas on XDA 1/3/2012)
-    mkdir /sdcard/.android_secure
-    symlink /sdcard/.android_secure /mnt/secure/asec
-
-# make dir for trace
-    mkdir /data/trace 0777 system system
-    chmod 0777 /data/trace
-
-# switch CPUfreq from performance to hotplug
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
-    write /sys/devices/system/cpu/cpufreq/hotplug/down_threshold 30
-
-#Give system ownership and permission to boost clock for specified timeout
-#Note boost_timeout cannot be changed from application because of dynamic sysfs creation. It will have default value of 3 sec.
-    chown system system /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
-    chmod 0664  /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
-
-# Boost the CPU for 60 sec for boot optimization
-    write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 60000000
-    write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
-
-# Load Quota2 support modules
-    insmod /system/lib/modules/xt_qtaguid.ko
-    insmod /system/lib/modules/xt_quota2.ko
-
-# Allow everybody to read the xt_qtaguid resource tracking misc dev.
-# This is needed by any process that uses socket tagging.
-    chmod 0644 /dev/xt_qtaguid
-
-# make dir for cache
-    mkdir /cache/download 0777 system system
-
-#service hwprops /sbin/hwprops
-#    critical
-#	disabled
-#	oneshot
+service hwprops /sbin/hwprops
+    critical
+    disabled
+    oneshot
 
 # Initialize the SGX driver
 service pvrsrvinit /system/bin/pvrsrvinit
@@ -244,6 +273,7 @@ service pvrsrvinit /system/bin/pvrsrvinit
 
 #Load IVA firmware
 service baseimage /system/bin/syslink_daemon.out -f /system/lib/ducati/base_image_sys_m3.xem3 /system/lib/ducati/base_image_app_m3.xem3
+	class core
     critical
     user media
     group media
@@ -291,6 +321,30 @@ service ifcfg_softap /system/bin/netconfig tiwlan0 up
 #    disabled
 #    oneshot
 
+service hfag /system/bin/sdptool add --channel=10 HFAG
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
+
+service hsag /system/bin/sdptool add --channel=11 HSAG
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
+
+service opush /system/bin/sdptool add --channel=12 OPUSH
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
+
+service pbap /system/bin/sdptool add --channel=19 PBAP
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
+
 service watchdog /sbin/watchdog
     user root
     oneshot
@@ -300,6 +354,7 @@ service touch_firmware /system/bin/touch_firmware.sh
     oneshot
 
 on property:sys.boot_completed=1
+    log "== init.omap4430.rc: on property:sys.boot_completed=1 -----------------------"
     start printboottime
     start touch_firmware
     start adobe_air

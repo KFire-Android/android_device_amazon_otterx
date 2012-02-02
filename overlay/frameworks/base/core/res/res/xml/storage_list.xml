@@ -35,7 +35,5 @@
     <storage android:mountPoint="/mnt/sdcard"
              android:storageDescription="@string/storage_internal"
              android:primary="true"
-             android:allowMassStorage="true"
-	     android:maxFileSize="4096"
-             android:removable="false" />
+             android:allowMassStorage="true" />
 </StorageList>
