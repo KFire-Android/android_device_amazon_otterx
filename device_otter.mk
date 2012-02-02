@@ -25,6 +25,9 @@ else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
+$(call inherit-product-if-exists, vendor/cm/config/common_full_tablet_wifionly.mk.mk)
+$(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
+
 DEVICE_PACKAGE_OVERLAYS := device/amazon/otter/overlay
 
 # This device is xhdpi.  However the platform doesn't
@@ -45,17 +48,18 @@ PRODUCT_PACKAGES += \
     hwcomposer.omap4 \
 
 
+#    audio_policy.omap4430
 # Audio
 PRODUCT_PACKAGES += \
     libaudioutils \
     audio.a2dp.default \
     libaudiohw_legacy \
     audio.primary.omap4430 \
-    audio_policy.omap4430
+    audio_policy.default
 
 # Audio
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/audio/alsa.omap4.so:/system/lib/hw/alsa.solana.so \
+    device/amazon/otter/audio/alsa.omap4.so:/system/lib/hw/alsa.omap4.so \
     device/amazon/otter/audio/libasound.so:/system/lib/libasound.so \
     device/amazon/otter/audio/libaudio.so:/system/lib/libaudio.so \
     device/amazon/otter/audio/libaudiomodemgeneric.so:/system/lib/libaudiomodemgeneric.so \
@@ -110,41 +114,41 @@ PRODUCT_PACKAGES += \
 # Root
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel \
-    device/amazon/otter/root/default.prop:root/default.prop \
-    device/amazon/otter/root/init.rc:root/init.rc \
-    device/amazon/otter/root/init.omap4430.rc:root/init.omap4430.rc \
-    device/amazon/otter/root/init.omap4430.usb.rc:root/init.omap4430.usb.rc \
-    device/amazon/otter/root/ueventd.omap4430.rc:root/ueventd.omap4430.rc
+    device/amazon/otter/root/default.prop:/root/default.prop \
+    device/amazon/otter/root/init.rc:/root/init.rc \
+    device/amazon/otter/root/init.omap4430.rc:/root/init.omap4430.rc \
+    device/amazon/otter/root/init.omap4430.usb.rc:/root/init.omap4430.usb.rc \
+    device/amazon/otter/root/ueventd.omap4430.rc:/root/ueventd.omap4430.rc
 
 
+#   frameworks/base/data/etc/android.hardware.sensor.accelerometer.xml:/system/etc/permissions/android.hardware.sensor.accelerometer.xml \
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
-    frameworks/base/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
-    frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/base/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
-    frameworks/base/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
-    frameworks/base/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
-    frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
-    packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml 
+    frameworks/base/data/etc/tablet_core_hardware.xml:/system/etc/permissions/tablet_core_hardware.xml \
+    frameworks/base/data/etc/android.hardware.wifi.xml:/system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/base/data/etc/android.hardware.sensor.light.xml:/system/etc/permissions/android.hardware.sensor.light.xml \
+    frameworks/base/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:/system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
+    frameworks/base/data/etc/android.software.sip.voip.xml:/system/etc/permissions/android.software.sip.voip.xml \
+    packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml 
 
 
 # Prebuilts /bin
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/bin/rild:system/bin/rild \
-    device/amazon/otter/prebuilt/bin/strace:system/bin/strace \
+    device/amazon/otter/prebuilt/bin/rild:/system/bin/rild \
+    device/amazon/otter/prebuilt/bin/strace:/system/bin/strace \
 
 
 # Prebuilts /system/app
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/app/FileManager.apk:system/app/FileManager.apk \
+    device/amazon/otter/prebuilt/app/FileManager.apk:/system/app/FileManager.apk \
 
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/etc/gps.conf:system/etc/gps.conf \
-    device/amazon/otter/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
-    device/amazon/otter/prebuilt/etc/vold.conf:system/etc/vold.conf \
-    device/amazon/otter/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
+    device/amazon/otter/prebuilt/etc/gps.conf:/system/etc/gps.conf \
+    device/amazon/otter/prebuilt/etc/media_profiles.xml:/system/etc/media_profiles.xml \
+    device/amazon/otter/prebuilt/etc/vold.conf:/system/etc/vold.conf \
+    device/amazon/otter/prebuilt/etc/vold.fstab:/system/etc/vold.fstab \
 
 
 # Prebuilt /system/media
@@ -153,32 +157,32 @@ PRODUCT_COPY_FILES += \
 
 
 # Prebuilt /system/usr
-#    device/amazon/otter/prebuilt/usr/idc/omap-keypad.idc:system/usr/idc/omap-keypad.idc \
-#    device/amazon/otter/prebuilt/usr/keychars/qtouch-touchscreen.kcm:system/usr/keychars/qtouch-touchscreen.kcm \
-#    device/amazon/otter/prebuilt/usr/keychars/omap-keypad.kcm:system/usr/keychars/omap-keypad.kcm \
-#    device/amazon/otter/prebuilt/usr/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
-#    device/amazon/otter/prebuilt/usr/keylayout/qtouch-touchscreen.kl:system/usr/keylayout/qtouch-touchscreen.kl \
-#    device/amazon/otter/prebuilt/usr/keylayout/omap-keypad.kl:system/usr/keylayout/omap-keypad.kl \
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/usr/idc/ilitek_i2c.idc:system/usr/idc/ilitek_i2c.idc \
-    device/amazon/otter/prebuilt/usr/keylayout/twl4030_pwrbutton.kl:system/usr/keylayout/twl4030_pwrbutton.kl \
+    device/amazon/otter/prebuilt/usr/idc/ilitek_i2c.idc:/system/usr/idc/ilitek_i2c.idc \
+    device/amazon/otter/prebuilt/usr/keylayout/twl4030_pwrbutton.kl:/system/usr/keylayout/twl4030_pwrbutton.kl \
+    device/amazon/otter/prebuilt/usr/idc/omap-keypad.idc:/system/usr/idc/omap-keypad.idc \
+    device/amazon/otter/prebuilt/usr/keychars/qtouch-touchscreen.kcm:/system/usr/keychars/qtouch-touchscreen.kcm \
+    device/amazon/otter/prebuilt/usr/keychars/omap-keypad.kcm:/system/usr/keychars/omap-keypad.kcm \
+    device/amazon/otter/prebuilt/usr/keylayout/AVRCP.kl:/system/usr/keylayout/AVRCP.kl \
+    device/amazon/otter/prebuilt/usr/keylayout/qtouch-touchscreen.kl:/system/usr/keylayout/qtouch-touchscreen.kl \
+    device/amazon/otter/prebuilt/usr/keylayout/omap-keypad.kl:/system/usr/keylayout/omap-keypad.kl \
 
 #    device/amazon/otter/prebuilt/imgtec/pvrsrvctl:system/bin/pvrsrvctl \
 # Graphics
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/imgtec/gralloc.omap4.so:system/vendor/lib/hw/gralloc.omap4.so \
-    device/amazon/otter/prebuilt/imgtec/libEGL_POWERVR_SGX540_120.so:system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
-    device/amazon/otter/prebuilt/imgtec/libGLESv1_CM_POWERVR_SGX540_120.so:system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
-    device/amazon/otter/prebuilt/imgtec/libGLESv2_POWERVR_SGX540_120.so:system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
-    device/amazon/otter/prebuilt/imgtec/libglslcompiler.so:system/vendor/lib/libglslcompiler.so \
-    device/amazon/otter/prebuilt/imgtec/libIMGegl.so:system/vendor/lib/libIMGegl.so \
-    device/amazon/otter/prebuilt/imgtec/libpvr2d.so:system/vendor/lib/libpvr2d.so \
-    device/amazon/otter/prebuilt/imgtec/libpvrANDROID_WSEGL.so:system/vendor/lib/libpvrANDROID_WSEGL.so \
-    device/amazon/otter/prebuilt/imgtec/libPVRScopeServices.so:system/vendor/lib/libPVRScopeServices.so \
-    device/amazon/otter/prebuilt/imgtec/libsrv_init.so:system/vendor/lib/libsrv_init.so \
-    device/amazon/otter/prebuilt/imgtec/libsrv_um.so:system/vendor/lib/libsrv_um.so \
-    device/amazon/otter/prebuilt/imgtec/libusc.so:system/vendor/lib/libusc.so \
-    device/amazon/otter/prebuilt/imgtec/pvrsrvinit:system/bin/pvrsrvinit \
+    device/amazon/otter/prebuilt/imgtec/gralloc.omap4.so:/system/vendor/lib/hw/gralloc.omap4.so \
+    device/amazon/otter/prebuilt/imgtec/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
+    device/amazon/otter/prebuilt/imgtec/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
+    device/amazon/otter/prebuilt/imgtec/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
+    device/amazon/otter/prebuilt/imgtec/libglslcompiler.so:/system/vendor/lib/libglslcompiler.so \
+    device/amazon/otter/prebuilt/imgtec/libIMGegl.so:/system/vendor/lib/libIMGegl.so \
+    device/amazon/otter/prebuilt/imgtec/libpvr2d.so:/system/vendor/lib/libpvr2d.so \
+    device/amazon/otter/prebuilt/imgtec/libpvrANDROID_WSEGL.so:/system/vendor/lib/libpvrANDROID_WSEGL.so \
+    device/amazon/otter/prebuilt/imgtec/libPVRScopeServices.so:/system/vendor/lib/libPVRScopeServices.so \
+    device/amazon/otter/prebuilt/imgtec/libsrv_init.so:/system/vendor/lib/libsrv_init.so \
+    device/amazon/otter/prebuilt/imgtec/libsrv_um.so:/system/vendor/lib/libsrv_um.so \
+    device/amazon/otter/prebuilt/imgtec/libusc.so:/system/vendor/lib/libusc.so \
+    device/amazon/otter/prebuilt/imgtec/pvrsrvinit:/system/bin/pvrsrvinit \
 
 FRAMEWORKS_BASE_SUBDIRS += \
     $(addsuffix /java, omapmmlib)
@@ -196,7 +200,7 @@ PRODUCT_COPY_FILES += $(shell \
     | tr '\n' ' ')
 
 
-PRODUCT_CHARACTERISTICS := nosdcard tablet
+PRODUCT_CHARACTERISTICS := tablet
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -209,6 +213,7 @@ PRODUCT_PACKAGES += \
 	TQS_D_1.7.ini \
 	calibrator
 
+
 # for bugmailer
 ifneq ($(TARGET_BUILD_VARIANT),user)
 	PRODUCT_PACKAGES += send_bug
@@ -220,10 +225,6 @@ endif
 $(call inherit-product, frameworks/base/build/phone-hdpi-512-dalvik-heap.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
 $(call inherit-product, hardware/ti/wpan/ti-wpan-products.mk)
-$(call inherit-product-if-exists, vendor/google/google-vendor.mk)
-
-$(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
-$(call inherit-product-if-exists, vendor/cm/config/common_full_tablet_wifionly.mk.mk)
 
 $(call inherit-product, build/target/product/full_base.mk)
 

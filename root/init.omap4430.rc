@@ -2,9 +2,6 @@ import init.omap4430.usb.rc
     start hwprops
 
 on init
-# Enable ADB hack
-    setprop sys.usb.config=adb
-
     # mount debugfs
     mount debugfs /sys/kernel/debug /sys/kernel/debug
     export DOWNLOAD_CACHE /cache/download
@@ -23,8 +20,12 @@ on init
     write /sys/kernel/debug/pm_debug/smartreflex/sr_mpu/autocomp 1
 
 on boot
+# Enable ADB hack
+    write /dev/usb_device_mode msc_adb
+
+on boot
     setprop ro.radio.noril yes
-    chmod 0666 /dev/pvrsrvkm
+	chmod 0666 /dev/pvrsrvkm
 
 # fake some battery state
     setprop status.battery.state Slow
@@ -40,6 +41,7 @@ on boot
     chown system system /data
     chmod 0771 /data
 
+	chmod 777 /sys/class/leds/backlight/brightness
     chown media media /dev/syslink-proc4430
     chown media media /dev/syslink-procmgr
     chown media media /dev/syslink_ipc
@@ -52,17 +54,17 @@ on boot
     chown media media /dev/omap-devh1
     chown media media /dev/omap-devh2
 
-    chmod 660 /dev/syslink-proc4430
-    chmod 660 /dev/syslink-procmgr
-    chmod 660 /dev/syslink_ipc
-    chmod 440 /dev/omap-rproc0
-    chmod 440 /dev/omap-rproc1
-    chmod 440 /dev/omap-rproc2
-    chmod 440 /dev/iovmm-omap0
-    chmod 440 /dev/iovmm-omap1
-    chmod 440 /dev/omap-devh0
-    chmod 440 /dev/omap-devh1
-    chmod 440 /dev/omap-devh2
+    chmod 666 /dev/syslink-proc4430
+    chmod 666 /dev/syslink-procmgr
+    chmod 666 /dev/syslink_ipc
+    chmod 444 /dev/omap-rproc0
+    chmod 444 /dev/omap-rproc1
+    chmod 444 /dev/omap-rproc2
+    chmod 444 /dev/iovmm-omap0
+    chmod 444 /dev/iovmm-omap1
+    chmod 444 /dev/omap-devh0
+    chmod 444 /dev/omap-devh1
+    chmod 444 /dev/omap-devh2
 
     chown media media /system/bin/syslink_daemon.out
     chown media media /data/base_image_sys_m3.xem3
@@ -73,10 +75,10 @@ on boot
     chmod 640 /data/base_image_app_m3.xem3
 
     # change permissions for alsa nodes
-    chmod 0777  /dev/snd/pcmC0D0c
+    chmod 0777 /dev/snd/pcmC0D0c
     chmod 0777 /dev/snd/pcmC0D0p
-    chmod 0777  /dev/snd/controlC0
-    chmod 0777  /dev/snd/timer
+    chmod 0777 /dev/snd/controlC0
+    chmod 0777 /dev/snd/timer
 
     #change permissions for alsa nodes for audio modem
     chmod 0777 /dev/snd/pcmC0D5c
@@ -177,8 +179,8 @@ on boot
 # Keypad permissions
     chmod 0444 /system/usr/keychars/omap-keypad.kcm.bin
     chmod 0444 /system/usr/keychars/qwerty.kcm.bin
-
-    # Set current permissions for charge protection
+    
+# Set current permissions for charge protection
     chown system system /sys/class/power_supply/usb/device/charge_command
     chown system system /sys/class/power_supply/usb/device/charge_current
     chown system system /sys/class/power_supply/usb/device/float_voltage
@@ -217,33 +219,21 @@ on fs
     write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 60000000
     write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
 
-# Load kernel modules
-# Load ipv6 netfilter/tables support
-    insmod /system/lib/modules/xt_hashlimit.ko
-#   insmod /system/lib/modules/xt_HL.ko
-    insmod /system/lib/modules/ip6_tables.ko
-    insmod /system/lib/modules/ip6table_filter.ko
-    insmod /system/lib/modules/ip6table_mangle.ko
-    insmod /system/lib/modules/ip6table_raw.ko
-    insmod /system/lib/modules/ip6t_ah.ko
-    insmod /system/lib/modules/ip6t_eui64.ko
-    insmod /system/lib/modules/ip6t_frag.ko
-    insmod /system/lib/modules/ip6t_hbh.ko
-    insmod /system/lib/modules/ip6t_ipv6header.ko
-    insmod /system/lib/modules/ip6t_LOG.ko
-    insmod /system/lib/modules/ip6t_mh.ko
-    insmod /system/lib/modules/ip6t_REJECT.ko
-    insmod /system/lib/modules/ip6t_rt.ko
-    insmod /system/lib/modules/nf_conntrack_ipv6.ko
-
 # Load Quota2 support modules
     insmod /system/lib/modules/xt_qtaguid.ko
     insmod /system/lib/modules/xt_quota2.ko
 
-service hwprops /sbin/hwprops
-    critical
-	disabled
-	oneshot
+# Allow everybody to read the xt_qtaguid resource tracking misc dev.
+# This is needed by any process that uses socket tagging.
+    chmod 0644 /dev/xt_qtaguid
+
+# make dir for cache
+    mkdir /cache/download 0777 system system
+
+#service hwprops /sbin/hwprops
+#    critical
+#	disabled
+#	oneshot
 
 # Initialize the SGX driver
 service pvrsrvinit /system/bin/pvrsrvinit
@@ -278,8 +268,8 @@ service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
     oneshot
 
 service iprenew_tiwlan0 /system/bin/dhcpcd -n
-    disabled
-    oneshot
+	disabled
+	oneshot
 
 service iprenew_bnep0 /system/bin/dhcpcd -n
     disabled
@@ -312,3 +302,4 @@ service touch_firmware /system/bin/touch_firmware.sh
 on property:sys.boot_completed=1
     start printboottime
     start touch_firmware
+    start adobe_air

@@ -14,10 +14,11 @@
      limitations under the License.
 -->
 
-<!-- Tuna-specific phone app resources. -->
-<resources>
+<!-- Note that IconMode can be only 0, ON or 1, FLASHING
+     The icon is turned OFF if then IconIndex = 1 -->
 
-    <!-- Flag indicating if the tty is enabled -->
-    <bool name="tty_enabled">true</bool>
+<EriFile VersionNumber="1357"
+         NumberOfEriEntries="0"
+         EriFileType="1">
 
-</resources>
+</EriFile>
