@@ -31,9 +31,9 @@ dalvik.vm.stack-trace-file=/data/anr/traces.txt
 #
 # CUSTOM
 #
+ro.config.disable_hw_accel=true
 persist.sys.usb.config=mass_storage,adb
 wifi.supplicant_scan_interval=45
-dalvik.vm.heapsize=76m
 ro.sf.hwrotation=270
 ro.ril.disable.power.collaspe=1
 pm.sleep_mode=1
