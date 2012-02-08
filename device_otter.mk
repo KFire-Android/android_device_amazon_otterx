@@ -100,7 +100,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     Superuser \
     su \
-    CMSettings \
     CMStats \
     hwprops \
 
@@ -109,9 +108,6 @@ PRODUCT_PACKAGES += \
     librs_jni \
     com.android.future.usb.accessory \
     libjni_pinyinime \
-
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp
 
 
 # Root
