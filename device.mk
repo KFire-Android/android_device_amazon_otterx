@@ -114,11 +114,6 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/bin/klog.sh:/system/bin/klog.sh \
 
 
-# Prebuilts /system/app
-PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/app/FileManager.apk:/system/app/FileManager.apk \
-
-
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/gps.conf:/system/etc/gps.conf \
