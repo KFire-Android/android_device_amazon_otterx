@@ -73,7 +73,7 @@
 
     <bool name="config_sf_limitedAlpha">false</bool>
 
-    <string name="config_legacyUmsLunFile">/sys/devices/platform/usb_mass_storage/lun0/file</string>
+    <!-- <string name="config_legacyUmsLunFile">/sys/devices/platform/usb_mass_storage/lun0/file</string> -->
 
     <!-- Base "touch slop" value used by ViewConfiguration as a
          movement threshold where scrolling should begin. -->

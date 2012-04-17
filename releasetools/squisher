@@ -90,8 +90,9 @@ find ./ -name \*.apk | $XARGS $OPTICHARGER
 )
 
 # Fix Libraries
-#mv $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so.old
-#mv $REPACK/ota/system/lib/hw/hwcomposer.default.so $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so
+mv $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so.old
+mv $REPACK/ota/system/lib/hw/hwcomposer.default.so $REPACK/ota/system/vendor/lib/hw/hwcomposer.omap4.so
+mv $REPACK/ota/system/lib/hw/camera.omap4.so $REPACK/ota/system/lib/hw/camera.omap4.so.bak
 
 # Remove unwanted apps
 rm $REPACK/ota/system/app/Camera.apk
@@ -150,7 +151,7 @@ rm -rf $REPACK/ota/recovery
 if [ -z "$CYANOGEN_NIGHTLY" ]; then
 	MODVERSION=`sed -n -e'/ro\.cm\.version/s/^.*=//p' $REPACK/ota/system/build.prop`
 	: ${MODVERSION:=nightly}
-	OUTFILE=$OUT/update-cm-$MODVERSION-signed.zip
+	OUTFILE=$OUT/cm9-kfire-hashcode.zip
 else
 	OUTFILE=$OUT/update-squished.zip
 fi

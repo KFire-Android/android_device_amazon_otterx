@@ -1,10 +1,6 @@
 import init.omap4430.usb.rc
-    start hwprops
 
 on init
-    # Enable ADB hack
-    write /dev/usb_device_mode msc_adb
-
     # mount debugfs
     mount debugfs /sys/kernel/debug /sys/kernel/debug
     export DOWNLOAD_CACHE /cache/download
@@ -12,6 +8,7 @@ on init
     mkdir /mnt/sdcard 0000 system system
     # for backwards compatibility
     symlink /mnt/sdcard /sdcard
+    # turn on DOMX debug
 
 # power management
 # Enable off mode by default
@@ -22,40 +19,18 @@ on init
     write /sys/kernel/debug/pm_debug/smartreflex/sr_iva/autocomp 1
     write /sys/kernel/debug/pm_debug/smartreflex/sr_mpu/autocomp 1
 
-on boot
-
-    setprop ro.build.product omap4sdp
-    setprop ro.product.device omap4sdp
-    setprop ro.radio.noril yes
-
-# fake some battery state
-    setprop status.battery.state Slow
-    setprop status.battery.level 5
-    setprop status.battery.level_raw  50
-    setprop status.battery.level_scale 9
-
-# wi-fi
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
-    mkdir /data/misc/dhcp 0770 dhcp dhcp
-
-# phone
-#    setprop ro.telephony.call_ring.multiple 0
+# Enable PVR modules
+    insmod /modules/pvrsrvkm_sgx540_120.ko
+    insmod /modules/omaplfb_sgx540_120.ko
 
 on fs
     log "==  init.omap4430.rc: on fs ------------------------"
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/system /system wait ro
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/userdata /data wait noatime nosuid nodev errors=continue
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/cache /cache wait noatime nosuid nodev errors=continue
-    mount ext4 /dev/block/platform/mmci-omap-hs.1/by-name/splash /dropbox wait noatime nosuid nodev errors=continue
-#    mount vfat /dev/block/platform/mmci-omap-hs.1/by-name/media /mnt/sdcard wait noatime nosuid nodev errors=continue
+    mount ext4 /dev/block/mmcblk0p9 /system wait ro
+    mount ext4 /dev/block/mmcblk0p10 /data wait noatime nosuid nodev errors=continue
+    mount ext4 /dev/block/mmcblk0p11 /cache wait noatime nosuid nodev errors=continue
+    mount ext4 /dev/block/mmcblk0p8 /dropbox wait noatime nosuid nodev errors=continue
 
-# permissions for bluetooth.
-#    chown bluetooth bluetooth ro.bt.bdaddr_path
-
-    #fix for sdcard mount error causing some apps to not install (courtesy of HeWhoWas on XDA 1/3/2012)
-#    mkdir /sdcard/.android_secure
-#    symlink /sdcard/.android_secure /mnt/secure/asec
-
+on post-fs
     # forget what this fixed
     mkdir /data/tmp 0777 system system
     symlink /data/tmp /tmp
@@ -77,9 +52,11 @@ on fs
     write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 60000000
     write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
 
-# Load Quota2 support modules
-    insmod /system/lib/modules/xt_qtaguid.ko
-    insmod /system/lib/modules/xt_quota2.ko
+# Load Modules
+    insmod /system/lib/modules/compat.ko
+    insmod /system/lib/modules/cfg80211.ko
+    insmod /system/lib/modules/mac80211.ko
+    insmod /system/lib/modules/wl12xx.ko debug_level=0x63c00
 
 # Allow everybody to read the xt_qtaguid resource tracking misc dev.
 # This is needed by any process that uses socket tagging.
@@ -104,31 +81,19 @@ on fs
     chown media media /dev/omap-devh1
     chown media media /dev/omap-devh2
 
-    chmod 666 /dev/syslink-proc4430
-    chmod 666 /dev/syslink-procmgr
-    chmod 666 /dev/syslink_ipc
-    chmod 444 /dev/omap-rproc0
-    chmod 444 /dev/omap-rproc1
-    chmod 444 /dev/omap-rproc2
-    chmod 444 /dev/iovmm-omap0
-    chmod 444 /dev/iovmm-omap1
-    chmod 444 /dev/omap-devh0
-    chmod 444 /dev/omap-devh1
-    chmod 444 /dev/omap-devh2
-
-    chown media media /system/bin/syslink_daemon.out
-    chown media media /data/base_image_sys_m3.xem3
-    chown media media /data/base_image_app_m3.xem3
-
-    chmod 750 /system/bin/syslink_daemon.out
-    chmod 640 /data/base_image_sys_m3.xem3
-    chmod 640 /data/base_image_app_m3.xem3
+    chmod 666 /dev/dce
+    chmod 666 /dev/ion
+    chmod 666 /dev/i2c-1
+    chmod 666 /dev/i2c-2
+    chmod 666 /dev/i2c-3
+    chmod 666 /dev/i2c-4
+    chmod 666 /dev/mtp_usb
 
     # change permissions for alsa nodes
-    chmod 0777  /dev/snd/pcmC0D0c
+    chmod 0777 /dev/snd/pcmC0D0c
     chmod 0777 /dev/snd/pcmC0D0p
-    chmod 0777  /dev/snd/controlC0
-    chmod 0777  /dev/snd/timer
+    chmod 0777 /dev/snd/controlC0
+    chmod 0777 /dev/snd/timer
 
     #change permissions for alsa nodes for audio modem
     chmod 0777 /dev/snd/pcmC0D5c
@@ -146,20 +111,10 @@ on fs
     chmod 0777 /dev/video0
 
     # change permissions for Sensors
-#    chown system system /sys/bus/i2c/drivers/cma3000_accl/4-001c
-#    chown system system /sys/bus/i2c/drivers/cma3000_accl/4-001c/enable
-#    chown system system /sys/bus/i2c/drivers/cma3000_accl/4-001c/delay
-#    chown system system /sys/devices/platform/sfh7741.1
-#    chown system system /sys/devices/platform/sfh7741.1/state
-#    chown system system /sys/bus/i2c/drivers/bmp085/4-0077
-#    chown system system /sys/bus/i2c/drivers/bmp085/4-0077/enable
-#    chown system system /sys/bus/i2c/drivers/hmc5843/4-001e
-#    chown system system /sys/bus/i2c/drivers/hmc5843/4-001e/enable
-#    chown system system /sys/bus/i2c/drivers/hmc5843/4-001e/rate
     chown system system /sys/devices/virtual/input/input0/mode
-    chmod 0770 /sys/devices/virtual/input/input0/mode
+    chmod 0771 /sys/devices/virtual/input/input0/mode
     chown system system /sys/devices/virtual/input/input0/delay
-    chmod 0770 /sys/devices/virtual/input/input0/delay
+    chmod 0771 /sys/devices/virtual/input/input0/delay
 
     # change permissions for Thermal sensor TMP105
     chmod 0777 /sys/class/hwmon/hwmon0/device/temp1_max
@@ -212,18 +167,13 @@ on fs
     chmod 0666 /dev/dmm
 # LEDs
     chmod 0777 /dev/ilitek_ctrl
-    chmod 0777 /sys/class/leds/backlight/brightness
+    chmod 0777 /sys/class/backlight/omap-bl/brightness
     chmod 0666 /sys/class/leds/led-green/brightness
     chmod 0666 /sys/class/leds/led-orange/brightness
-    chown system system /sys/class/leds/backlight/brightness
+    chown system system /sys/class/backlight/omap-bl/brightness
     chown system system /sys/class/leds/led-green/brightness
     chown system system /sys/class/leds/led-orange/brightness
 
-# Enable secondary display on Blaze
-    #write /sys/devices/platform/omapdss/display1/enabled 1
-    #write /sys/devices/platform/omapdss/overlay1/enabled 0
-    #write /sys/devices/platform/omapdss/overlay1/manager "2lcd"
-    #write /sys/devices/platform/omapdss/overlay1/enabled 1
 
 # Revert the boost_timeout to the default value of 3 sec. Note this won't affect the prev boost
 # request for boot time reduction
@@ -238,7 +188,7 @@ on fs
     chown system system /sys/class/graphics/fb1/overlays
 
 # Enable UI-Cloning Service in SystemServer
-    setprop tv.hdmi.uicloning.enable true
+#   setprop tv.hdmi.uicloning.enable true
 
 # Keypad permissions
     chmod 0444 /system/usr/keychars/omap-keypad.kcm.bin
@@ -253,11 +203,21 @@ on fs
     chown system system /sys/class/power_supply/usb/device/float_voltage
     chown system system /sys/class/power_supply/usb/device/bad_battery
 
-on property:persist.service.adb.enable=1
-    start adbd
+on boot
+    log "==  init.omap4430.rc: on boot ------------------------"
+    setprop ro.build.product omap4sdp
+    setprop ro.product.device omap4sdp
+    setprop ro.radio.noril yes
 
-on property:persist.service.adb.enable=0
-    stop adbd
+# fake some battery state
+    setprop status.battery.state Slow
+    setprop status.battery.level 5
+    setprop status.battery.level_raw  50
+    setprop status.battery.level_scale 9
+
+# wi-fi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
 
 service hwprops /sbin/hwprops
     critical
@@ -266,82 +226,30 @@ service hwprops /sbin/hwprops
 
 # Initialize the SGX driver
 service pvrsrvinit /system/bin/pvrsrvinit
-	class core
-	user root
-	group root
-	oneshot
-
-#Load IVA firmware
-service baseimage /system/bin/syslink_daemon.out -f /system/lib/ducati/base_image_sys_m3.xem3 /system/lib/ducati/base_image_app_m3.xem3
-	class core
-    critical
-    user media
-    group media
+    class core
+    user root
+    group root
+    oneshot
 
 # WLAN Related services
-service wlan_loader /system/bin/wlan_loader \
-    -f /system/etc/wifi/firmware.bin -i /system/etc/wifi/tiwlan.ini -e /data/misc/wifi/nvs_map.bin
-     disabled
-     oneshot
-
-service wpa_supplicant /system/bin/wpa_supplicant -Dtiwlan0 -itiwlan0 -c/data/misc/wifi/wpa_supplicant.conf
-    socket wpa_tiwlan0 dgram 660 wifi wifi
+service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -dd
+    socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot
 
-service dhcpcd_tiwlan0 /system/bin/dhcpcd -ABKL
+service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
     disabled
     oneshot
 
-service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
+service iprenew_wlan0 /system/bin/dhcpcd -n
     disabled
     oneshot
 
-service iprenew_tiwlan0 /system/bin/dhcpcd -n
-	disabled
-	oneshot
-
-service iprenew_bnep0 /system/bin/dhcpcd -n
+service dhcpcd_eth0 /system/bin/dhcpcd -ABKL
     disabled
     oneshot
 
-# HotSpot Related services
-service wlan_ap_loader /system/bin/tiap_loader \
-    -f /system/etc/wifi/softap/firmware_ap.bin \
-    -i /system/etc/wifi/softap/tiwlan_ap.ini \
-    -e /data/misc/wifi/nvs_map.bin
-    disabled
-    oneshot
-
-service ifcfg_softap /system/bin/netconfig tiwlan0 up
-    disabled
-    oneshot
-
-#service hostapd /system/bin/hostap -dd /data/misc/wifi/hostapd.conf
-#    disabled
-#    oneshot
-
-service hfag /system/bin/sdptool add --channel=10 HFAG
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-
-service hsag /system/bin/sdptool add --channel=11 HSAG
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-
-service opush /system/bin/sdptool add --channel=12 OPUSH
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-
-service pbap /system/bin/sdptool add --channel=19 PBAP
-    user bluetooth
-    group bluetooth net_bt_admin
+service iprenew_eth0 /system/bin/dhcpcd -n
     disabled
     oneshot
 
@@ -349,12 +257,6 @@ service watchdog /sbin/watchdog
     user root
     oneshot
 
-service touch_firmware /system/bin/touch_firmware.sh
-    disabled
-    oneshot
-
 on property:sys.boot_completed=1
     log "== init.omap4430.rc: on property:sys.boot_completed=1 -----------------------"
-    start printboottime
-    start touch_firmware
-    start adobe_air
+

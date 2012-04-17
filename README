@@ -1,5 +1,2 @@
-This device board was based on the work by G1011999 @ GitHub.
-
-Much of the day-to-day "grind it out and fix bugs" work done by JackpotClavin
-
-Select work done by Hashcode (HD video codecs, kernel modules, and some advisory role)
+This device board is designed for a 3.0 kernel running on the Kindle Fire
+By Hashcode
