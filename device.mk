@@ -61,7 +61,7 @@ PRODUCT_COPY_FILES += \
         device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
         device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
         device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
-        device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin \
+        device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig \
 
 # Misc
 PRODUCT_PACKAGES += \
@@ -112,6 +112,7 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/bin/temperature_log.sh:/system/bin/temperature_log.sh \
     device/amazon/otter/prebuilt/bin/battery_log.sh:/system/bin/battery_log.sh \
     device/amazon/otter/prebuilt/bin/klog.sh:/system/bin/klog.sh \
+    device/amazon/otter/prebuilt/bin/fix-mac.sh:/system/bin/fix-mac.sh \
 
 
 # Prebuilts /system/etc

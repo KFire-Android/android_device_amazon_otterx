@@ -58,6 +58,9 @@ on post-fs
     insmod /system/lib/modules/mac80211.ko
     insmod /system/lib/modules/wl12xx.ko debug_level=0x63c00
 
+# Fix wlan MAC addr
+    exec /system/bin/fix-mac.sh
+
 # Allow everybody to read the xt_qtaguid resource tracking misc dev.
 # This is needed by any process that uses socket tagging.
     chmod 0644 /dev/xt_qtaguid
