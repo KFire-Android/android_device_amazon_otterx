@@ -13,7 +13,7 @@ $(call inherit-product, device/amazon/otter/full_otter.mk)
 PRODUCT_NAME := cm_otter
 PRODUCT_DEVICE := otter
 PRODUCT_BRAND := Android
-PRODUCT_MODEL := Amazon Kindle Fire
+PRODUCT_MODEL := Kindle Fire
 PRODUCT_MANUFACTURER := Amazon
 PRODUCT_RELEASE_NAME := KFire
 
