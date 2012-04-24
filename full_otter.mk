@@ -27,4 +27,4 @@ $(call inherit-product, device/amazon/otter/device.mk)
 PRODUCT_NAME := full_otter
 PRODUCT_DEVICE := otter
 PRODUCT_BRAND := Amazon
-PRODUCT_MODEL := Amazon Kindle Fire
+PRODUCT_MODEL := Kindle Fire

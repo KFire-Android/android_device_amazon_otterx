@@ -122,6 +122,7 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/vold.conf:/system/etc/vold.conf \
     device/amazon/otter/prebuilt/etc/vold.fstab:/system/etc/vold.fstab \
     device/amazon/otter/prebuilt/etc/firmware/ducati-m3.bin:/system/etc/firmware/ducati-m3.bin \
+    device/amazon/otter/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip \
 
 
 # Prebuilt /system/usr
@@ -167,7 +168,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
     dalvik.vm.heapgrowthlimit=48m \
     dalvik.vm.heapsize=128m \
     wifi.interface=wlan0 \
-    wifi.supplicant_scan_interval=45 \
+    wifi.supplicant_scan_interval=120 \
     ro.sf.hwrotation=270 \
     ro.opengles.version=131072 \
     persist.lab126.chargeprotect=1
