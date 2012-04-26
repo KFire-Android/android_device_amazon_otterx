@@ -159,7 +159,7 @@ def LoadRecoveryFSTab(zip):
     line = line.strip()
     if not line or line.startswith("#"): continue
     pieces = line.split()
-    if not (3 <= len(pieces) <= 4):
+    if not (3 <= len(pieces) <= 7):
       raise ValueError("malformed recovery.fstab line: \"%s\"" % (line,))
 
     p = Partition()
@@ -168,7 +168,7 @@ def LoadRecoveryFSTab(zip):
     p.device = pieces[2]
     p.length = 0
     options = None
-    if len(pieces) >= 4:
+    if len(pieces) >= 4 and pieces[3] != 'NULL':
       if pieces[3].startswith("/"):
         p.device2 = pieces[3]
         if len(pieces) >= 5:
@@ -371,8 +371,14 @@ def SignFile(input_name, output_name, key, password, align=None,
   else:
     sign_name = output_name
 
-  cmd = ["java", "-Xmx1024m", "-jar",
+  check = (sys.maxsize > 2**32)
+  if check is True:
+    cmd = ["java", "-Xmx2048m", "-jar",
            os.path.join(OPTIONS.search_path, "framework", "signapk.jar")]
+  else:
+    cmd = ["java", "-Xmx1024m", "-jar",
+           os.path.join(OPTIONS.search_path, "framework", "signapk.jar")]
+
   if whole_file:
     cmd.append("-w")
   cmd.extend([key + ".x509.pem", key + ".pk8",
@@ -842,4 +848,3 @@ def GetTypeAndDevice(mount_point, info):
     return PARTITION_TYPES[fstab[mount_point].fs_type], fstab[mount_point].device
   else:
     return None
-

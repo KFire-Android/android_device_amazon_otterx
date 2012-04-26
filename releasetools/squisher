@@ -151,7 +151,8 @@ rm -rf $REPACK/ota/recovery
 if [ -z "$CYANOGEN_NIGHTLY" ]; then
 	MODVERSION=`sed -n -e'/ro\.cm\.version/s/^.*=//p' $REPACK/ota/system/build.prop`
 	: ${MODVERSION:=nightly}
-	OUTFILE=$OUT/cm9-kfire-hashcode.zip
+	OUTFILE=$OUT/update-cm-$MODVERSION-signed.zip
+	echo MODVERSION: $MODVERSION
 else
 	OUTFILE=$OUT/update-squished.zip
 fi

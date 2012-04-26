@@ -103,8 +103,18 @@ class EdifyGenerator(object):
 
   def RunBackup(self, command):
     self.script.append('package_extract_file("system/bin/backuptool.sh", "/tmp/backuptool.sh");')
+    self.script.append('package_extract_file("system/bin/backuptool.functions", "/tmp/backuptool.functions");')
     self.script.append('set_perm(0, 0, 0777, "/tmp/backuptool.sh");')
+    self.script.append('set_perm(0, 0, 0644, "/tmp/backuptool.functions");')
     self.script.append(('run_program("/tmp/backuptool.sh", "%s");' % command))
+    if command == "restore":
+        self.script.append('delete("/system/bin/backuptool.sh");')
+        self.script.append('delete("/system/bin/backuptool.functions");')
+
+  def RunConfig(self, command):
+    self.script.append('package_extract_file("system/bin/modelid_cfg.sh", "/tmp/modelid_cfg.sh");')
+    self.script.append('set_perm(0, 0, 0777, "/tmp/modelid_cfg.sh");')
+    self.script.append(('run_program("/tmp/modelid_cfg.sh", "%s");' % command))
 
   def ShowProgress(self, frac, dur):
     """Update the progress bar, advancing it over 'frac' over the next
@@ -241,7 +251,7 @@ class EdifyGenerator(object):
     cmd = ('retouch_binaries(' +
            ', '.join(['"' + i[0] + '", "' + i[1] + '"' for i in file_list]) +
            ');')
-#    self.script.append(self._WordWrap(cmd))
+    self.script.append(self._WordWrap(cmd))
 
   def UndoRetouchBinaries(self, file_list):
     """Undo the retouching (retouch to zero offset)."""
