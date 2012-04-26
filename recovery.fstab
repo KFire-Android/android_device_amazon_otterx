@@ -1,15 +1,15 @@
-# mount point	fstype		device
+# mount point	fstype	device
 
-/xloader	emmc		/dev/block/platform/mmci-omap-hs.1/by-name/xloader
-/bootloader	emmc		/dev/block/platform/mmci-omap-hs.1/by-name/bootloader
-/dkernel	emmc		/dev/block/platform/mmci-omap-hs.1/by-name/dkernel
-/dfs        ext4        /dev/block/platform/mmci-omap-hs.1/by-name/dfs
-/recovery	emmc		/dev/block/platform/mmci-omap-hs.1/by-name/recovery
-/boot		emmc		/dev/block/platform/mmci-omap-hs.1/by-name/boot
-/splash		ext4		/dev/block/platform/mmci-omap-hs.1/by-name/splash
-/system		ext4		/dev/block/platform/mmci-omap-hs.1/by-name/system
-/data		ext4		/dev/block/platform/mmci-omap-hs.1/by-name/userdata
-/cache		ext4		/dev/block/platform/mmci-omap-hs.1/by-name/cache
-/mnt/sdcard  vfat		/dev/block/platform/mmci-omap-hs.1/by-name/media
-/misc		emmc		/misc
-/backup		ext4		/dev/block/platform/mmci-omap-hs.1/by-name/backup
+/xloader	emmc	/dev/block/mmcblk0p1
+/bootloader	emmc	/dev/block/mmcblk0p2
+/dkernel	emmc	/dev/block/mmcblk0p3
+/dfs        	ext4	/dev/block/mmcblk0p4
+/recovery	emmc	/dev/block/mmcblk0p5
+/backup		ext4	/dev/block/mmcblk0p6
+/boot		emmc	/dev/block/mmcblk0p7
+/splash		ext4	/dev/block/mmcblk0p8
+/system		ext4	/dev/block/mmcblk0p9
+/data		ext4	/dev/block/mmcblk0p10
+/cache		ext4	/dev/block/mmcblk0p11
+/sdcard 	vfat	/dev/block/mmcblk0p12
+

@@ -90,6 +90,7 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/root/ueventd.rc:/root/ueventd.rc \
     device/amazon/otter/root/omaplfb_sgx540_120.ko:/root/modules/omaplfb_sgx540_120.ko \
     device/amazon/otter/root/pvrsrvkm_sgx540_120.ko:/root/modules/pvrsrvkm_sgx540_120.ko \
+    device/amazon/otter/root/initlogo.rle:/root/initlogo.rle \
 
 
 # These are the hardware-specific features
