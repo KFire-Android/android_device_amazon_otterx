@@ -90,7 +90,6 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/root/ueventd.rc:/root/ueventd.rc \
     device/amazon/otter/root/omaplfb_sgx540_120.ko:/root/modules/omaplfb_sgx540_120.ko \
     device/amazon/otter/root/pvrsrvkm_sgx540_120.ko:/root/modules/pvrsrvkm_sgx540_120.ko \
-    device/amazon/otter/root/initlogo.rle:/root/initlogo.rle \
 
 
 # These are the hardware-specific features
@@ -109,11 +108,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/bin/rild:/system/bin/rild \
     device/amazon/otter/prebuilt/bin/strace:/system/bin/strace \
-    device/amazon/otter/prebuilt/bin/idme:/system/bin/idme \
     device/amazon/otter/prebuilt/bin/temperature_log.sh:/system/bin/temperature_log.sh \
     device/amazon/otter/prebuilt/bin/battery_log.sh:/system/bin/battery_log.sh \
     device/amazon/otter/prebuilt/bin/klog.sh:/system/bin/klog.sh \
     device/amazon/otter/prebuilt/bin/fix-mac.sh:/system/bin/fix-mac.sh \
+    device/amazon/otter/prebuilt/bin/idme:/system/bin/idme \
 
 
 # Prebuilts /system/etc
@@ -123,7 +122,6 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/vold.conf:/system/etc/vold.conf \
     device/amazon/otter/prebuilt/etc/vold.fstab:/system/etc/vold.fstab \
     device/amazon/otter/prebuilt/etc/firmware/ducati-m3.bin:/system/etc/firmware/ducati-m3.bin \
-    device/amazon/otter/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip \
 
 
 # Prebuilt /system/usr
@@ -142,6 +140,7 @@ PRODUCT_COPY_FILES += \
 # Prebuilt /system/lib
 PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/lib/sensors.otter.so:/system/lib/hw/sensors.otter.so \
+    device/amazon/otter/prebuilt/lib/libidme.so:/system/lib/libidme.so \
 
 
 # Graphics
@@ -197,11 +196,13 @@ DEVICE_PACKAGE_OVERLAYS := device/amazon/otter/overlay
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 
+# Kernel Modules are now built dyanamically using the CM build system
+
 # copy all kernel modules under the "modules" directory to system/lib/modules
-PRODUCT_COPY_FILES += $(shell \
-    find device/amazon/otter/modules -name '*.ko' \
-    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
-    | tr '\n' ' ')
+#PRODUCT_COPY_FILES += $(shell \
+#    find device/amazon/otter/modules -name '*.ko' \
+#    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
+#    | tr '\n' ' ')
 
 
 $(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)

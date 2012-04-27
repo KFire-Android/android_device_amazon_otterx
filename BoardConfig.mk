@@ -41,11 +41,31 @@ TARGET_BOARD_PLATFORM := omap4
 TARGET_NO_BOOTLOADER := true
 TARGET_BOOTLOADER_BOARD_NAME := otter
 TARGET_BOARD_INFO_FILE := device/amazon/otter/board-info.txt
-TARGET_PREBUILT_KERNEL := device/amazon/otter/kernel
 TARGET_PROVIDES_INIT_RC := true
 BOARD_HAS_SDCARD_INTERNAL := true
 BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/platform/omap/omap_hsmmc.1/by-name/media
 BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/platform/omap/omap_hsmmc.1/by-name/media
+
+# Kernel Build
+TARGET_KERNEL_CONFIG := otter_android_defconfig
+TARGET_PREBUILT_KERNEL := device/amazon/otter/kernel
+
+KERNEL_EXTERNAL_MODULES:
+	make -C kernel/amazon/otter/external/wlan/mac80211/compat KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-eabi-"
+	mv kernel/amazon/otter/external/wlan/mac80211/compat/compat/compat.ko $(KERNEL_MODULES_OUT)
+	mv kernel/amazon/otter/external/wlan/mac80211/compat/net/mac80211/mac80211.ko $(KERNEL_MODULES_OUT)
+	mv kernel/amazon/otter/external/wlan/mac80211/compat/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
+	mv kernel/amazon/otter/external/wlan/mac80211/compat/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
+	mv kernel/amazon/otter/external/wlan/mac80211/compat/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
+	mv kernel/amazon/otter/external/wlan/mac80211/compat/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
+
+# TODO: fix PVR kernel module compile -- needs work will fix later
+#	make -C kernel/amazon/otter/external/sgx/src/eurasia_km/eurasiacon/build/linux2/omap4430_android ARCH=arm CROSS_COMPILE=$(ARM_EABI_TOOLCHAIN)/arm-eabi- 
+KERNELDIR=$(KERNEL_OUT) TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
+#	mv kernel/amazon/otter/external/sgx/src/eurasia_km/eurasiacon/target/binary2_540_120_omap4430_android_release/omaplfb_sgx540_120.ko $(TARGET_ROOT_OUT)/modules
+#	mv kernel/amazon/otter/external/sgx/src/eurasia_km/eurasiacon/target/binary2_540_120_omap4430_android_release/pvrsrvkm_sgx540_120.ko $(TARGET_ROOT_OUT)/modules
+
+TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
 
 # Filesystem
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -56,6 +76,7 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 1192230912
 BOARD_FLASH_BLOCK_SIZE := 4096
 BOARD_VOLD_MAX_PARTITIONS := 32
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 
 # Connectivity - Wi-Fi
 BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
@@ -89,6 +110,7 @@ TARGET_PREBUILT_RECOVERY_KERNEL := device/amazon/otter/recovery-kernel
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 TARGET_RECOVERY_UI_LIB := librecovery_ui_otter
 
