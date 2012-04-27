@@ -17,8 +17,9 @@
  */
 -->
 <resources>
-    <bool name="def_screen_brightness_automatic_mode">true</bool>
+    <!-- Kindle Fire doesn't have a notification LED -->
+    <bool name="def_notification_pulse">false</bool>
+    <!-- Default for UI touch sounds disabled to solve wakelock issue -->
     <integer name="def_lockscreen_sounds_enabled">0</integer>
-    <!-- Default for UI touch sounds enabled -->
     <bool name="def_sound_effects_enabled">false</bool>
 </resources>
