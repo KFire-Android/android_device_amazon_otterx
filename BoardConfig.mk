@@ -113,6 +113,7 @@ BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 TARGET_RECOVERY_UI_LIB := librecovery_ui_otter
+TARGET_RECOVERY_PRE_COMMAND := "idme postmode 1;"
 
 # Misc.
 BOARD_NEEDS_CUTILS_LOG := true
