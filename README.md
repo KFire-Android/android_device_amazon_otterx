@@ -23,7 +23,7 @@ cd cm9/
 curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo > ~/repo
 chmod a+x ~/repo
 repo init -u git://github.com/CyanogenMod/android.git -b ics
-wget -O .repo/local_manifest.xml https://raw.github.com/KFire-Android/android_local_manifest/master/local_manifest.xml 
+wget -O .repo/local_manifest.xml https://raw.github.com/KFire-Android/android_local_manifest/ics/local_manifest.xml 
 repo sync -j16
 ./vendor/cm/get-prebuilts
 ```
