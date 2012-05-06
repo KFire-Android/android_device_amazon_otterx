@@ -79,4 +79,8 @@
          movement threshold where scrolling should begin. -->
     <dimen name="config_viewConfigurationTouchSlop">16dp</dimen>
 
+    <!-- Select our netloc provider -->
+    <string name="config_networkLocationProvider">com.google.android.location.NetworkLocationProvider</string>
+
+    <string name="config_geocodeProvider">com.google.android.location.GeocodeProvider</string>
 </resources>
