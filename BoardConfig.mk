@@ -18,7 +18,6 @@
 # by BoardConfigVendor.mk
 BOARD_USES_GENERIC_AUDIO := false
 USE_CAMERA_STUB := true
-BOARD_HAVE_FAKE_GPS := true
 BOARD_HAVE_BLUETOOTH := false
 
 # Use the non-open-source parts, if they're present
