@@ -1,15 +1,15 @@
 # mount point	fstype	device
 
-/xloader	emmc	/dev/block/mmcblk0p1
-/bootloader	emmc	/dev/block/mmcblk0p2
-/dkernel	emmc	/dev/block/mmcblk0p3
-/dfs        	ext4	/dev/block/mmcblk0p4
-/recovery	emmc	/dev/block/mmcblk0p5
-/backup		ext4	/dev/block/mmcblk0p6
-/boot		emmc	/dev/block/mmcblk0p7
-/splash		ext4	/dev/block/mmcblk0p8
-/system		ext4	/dev/block/mmcblk0p9
+/sdcard	 	vfat	/dev/block/mmcblk0p12
 /data		ext4	/dev/block/mmcblk0p10
 /cache		ext4	/dev/block/mmcblk0p11
-/sdcard 	vfat	/dev/block/mmcblk0p12
+/system		ext4	/dev/block/mmcblk0p9
+#/xloader	emmc	/dev/block/mmcblk0p1
+/bootloader	emmc	/dev/block/mmcblk0p2
+#/dkernel	emmc	/dev/block/mmcblk0p3
+#/dfs        	ext4	/dev/block/mmcblk0p4
+/recovery	emmc	/dev/block/mmcblk0p5
+#/backup		ext4	/dev/block/mmcblk0p6
+/boot		emmc	/dev/block/mmcblk0p7
+#/splash		ext4	/dev/block/mmcblk0p8
 
