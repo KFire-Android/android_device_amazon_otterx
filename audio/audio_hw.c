@@ -518,7 +518,7 @@ struct route_setting codec_output_controls[] = {
     },
     {
         .ctl_name = DAC_PLAYBACK_VOLUME,
-        .intval = 127,
+        .intval = 150,
     },
 	{
         .ctl_name = RIGHT_DAC_INPUT_SELECTION,
