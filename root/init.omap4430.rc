@@ -179,7 +179,6 @@ on post-fs
     chown system system /sys/class/leds/lcd-backlight/brightness
     chown system system /sys/class/leds/led-green/brightness
     chown system system /sys/class/leds/led-orange/brightness
-    write /sys/class/leds/lcd-backlight/brightness 200
 
 # Revert the boost_timeout to the default value of 3 sec. Note this won't affect the prev boost
 # request for boot time reduction
