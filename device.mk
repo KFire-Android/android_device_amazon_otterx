@@ -52,16 +52,18 @@ PRODUCT_PACKAGES += \
     wlan_cu \
     dhcpcd.conf \
     wpa_supplicant.conf \
-    TQS_D_1.7.ini \
-    TQS_D_1.7_127x.ini \
+
+#    TQS_D_1.7.ini \
+#    TQS_D_1.7_127x.ini \
 
 
-# TI-Connectivity
+# TI-Connectivity / 127x .ini file
 PRODUCT_COPY_FILES += \
         device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
         device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
         device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
         device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig \
+        device/amazon/otter/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
 
 # Misc
 PRODUCT_PACKAGES += \
