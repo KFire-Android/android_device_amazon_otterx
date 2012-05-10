@@ -57,12 +57,11 @@ KERNEL_EXTERNAL_MODULES:
 	mv kernel/amazon/otter/external/wlan/mac80211/compat/drivers/net/wireless/wl12xx/wl12xx.ko $(KERNEL_MODULES_OUT)
 	mv kernel/amazon/otter/external/wlan/mac80211/compat/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
 	mv kernel/amazon/otter/external/wlan/mac80211/compat/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
+	make -C kernel/amazon/otter/external/sgx/src/eurasia_km/eurasiacon/build/linux2/omap4430_android ARCH=arm KERNEL_CROSS_COMPILE=arm-eabi- CROSS_COMPILE=arm-eabi- KERNELSRC=$(KERNEL_OUT)/../../../../../../kernel/amazon/otter KERNELDIR=$(KERNEL_OUT) TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
+	mv $(KERNEL_OUT)/../../target/kbuild/omaplfb_sgx540_120.ko $(TARGET_ROOT_OUT)/modules
+	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(TARGET_ROOT_OUT)/modules
 
-# TODO: fix PVR kernel module compile -- needs work will fix later
-#	make -C kernel/amazon/otter/external/sgx/src/eurasia_km/eurasiacon/build/linux2/omap4430_android ARCH=arm CROSS_COMPILE=$(ARM_EABI_TOOLCHAIN)/arm-eabi- 
-KERNELDIR=$(KERNEL_OUT) TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
-#	mv kernel/amazon/otter/external/sgx/src/eurasia_km/eurasiacon/target/binary2_540_120_omap4430_android_release/omaplfb_sgx540_120.ko $(TARGET_ROOT_OUT)/modules
-#	mv kernel/amazon/otter/external/sgx/src/eurasia_km/eurasiacon/target/binary2_540_120_omap4430_android_release/pvrsrvkm_sgx540_120.ko $(TARGET_ROOT_OUT)/modules
+#$(KERNEL_OUT)
 
 TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
 
