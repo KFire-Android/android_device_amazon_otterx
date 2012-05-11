@@ -1,7 +1,6 @@
 #
 # Copyright (C) 2011 The Android Open-Source Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
+## Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
@@ -68,7 +67,6 @@ PRODUCT_COPY_FILES += \
 # Misc
 PRODUCT_PACKAGES += \
     Superuser \
-    Music \
     su \
     hwprops \
     evtest \
@@ -217,4 +215,5 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 $(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
 #$(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
+
 
