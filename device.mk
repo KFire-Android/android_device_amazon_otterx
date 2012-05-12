@@ -93,17 +93,29 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/root/pvrsrvkm_sgx540_120.ko:/root/modules/pvrsrvkm_sgx540_120.ko \
 
 
-# These are the hardware-specific features
+# These are the hardware-specific features we actually have
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/etc/permissions/tablet_core_hardware.xml:/system/etc/permissions/tablet_core_hardware.xml \
+    frameworks/base/data/etc/tablet_core_hardware.xml:/system/etc/permissions/tablet_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.wifi.xml:/system/etc/permissions/android.hardware.wifi.xml \
     frameworks/base/data/etc/android.hardware.sensor.light.xml:/system/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/base/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:/system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
     frameworks/base/data/etc/android.software.sip.voip.xml:/system/etc/permissions/android.software.sip.voip.xml \
     frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
     frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml \
+    packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml
 
+#Permissions for hardware we don't have
+#but too many market apps require them even though they have no reason to
+#why does Facebook REQUIRE fullblown GPS for example?
+#95%+ of that app's functionality has zero need for location services
+#and wifi netloc is enough for nearly all of the remainder
+PRODUCT_COPY_FILES +=\
+    frameworks/base/data/etc/android.hardware.location.gps.xml:/system/etc/permissions/android.hardware.location.gps.xml \
+    frameworks/base/data/etc/android.hardware.telephony.gsm.xml:/system/etc/permissions/android.hardware.telephony.gsm.xml \
+    frameworks/base/data/etc/android.hardware.camera.xml:/system/etc/permissions/android.hardware.camera.xml \
+    frameworks/base/data/etc/android.hardware.camera.front.xml:/system/etc/permissions/android.hardware.camera.front.xml \
+    frameworks/base/data/etc/android.hardware.camera.autofocus.xml:/system/etc/permissions/android.hardware.camera.autofocus.xml \
+    frameworks/base/data/etc/android.hardware.camera.flash-autofocus.xml:/system/etc/permissions/android.hardware.camera.flash-autofocus.xml
 
 # Prebuilts /bin
 PRODUCT_COPY_FILES += \
