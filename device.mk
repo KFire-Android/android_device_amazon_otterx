@@ -176,6 +176,13 @@ PRODUCT_PROPERTY_OVERRIDES := \
     persist.lab126.chargeprotect=1
 
 
+# Blitsville Libs
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/bltsville/libbltsville_cpu.so:/system/vendor/lib/libbltsville_cpu.so \
+    device/amazon/otter/prebuilt/bltsville/libbltsville_ticpu.2.0.0.8.so:/system/vendor/lib/libbltsville_ticpu.2.0.0.8.so \
+    device/amazon/otter/prebuilt/bltsville/libbltsville_ticpu.so:/system/vendor/lib/libbltsville_ticpu.so \
+
+
 # Temporarily use prebuilt DOMX
 # Prebuilts /system/lib
 PRODUCT_COPY_FILES += \
@@ -216,4 +223,5 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 $(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
 #$(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
+
 
