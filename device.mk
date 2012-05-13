@@ -1,6 +1,7 @@
 #
 # Copyright (C) 2011 The Android Open-Source Project
-## Licensed under the Apache License, Version 2.0 (the "License");
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
@@ -37,8 +38,10 @@ PRODUCT_AAPT_PREF_CONFIG := mdpi
 PRODUCT_PACKAGES += \
     lights.otter \
     libinvensense_mpl \
-    hwcomposer.omap4 \
     hwcomposer.default \
+    parse_hdmi_edid \
+    libedid \
+    hwcomposer.otter \
     audio.primary.omap4430 \
     audio_policy.default \
     libaudioutils \
