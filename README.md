@@ -13,7 +13,7 @@
 ## Building 
 
 ### Initialize
-[setup linux/OS X](http://source.android.com/source/initializing.html) please note: it must be sun-java-6, not openjdk
+[Get started](https://github.com/KFire-Android/android_local_manifest/wiki)
 
 ### Download sources
 
