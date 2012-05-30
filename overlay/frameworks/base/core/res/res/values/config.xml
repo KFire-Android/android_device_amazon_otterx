@@ -56,6 +56,8 @@
         <!-- item>"9,1"</item -->
     </string-array>
 
+    <bool name="config_wifi_background_scan_support">true</bool>
+
     <!-- This string array should be overridden by the device to present a list of radio
          attributes.  This is used by the connectivity manager to decide which networks can coexist
          based on the hardware -->
@@ -83,4 +85,9 @@
     <string name="config_networkLocationProvider">com.google.android.location.NetworkLocationProvider</string>
 
     <string name="config_geocodeProvider">com.google.android.location.GeocodeProvider</string>
+
+    <!-- We don't have automatic brightness (yet). -->
+    <bool name="config_automatic_brightness_available">false</bool>
+
+    <bool name="config_screenOffAnimation">false</bool>
 </resources>
