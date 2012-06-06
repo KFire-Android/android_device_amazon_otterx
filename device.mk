@@ -129,6 +129,8 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/bin/klog.sh:/system/bin/klog.sh \
     device/amazon/otter/prebuilt/bin/fix-mac.sh:/system/bin/fix-mac.sh \
     device/amazon/otter/prebuilt/bin/idme:/system/bin/idme \
+    device/amazon/otter/prebuilt/bin/wpa_cli:/system/bin/wpa_cli \
+    device/amazon/otter/prebuilt/bin/wpa_supplicant:/system/bin/wpa_supplicant \
 
 
 # Prebuilts /system/etc
@@ -157,6 +159,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/lib/sensors.otter.so:/system/lib/hw/sensors.otter.so \
     device/amazon/otter/prebuilt/lib/libidme.so:/system/lib/libidme.so \
+    device/amazon/otter/prebuilt/lib/libwpa_client.so:/system/lib/libwpa_client.so \
 
 
 # Graphics
