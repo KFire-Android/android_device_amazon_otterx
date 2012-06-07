@@ -88,7 +88,7 @@ WIFI_FIRMWARE_LOADER             := ""
 COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
 
 # Graphics
-BOARD_EGL_CFG := device/amazon/otter/prebuilt/etc/egl.cfg
+BOARD_EGL_CFG := device/amazon/otter/egl.cfg
 USE_OPENGL_RENDERER := true
 
 # OMAP
@@ -110,12 +110,10 @@ BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
-TARGET_RECOVERY_UI_LIB := librecovery_ui_otter
 TARGET_RECOVERY_PRE_COMMAND := "idme postmode 1;"
 
 # Misc.
 BOARD_NEEDS_CUTILS_LOG := true
 #BOARD_USES_SECURE_SERVICES := true
-BOARD_LIB_DUMPSTATE := libdumpstate.otter
-BOARD_USE_LEGACY_TOUCHSCREEN := true
+#BOARD_USE_LEGACY_TOUCHSCREEN := true
 
