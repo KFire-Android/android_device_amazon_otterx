@@ -88,6 +88,4 @@
 
     <!-- We don't have automatic brightness (yet). -->
     <bool name="config_automatic_brightness_available">false</bool>
-
-    <bool name="config_screenOffAnimation">false</bool>
 </resources>
