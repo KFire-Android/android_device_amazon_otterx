@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.cyanogenmod.settings.device.SeekBarPreference
+        android:key="touch_slider"
+        android:title="@string/touch_filter_title"
+        android:dialogMessage="Filter level"
+        android:max="100"
+        android:defaultValue="0" />
+
+</PreferenceScreen>
