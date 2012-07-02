@@ -119,3 +119,6 @@ BOARD_NEEDS_CUTILS_LOG := true
 
 # Fix for Webkit
 ENABLE_WEBGL := true
+
+# Bootanimation
+TARGET_BOOTANIMATION_PRELOAD := true
