@@ -52,6 +52,7 @@ PRODUCT_PACKAGES += \
 
 # Misc
 PRODUCT_PACKAGES += \
+    OtterParts \
     Superuser \
     su \
     hwprops \
