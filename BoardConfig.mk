@@ -115,10 +115,6 @@ TARGET_RECOVERY_PRE_COMMAND := "idme postmode 1;"
 # Misc.
 BOARD_NEEDS_CUTILS_LOG := true
 #BOARD_USES_SECURE_SERVICES := true
-#BOARD_USE_LEGACY_TOUCHSCREEN := true
-
-# Fix for Webkit
-ENABLE_WEBGL := true
 
 # CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
 # added by twa_priv
