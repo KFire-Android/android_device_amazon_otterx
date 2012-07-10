@@ -1,5 +1,3 @@
-import init.omap4430.usb.rc
-
 on init
     # mount debugfs
     mount debugfs /sys/kernel/debug /sys/kernel/debug
@@ -24,7 +22,6 @@ on init
     insmod /modules/omaplfb_sgx540_120.ko
 
 on fs
-    log "==  init.omap4430.rc: on fs ------------------------"
     mount ext4 /dev/block/mmcblk0p9 /system wait ro
     mount ext4 /dev/block/mmcblk0p10 /data wait noatime nosuid nodev errors=continue
     mount ext4 /dev/block/mmcblk0p11 /cache wait noatime nosuid nodev errors=continue
@@ -75,18 +72,6 @@ on post-fs
     chown system system /data
     chmod 0771 /data
 
-    chown media media /dev/syslink-proc4430
-    chown media media /dev/syslink-procmgr
-    chown media media /dev/syslink_ipc
-    chown media media /dev/omap-rproc0
-    chown media media /dev/omap-rproc1
-    chown media media /dev/omap-rproc2
-    chown media media /dev/iovmm-omap0
-    chown media media /dev/iovmm-omap1
-    chown media media /dev/omap-devh0
-    chown media media /dev/omap-devh1
-    chown media media /dev/omap-devh2
-
     chmod 666 /dev/dce
     chmod 666 /dev/ion
     chmod 666 /dev/i2c-1
@@ -96,17 +81,21 @@ on post-fs
     chmod 666 /dev/mtp_usb
 
     # change permissions for alsa nodes
+    chmod 0777 /dev/snd/controlC0
     chmod 0777 /dev/snd/pcmC0D0c
     chmod 0777 /dev/snd/pcmC0D0p
-    chmod 0777 /dev/snd/controlC0
-    chmod 0777 /dev/snd/timer
-
-    #change permissions for alsa nodes for audio modem
+    chmod 0777 /dev/snd/pcmC0D1c
+    chmod 0777 /dev/snd/pcmC0D1p
+    chmod 0777 /dev/snd/pcmC0D2c
+    chmod 0777 /dev/snd/pcmC0D2p
+    chmod 0777 /dev/snd/pcmC0D3c
+    chmod 0777 /dev/snd/pcmC0D3p
+    chmod 0777 /dev/snd/pcmC0D4c
+    chmod 0777 /dev/snd/pcmC0D4p
     chmod 0777 /dev/snd/pcmC0D5c
     chmod 0777 /dev/snd/pcmC0D5p
-
-    #change permissions for alsa nodes for HDMI
-    chmod 777  /dev/snd/pcmC0D7p
+    chmod 0777 /dev/snd/pcmC0D7p
+    chmod 0777 /dev/snd/timer
 
     # change permissions for modem
     chmod 0660 /dev/ttyS0
@@ -129,10 +118,6 @@ on post-fs
     chown system system /system/bin/omapconf
     chown root root /system/bin/omapconf2
 
-    # change permissions for Overlay
-    chown system system /dev/video1
-    chown system system /dev/video2
-    chown system system /dev/video3
     # change permissions for overlay managers and display devices
     chown system system /sys/devices/platform/omapdss/display0/enabled
     chown system system /sys/devices/platform/omapdss/display1/enabled
@@ -184,21 +169,6 @@ on post-fs
 # request for boot time reduction
     write /sys/devices/system/cpu/cpufreq/hotplug/boost_timeout 3000000
 
-# Enable hotplug detection for HDMI
-#    write /sys/devices/platform/omapdss/display2/hpd_enabled 1
-
-# Change permissions for FB overlays for HDMI UI Cloning
-    chown system system /sys/class/graphics/fb0/overlays
-    chown system system /sys/class/graphics/fb0/fit_to_screen
-    chown system system /sys/class/graphics/fb1/overlays
-
-# Enable UI-Cloning Service in SystemServer
-#   setprop tv.hdmi.uicloning.enable true
-
-# Keypad permissions
-    chmod 0444 /system/usr/keychars/omap-keypad.kcm.bin
-    chmod 0444 /system/usr/keychars/qwerty.kcm.bin
-
 # SGX driver
     chmod 0666 /dev/pvrsrvkm
 
@@ -209,7 +179,6 @@ on post-fs
     chown system system /sys/class/power_supply/usb/device/bad_battery
 
 on boot
-    log "==  init.omap4430.rc: on boot ------------------------"
     setprop ro.build.product omap4sdp
     setprop ro.product.device omap4sdp
     setprop ro.radio.noril yes
