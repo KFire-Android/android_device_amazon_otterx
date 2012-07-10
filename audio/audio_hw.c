@@ -227,6 +227,7 @@
 enum supported_boards {
     BLAZE,
     TABLET,
+    OTTER,
 };
 
 enum tty_modes {
@@ -633,7 +634,7 @@ struct blaze_audio_device {
     pthread_mutex_t lock;       /* see note below on mutex acquisition order */
     struct mixer *mixer;
     struct mixer_ctls mixer_ctls;
-    int mode;
+    audio_mode_t mode;
     int devices;
     struct pcm *pcm_modem_dl;
     struct pcm *pcm_modem_ul;
@@ -805,7 +806,7 @@ static int get_boardtype(struct blaze_audio_device *adev)
             adev->sidetone_capture = 0;
     }
     else if(!strcmp(board, PRODUCT_DEVICE_KC1)) {
-            adev->board_type = TABLET;
+            adev->board_type = OTTER;
             adev->sidetone_capture = 0;
     }
     else
@@ -992,6 +993,10 @@ static void set_input_volumes(struct blaze_audio_device *adev, int main_mic_on,
                 volume = DB_TO_ABE_GAIN(main_mic_on ? CAPTURE_DIGITAL_MIC_VOLUME :
                     (headset_mic_on ? CAPTURE_HEADSET_MIC_VOLUME :
                      (sub_mic_on ? CAPTURE_SUB_MIC_VOLUME : 0)));
+            }else if(adev->board_type == OTTER) {
+                volume = DB_TO_ABE_GAIN(main_mic_on ? CAPTURE_DIGITAL_MIC_VOLUME :
+                    (headset_mic_on ? CAPTURE_HEADSET_MIC_VOLUME :
+                     (sub_mic_on ? CAPTURE_SUB_MIC_VOLUME : 0)));
             }
             break;
 
@@ -1023,6 +1028,11 @@ static void set_input_volumes(struct blaze_audio_device *adev, int main_mic_on,
         if(adev->board_type == BLAZE) {
             mixer_ctl_set_value(adev->mixer_ctls.amic_ul_volume, channel, volume);
         }else if(adev->board_type == TABLET) {
+            if (headset_mic_on)
+                mixer_ctl_set_value(adev->mixer_ctls.amic_ul_volume, channel, volume);
+            else
+                mixer_ctl_set_value(adev->mixer_ctls.dmic1_ul_volume, channel, volume);
+        }else if(adev->board_type == OTTER) {
             if (headset_mic_on)
                 mixer_ctl_set_value(adev->mixer_ctls.amic_ul_volume, channel, volume);
             else
@@ -1219,11 +1229,15 @@ static void select_output_device(struct blaze_audio_device *adev)
                     set_route_by_array(adev->mixer, vx_ul_amic_right, 1);
                 else if(adev->board_type == TABLET)
                     set_route_by_array(adev->mixer, vx_ul_dmic0,1);
+                else if(adev->board_type == OTTER)
+                    set_route_by_array(adev->mixer, vx_ul_dmic0,1);
             }
             else {
                 if(adev->board_type == BLAZE) 
                     set_route_by_array(adev->mixer, vx_ul_amic_left, 0);
                 else if(adev->board_type == TABLET) 
+                    set_route_by_array(adev->mixer, vx_ul_dmic0,0);
+                else if(adev->board_type == OTTER) 
                     set_route_by_array(adev->mixer, vx_ul_dmic0,0);
             }
             if(adev->board_type == BLAZE) {
@@ -1232,8 +1246,11 @@ static void select_output_device(struct blaze_audio_device *adev)
                         (headset_on ? MIXER_HS_MIC : "Off"));
                 mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture,
                         speaker_on ? MIXER_SUB_MIC : "Off");
-
             } else if(adev->board_type == TABLET) {
+                mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
+                        (headset_on ? MIXER_HS_MIC : "Off"));
+                mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture, "off");
+            } else if(adev->board_type == OTTER) {
                 mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
                         (headset_on ? MIXER_HS_MIC : "Off"));
                 mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture, "off");
@@ -1308,15 +1325,29 @@ static void select_input_device(struct blaze_audio_device *adev)
             }
 
             /* Select back end */
-#if 1
             mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture, "off");
             mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
                     main_mic_on ? "off" :
                     (headset_on ? MIXER_HS_MIC : "Off"));
-#endif
+        } else if(adev->board_type == OTTER) {
+            /* Select front end */
+            if (headset_on)
+                set_route_by_array(adev->mixer, mm_ul2_amic_left, 1);
+            else if (main_mic_on || sub_mic_on) {
+                set_route_by_array(adev->mixer, mm_ul2_dmic0, 1);
+                hw_is_stereo_only = 1;
+            } else {
+              //  set_route_by_array(adev->mixer, mm_ul2_dmic0, 0);
+                hw_is_stereo_only = 1;
+            }
 
-		}
-		set_route_by_array(adev->mixer, codec_input_controls, 1);
+            /* Select back end */
+            mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture, "off");
+            mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
+                    main_mic_on ? "off" :
+                    (headset_on ? MIXER_HS_MIC : "Off"));
+	}
+	set_route_by_array(adev->mixer, codec_input_controls, 1);
     }
 
     adev->input_requires_stereo = hw_is_stereo_only;
@@ -1377,7 +1408,7 @@ static int start_output_stream(struct blaze_stream_out *out)
     return 0;
 }
 
-static int check_input_parameters(uint32_t sample_rate, int format, int channel_count)
+static int check_input_parameters(uint32_t sample_rate, audio_format_t format, int channel_count)
 {
     LOGFUNC("%s(%d, %d, %d)", __FUNCTION__, sample_rate, format, channel_count);
 
@@ -1406,7 +1437,7 @@ static int check_input_parameters(uint32_t sample_rate, int format, int channel_
     return 0;
 }
 
-static size_t get_input_buffer_size(uint32_t sample_rate, int format, int channel_count)
+static size_t get_input_buffer_size(uint32_t sample_rate, audio_format_t format, int channel_count)
 {
     size_t size;
     size_t device_rate;
@@ -1921,14 +1952,14 @@ static uint32_t in_get_channels(const struct audio_stream *stream)
     }
 }
 
-static int in_get_format(const struct audio_stream *stream)
+static audio_format_t in_get_format(const struct audio_stream *stream)
 {
     LOGFUNC("%s(%p)", __FUNCTION__, stream);
 
     return AUDIO_FORMAT_PCM_16_BIT;
 }
 
-static int in_set_format(struct audio_stream *stream, int format)
+static int in_set_format(struct audio_stream *stream, audio_format_t format)
 {
     LOGFUNC("%s(%p, %d)", __FUNCTION__, stream, format);
 
@@ -2525,13 +2556,18 @@ exit:
 
 
 static int adev_open_output_stream(struct audio_hw_device *dev,
-                                   uint32_t devices, int *format,
-                                   uint32_t *channels, uint32_t *sample_rate,
+                                   audio_io_handle_t handle,
+                                   audio_devices_t devices,
+                                   audio_output_flags_t flags,
+                                   struct audio_config *config,
                                    struct audio_stream_out **stream_out)
 {
     struct blaze_audio_device *ladev = (struct blaze_audio_device *)dev;
     struct blaze_stream_out *out;
     int ret;
+    int output_type;
+
+    *stream_out = NULL;
 
     LOGFUNC("%s(%p, 0x%04x,%d, 0x%04x, %d, %p)", __FUNCTION__, dev, devices,
                         *format, *channels, *sample_rate, stream_out);
@@ -2580,9 +2616,9 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
      * This is because out_set_parameters() with a route is not
      * guaranteed to be called after an output stream is opened. */
 
-    *format = out_get_format(&out->stream.common);
-    *channels = out_get_channels(&out->stream.common);
-    *sample_rate = out_get_sample_rate(&out->stream.common);
+    config->format = out->stream.common.get_format(&out->stream.common);
+    config->channel_mask = out->stream.common.get_channels(&out->stream.common);
+    config->sample_rate = out->stream.common.get_sample_rate(&out->stream.common);
 
     *stream_out = &out->stream;
     return 0;
@@ -2722,7 +2758,7 @@ static int adev_set_master_volume(struct audio_hw_device *dev, float volume)
     return -ENOSYS;
 }
 
-static int adev_set_mode(struct audio_hw_device *dev, int mode)
+static int adev_set_mode(struct audio_hw_device *dev, audio_mode_t mode)
 {
     struct blaze_audio_device *adev = (struct blaze_audio_device *)dev;
 
@@ -2761,36 +2797,35 @@ static int adev_get_mic_mute(const struct audio_hw_device *dev, bool *state)
 }
 
 static size_t adev_get_input_buffer_size(const struct audio_hw_device *dev,
-                                         uint32_t sample_rate, int format,
-                                         int channel_count)
+                                         const struct audio_config *config)
 {
     size_t size;
-
+    int channel_count = popcount(config->channel_mask);
     LOGFUNC("%s(%p, %d, %d, %d)", __FUNCTION__, dev, sample_rate,
                                 format, channel_count);
 
-    if (check_input_parameters(sample_rate, format, channel_count) != 0) {
+    if (check_input_parameters(config->sample_rate, config->format, channel_count) != 0) {
         return 0;
     }
 
-    return get_input_buffer_size(sample_rate, format, channel_count);
+    return get_input_buffer_size(config->sample_rate, config->format, channel_count);
 }
 
-static int adev_open_input_stream(struct audio_hw_device *dev, uint32_t devices,
-                                  int *format, uint32_t *channel_mask,
-                                  uint32_t *sample_rate,
-                                  audio_in_acoustics_t acoustics,
+static int adev_open_input_stream(struct audio_hw_device *dev,
+                                  audio_io_handle_t handle,
+                                  audio_devices_t devices,
+                                  struct audio_config *config,
                                   struct audio_stream_in **stream_in)
 {
     struct blaze_audio_device *ladev = (struct blaze_audio_device *)dev;
     struct blaze_stream_in *in;
     int ret;
-    int channel_count = popcount(*channel_mask);
+    int channel_count = popcount(config->channel_mask);
 
     LOGFUNC("%s(%p, 0x%04x, %d, 0x%04x, %d, 0x%04x, %p)", __FUNCTION__, dev,
-        devices, *format, *channel_mask, *sample_rate, acoustics, stream_in);
+        devices, config->format, config->channel_mask, config->sample_rate, acoustics, stream_in);
 
-    if (check_input_parameters(*sample_rate, *format, channel_count) != 0)
+    if (check_input_parameters(config->sample_rate, config->format, channel_count) != 0)
         return -EINVAL;
 
     in = (struct blaze_stream_in *)calloc(1, sizeof(struct blaze_stream_in));
@@ -2814,7 +2849,7 @@ static int adev_open_input_stream(struct audio_hw_device *dev, uint32_t devices,
     in->stream.get_input_frames_lost = in_get_input_frames_lost;
     in->remix_at_driver = NULL;
 
-    in->requested_rate = *sample_rate;
+    in->requested_rate = config->sample_rate;
 
     memcpy(&in->config, &pcm_config_mm_ul, sizeof(pcm_config_mm_ul));
     in->config.channels = channel_count;
@@ -2943,7 +2978,7 @@ static int adev_open(const hw_module_t* module, const char* name,
         return -ENOMEM;
 
     adev->hw_device.common.tag = HARDWARE_DEVICE_TAG;
-    adev->hw_device.common.version = 0;
+    adev->hw_device.common.version = AUDIO_DEVICE_API_VERSION_1_0;
     adev->hw_device.common.module = (struct hw_module_t *) module;
     adev->hw_device.common.close = adev_close;
 
@@ -2963,7 +2998,7 @@ static int adev_open(const hw_module_t* module, const char* name,
     adev->hw_device.close_input_stream = adev_close_input_stream;
     adev->hw_device.dump = adev_dump;
 
-    adev->mixer = mixer_open(0);
+    adev->mixer = mixer_open(CARD_OMAP4_ABE);
     if (!adev->mixer) {
         free(adev);
         ALOGE("Unable to open the mixer, aborting.");
@@ -3056,8 +3091,8 @@ static struct hw_module_methods_t hal_module_methods = {
 struct audio_module HAL_MODULE_INFO_SYM = {
     .common = {
         .tag = HARDWARE_MODULE_TAG,
-        .version_major = 1,
-        .version_minor = 0,
+        .module_api_version = AUDIO_MODULE_API_VERSION_0_1,
+        .hal_api_version = HARDWARE_HAL_API_VERSION,
         .id = AUDIO_HARDWARE_MODULE_ID,
         .name = "Blaze audio HW HAL",
         .author = "Texas Instruments",
