@@ -88,4 +88,9 @@
 
     <!-- We don't have automatic brightness (yet). -->
     <bool name="config_automatic_brightness_available">false</bool>
+
+    <!-- Whether a software navigation bar should be shown. NOTE: in the future this may be
+         autodetected from the Configuration. -->
+    <bool name="config_showNavigationBar">true</bool>
+
 </resources>
