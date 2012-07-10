@@ -76,8 +76,8 @@ static int rgz_handle_to_stride(IMG_native_handle_t *h);
 
 /* OUTP the means for grabbing diagnostic data */
 #ifndef RGZ_TEST_INTEGRATION
-#define OUTP LOGI
-#define OUTE LOGE
+#define OUTP ALOGI
+#define OUTE ALOGE
 #else
 #define OUTP(...) { printf(__VA_ARGS__); printf("\n"); fflush(stdout); }
 #define OUTE OUTP
@@ -507,7 +507,7 @@ static void rgz_gen_blitregions(blit_hregion_t *hregion, int screen_width)
         subregion.left = offsets[r];
         subregion.right = offsets[r+1];
 
-        LOGD_IF(debug, "                sub l %d r %d",
+        ALOGD_IF(debug, "                sub l %d r %d",
             subregion.left, subregion.right);
         for (l = 0; l < hregion->nlayers; l++) {
             hwc_layer_t *layer = hregion->rgz_layers[l]->hwc_layer;
@@ -515,7 +515,7 @@ static void rgz_gen_blitregions(blit_hregion_t *hregion, int screen_width)
 
                 hregion->blitrects[l][r] = subregion;
 
-                LOGD_IF(debug, "hregion->blitrects[%d][%d] (%d %d %d %d)", l, r,
+                ALOGD_IF(debug, "hregion->blitrects[%d][%d] (%d %d %d %d)", l, r,
                         hregion->blitrects[l][r].left,
                         hregion->blitrects[l][r].top,
                         hregion->blitrects[l][r].right,
@@ -640,7 +640,7 @@ static int rgz_in_hwc(rgz_in_params_t *p, rgz_t *rgz)
         return -1;
     rgz->hregions = hregions;
 
-    LOGD_IF(debug, "Allocated %d regions (sz = %d), layerno = %d", rgz->nhregions, rgz->nhregions * sizeof(blit_hregion_t), layerno);
+    ALOGD_IF(debug, "Allocated %d regions (sz = %d), layerno = %d", rgz->nhregions, rgz->nhregions * sizeof(blit_hregion_t), layerno);
     int i, j;
     for (i = 0; i < rgz->nhregions; i++) {
         hregions[i].rect.top = yentries[i];
@@ -661,11 +661,11 @@ static int rgz_in_hwc(rgz_in_params_t *p, rgz_t *rgz)
     /* Calculate blit regions */
     for (i = 0; i < rgz->nhregions; i++) {
         rgz_gen_blitregions(&hregions[i], screen_width);
-        LOGD_IF(debug, "hregion %3d: nsubregions %d", i, hregions[i].nsubregions);
-        LOGD_IF(debug, "           : %d to %d: ",
+        ALOGD_IF(debug, "hregion %3d: nsubregions %d", i, hregions[i].nsubregions);
+        ALOGD_IF(debug, "           : %d to %d: ",
             hregions[i].rect.top, hregions[i].rect.bottom);
         for (j = 0; j < hregions[i].nlayers; j++)
-            LOGD_IF(debug, "              %p ", hregions[i].rgz_layers[j]->hwc_layer);
+            ALOGD_IF(debug, "              %p ", hregions[i].rgz_layers[j]->hwc_layer);
     }
     rgz->state |= RGZ_REGION_DATA;
     return 0;
@@ -1301,7 +1301,7 @@ static int rgz_out_region(rgz_t *rgz, rgz_out_params_t *params)
     }
 
     rgz_blts_init(&blts);
-    LOGD_IF(debug, "rgz_out_region:");
+    ALOGD_IF(debug, "rgz_out_region:");
 
     if (IS_BVCMD(params)) {
         params->data.bvc.out_blits = 0;
@@ -1316,11 +1316,11 @@ static int rgz_out_region(rgz_t *rgz, rgz_out_params_t *params)
     for (i = 0; i < rgz->nhregions; i++) {
         blit_hregion_t *hregion = &rgz->hregions[i];
         int s;
-        LOGD_IF(debug, "h[%d] nsubregions = %d", i, hregion->nsubregions);
+        ALOGD_IF(debug, "h[%d] nsubregions = %d", i, hregion->nsubregions);
         if (hregion->nlayers == 0)
             continue;
         for (s = 0; s < hregion->nsubregions; s++) {
-            LOGD_IF(debug, "h[%d] -> [%d]", i, s);
+            ALOGD_IF(debug, "h[%d] -> [%d]", i, s);
             rgz_hwc_subregion_blit(hregion, s, params);
         }
     }
@@ -1421,14 +1421,14 @@ int rgz_get_screengeometry(int fd, struct bvsurfgeom *geom, int fmt)
     struct fb_fix_screeninfo fb_fixinfo;
     struct fb_var_screeninfo fb_varinfo;
 
-    LOGI("Attempting to get framebuffer device info.");
+    ALOGI("Attempting to get framebuffer device info.");
     if(ioctl(fd, FBIOGET_FSCREENINFO, &fb_fixinfo)) {
         OUTE("Error getting fb_fixinfo");
         return -EINVAL;
     }
 
     if(ioctl(fd, FBIOGET_VSCREENINFO, &fb_varinfo)) {
-        LOGE("Error gettting fb_varinfo");
+        ALOGE("Error gettting fb_varinfo");
         return -EINVAL;
     }
 
