@@ -41,7 +41,6 @@ PRODUCT_PACKAGES += \
     audio_policy.default \
     libaudioutils \
 
-
 # Wifi
 PRODUCT_PACKAGES += \
     lib_driver_cmd_wl12xx \
@@ -80,7 +79,7 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/root/omaplfb_sgx540_120.ko:/root/modules/omaplfb_sgx540_120.ko \
     device/amazon/otter/root/pvrsrvkm_sgx540_120.ko:/root/modules/pvrsrvkm_sgx540_120.ko \
 
-
+# Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
@@ -95,6 +94,34 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     $(call add-to-product-copy-files-if-exists,packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml)
+
+# Prebuilts /system/bin
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/bin/fix-mac.sh:/system/bin/fix-mac.sh \
+    device/amazon/otter/prebuilt/bin/strace:/system/bin/strace \
+
+# Prebuilts /system/etc
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/etc/dbus.conf:/system/etc/dbus.conf \
+    device/amazon/otter/prebuilt/etc/gps.conf:/system/etc/gps.conf \
+    device/amazon/otter/prebuilt/etc/hosts:/system/etc/hosts \
+    device/amazon/otter/prebuilt/etc/media_codecs.xml:/system/etc/media_codecs.xml \
+    device/amazon/otter/prebuilt/etc/media_profiles.xml:/system/etc/media_profiles.xml \
+    device/amazon/otter/prebuilt/etc/mountd.conf:/system/etc/mountd.conf \
+    device/amazon/otter/prebuilt/etc/vold.fstab:/system/etc/vold.fstab \
+    device/amazon/otter/prebuilt/etc/firmware/ducati-m3.bin:/system/etc/firmware/ducati-m3.bin \
+    device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
+    device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
+    device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
+    device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig \
+    device/amazon/otter/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
+
+# Prebuilt /system/usr
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/usr/idc/ilitek_i2c.idc:/system/usr/idc/ilitek_i2c.idc \
+    device/amazon/otter/prebuilt/usr/idc/twl6030_pwrbutton.idc:/system/usr/idc/twl6030_pwrbutton.idc \
+    device/amazon/otter/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:/system/usr/keylayout/twl6030_pwrbutton.kl \
+    device/amazon/otter/prebuilt/usr/keylayout/AVRCP.kl:/system/usr/keylayout/AVRCP.kl \
 
 
 PRODUCT_PROPERTY_OVERRIDES := \
@@ -132,7 +159,7 @@ PRODUCT_COPY_FILES += $(shell \
     | tr '\n' ' ')
 
 
-include frameworks/native/build/tablet-dalvik-heap.mk
+$(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 
 $(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
