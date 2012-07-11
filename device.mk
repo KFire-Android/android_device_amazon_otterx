@@ -64,7 +64,8 @@ PRODUCT_PACKAGES += \
     dhcpcd.conf \
     calibrator \
     iontest \
-    sh
+    busybox \
+
 
 
 # Root
