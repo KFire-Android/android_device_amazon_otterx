@@ -561,10 +561,13 @@ struct route_setting codec_output_controls[] = {
         .ctl_name = DL1_MM_EXT_SWITCH,
         .intval = 1,
     },
+    {
+        .ctl_name = NULL,
+    },
 };
 
 struct route_setting codec_input_controls[] = {
-	{
+    {
         .ctl_name = M_INPUT_MIXER ,
         .intval = 2,
     },
@@ -593,7 +596,9 @@ struct route_setting codec_input_controls[] = {
         .ctl_name = MIXER_SDT_UL_VOLUME,
         .intval = MIXER_ABE_GAIN_0DB,
     },
-
+    {
+        .ctl_name = NULL,
+    },
 };
 struct buffer_remix;
 
@@ -1300,8 +1305,9 @@ static void select_input_device(struct blaze_audio_device *adev)
     else {
         if(adev->board_type == BLAZE) {
             /* Select front end */
-            if (main_mic_on || headset_on)
+            if (main_mic_on || headset_on) {
                 set_route_by_array(adev->mixer, mm_ul2_amic_left, 1);
+            }
             else if (sub_mic_on)
                 set_route_by_array(adev->mixer, mm_ul2_amic_right, 1);
             else
@@ -1331,6 +1337,7 @@ static void select_input_device(struct blaze_audio_device *adev)
                     (headset_on ? MIXER_HS_MIC : "Off"));
         } else if(adev->board_type == OTTER) {
             /* Select front end */
+            ALOGE(">>> [ASoC]select_input_device:: devices==%d, headset_on==%d, main_mic_on==%d, sub_mic_on==%d\n", adev->devices, headset_on, main_mic_on, sub_mic_on);
             if (headset_on)
                 set_route_by_array(adev->mixer, mm_ul2_amic_left, 1);
             else if (main_mic_on || sub_mic_on) {
