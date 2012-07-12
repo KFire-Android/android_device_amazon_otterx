@@ -19,8 +19,8 @@
  */
 
 #define LOG_TAG "audio_hw_primary"
-/*#define LOG_NDEBUG 0*/
-/*#define LOG_NDEBUG_FUNCTION*/
+//#define LOG_NDEBUG 0
+//#define LOG_NDEBUG_FUNCTION
 #ifndef LOG_NDEBUG_FUNCTION
 #define LOGFUNC(...) ((void)0)
 #else
@@ -1594,14 +1594,14 @@ static uint32_t out_get_channels(const struct audio_stream *stream)
     return AUDIO_CHANNEL_OUT_STEREO;
 }
 
-static int out_get_format(const struct audio_stream *stream)
+static audio_format_t out_get_format(const struct audio_stream *stream)
 {
     LOGFUNC("%s(%p)", __FUNCTION__, stream);
 
     return AUDIO_FORMAT_PCM_16_BIT;
 }
 
-static int out_set_format(struct audio_stream *stream, int format)
+static int out_set_format(struct audio_stream *stream, audio_format_t format)
 {
     LOGFUNC("%s(%p)", __FUNCTION__, stream);
 
@@ -1876,10 +1876,12 @@ static int start_input_stream(struct blaze_stream_in *in)
         select_input_device(adev);
     }
 
+#if 0
     // FIXME-HASH: CHANGED FROM USB_HEADSET
     if(adev->devices & AUDIO_DEVICE_IN_WIRED_HEADSET) {
         adev->input_requires_stereo = 0;
     }
+#endif
 
     if (adev->input_requires_stereo && (in->config.channels == 1))
         setup_stereo_to_mono_input_remix(in);
@@ -1894,12 +1896,14 @@ static int start_input_stream(struct blaze_stream_in *in)
     if (in->remix_at_driver)
         in->config.channels = in->remix_at_driver->in_chans;
 
+#if 0
     // FIXME-HASH: CHANGED FROM USB_HEADSET
     if(adev->devices & AUDIO_DEVICE_IN_WIRED_HEADSET) {
         card = CARD_OMAP4_USB;
         /*device should be 0 for usb headset capture */
         device = PORT_MM;
     }
+#endif
 
     in->pcm = pcm_open(card, device, PCM_IN, &in->config);
     if (in->remix_at_driver)
@@ -2576,8 +2580,8 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
 
     *stream_out = NULL;
 
-    LOGFUNC("%s(%p, 0x%04x,%d, 0x%04x, %d, %p)", __FUNCTION__, dev, devices,
-                        *format, *channels, *sample_rate, stream_out);
+    LOGFUNC("%s(%p, devices==0x%04x, format==%d, channel_mask==0x%04x, sample_rate==%d, stream_out==%p)", __FUNCTION__, dev, devices,
+                        config->format, config->channel_mask, config->sample_rate, stream_out);
 
     out = (struct blaze_stream_out *)calloc(1, sizeof(struct blaze_stream_out));
     if (!out)
@@ -2808,8 +2812,8 @@ static size_t adev_get_input_buffer_size(const struct audio_hw_device *dev,
 {
     size_t size;
     int channel_count = popcount(config->channel_mask);
-    LOGFUNC("%s(%p, %d, %d, %d)", __FUNCTION__, dev, sample_rate,
-                                format, channel_count);
+    LOGFUNC("%s(%p, %d, %d, %d)", __FUNCTION__, dev, config->sample_rate,
+                                config->format, channel_count);
 
     if (check_input_parameters(config->sample_rate, config->format, channel_count) != 0) {
         return 0;
@@ -2829,8 +2833,8 @@ static int adev_open_input_stream(struct audio_hw_device *dev,
     int ret;
     int channel_count = popcount(config->channel_mask);
 
-    LOGFUNC("%s(%p, 0x%04x, %d, 0x%04x, %d, 0x%04x, %p)", __FUNCTION__, dev,
-        devices, config->format, config->channel_mask, config->sample_rate, acoustics, stream_in);
+    LOGFUNC("%s(%p, 0x%04x, %d, 0x%04x, %d, %p)", __FUNCTION__, dev,
+        devices, config->format, config->channel_mask, config->sample_rate, stream_in);
 
     if (check_input_parameters(config->sample_rate, config->format, channel_count) != 0)
         return -EINVAL;
