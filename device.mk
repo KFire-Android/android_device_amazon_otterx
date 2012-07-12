@@ -110,6 +110,7 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/etc/audio_policy.conf:/system/etc/audio_policy.conf \
     device/amazon/otter/prebuilt/etc/dbus.conf:/system/etc/dbus.conf \
     device/amazon/otter/prebuilt/etc/gps.conf:/system/etc/gps.conf \
     device/amazon/otter/prebuilt/etc/hosts:/system/etc/hosts \
