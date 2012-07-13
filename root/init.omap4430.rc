@@ -59,9 +59,6 @@ on post-fs
     insmod /system/lib/modules/mac80211.ko
     insmod /system/lib/modules/wl12xx.ko debug_level=0x63c00
 
-# Fix wlan MAC addr
-    exec /system/bin/fix-mac.sh
-
 # Allow everybody to read the xt_qtaguid resource tracking misc dev.
 # This is needed by any process that uses socket tagging.
     chmod 0644 /dev/xt_qtaguid
@@ -73,13 +70,13 @@ on post-fs
     chown system system /data
     chmod 0771 /data
 
-#    chmod 0666 /dev/dce
-#    chmod 0666 /dev/ion
-#    chmod 0666 /dev/i2c-1
-#    chmod 0666 /dev/i2c-2
-#    chmod 0666 /dev/i2c-3
-#    chmod 0666 /dev/i2c-4
-#    chmod 0666 /dev/mtp_usb
+#   chmod 0666 /dev/dce
+    chmod 0666 /dev/ion
+#   chmod 0666 /dev/i2c-1
+#   chmod 0666 /dev/i2c-2
+#   chmod 0666 /dev/i2c-3
+#   chmod 0666 /dev/i2c-4
+#   chmod 0666 /dev/mtp_usb
 
     # change permissions for alsa nodes
     chmod 0777 /dev/snd/controlC0
@@ -194,6 +191,12 @@ on boot
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
 
+service fixmac /system/bin/fix-mac.sh
+    class core
+    user root
+    group root
+    oneshot
+
 service hwprops /sbin/hwprops
     critical
     disabled
@@ -207,7 +210,8 @@ service pvrsrvinit /system/bin/pvrsrvinit
     oneshot
 
 # WLAN Related services
-service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -dd
+#service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -dd
+service p2p_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -dd
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot

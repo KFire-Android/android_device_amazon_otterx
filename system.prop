@@ -1,1 +1,2 @@
-setprop ro.cwm.forbid_format /bootloader,/dfs,/backup,/splash
+ro.cwm.forbid_format = /bootloader,/dfs,/backup,/splash
+
