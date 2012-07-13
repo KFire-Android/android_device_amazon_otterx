@@ -187,7 +187,8 @@
 #define DB_TO_CAPTURE_VOLUME(x) (((x) - 6) / 6)
 #define DB_TO_HEADSET_VOLUME(x) (((x) + 30) / 2)
 #define DB_TO_SPEAKER_VOLUME(x) (((x) + 52) / 2)
-#define DB_TO_EARPIECE_VOLUME(x) (((x) + 24) / 2)
+/* FIXME-HASHCODE: lowered EARPIECE volume was originally: (((x) + 24) / 2) */
+#define DB_TO_EARPIECE_VOLUME(x) (((x) + 12) / 2)
 
 /* use-case specific mic volumes, all in dB */
 #define CAPTURE_DIGITAL_MIC_VOLUME            26
