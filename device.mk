@@ -40,12 +40,13 @@ PRODUCT_PACKAGES += \
     audio.primary.omap4430 \
     audio_policy.default \
     libaudioutils \
+    libwvm \
 
+#    wlan_loader \
+#    wlan_cu \
 # Wifi
 PRODUCT_PACKAGES += \
     lib_driver_cmd_wl12xx \
-    wlan_loader \
-    wlan_cu \
     dhcpcd.conf \
     wpa_supplicant.conf \
 
@@ -57,7 +58,6 @@ PRODUCT_PACKAGES += \
 
 # Misc
 PRODUCT_PACKAGES += \
-    OtterParts \
     hwprops \
     evtest \
     librs_jni \
@@ -69,9 +69,14 @@ PRODUCT_PACKAGES += \
     calibrator \
     iontest \
     busybox \
-    Superuser \
     su \
 
+# Apps
+PRODUCT_PACKAGES += \
+    OtterParts \
+    Superuser \
+    Term \
+    FileManager \
 
 
 # Root
@@ -128,6 +133,10 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip \
+
+# Prebuilt /system/usr
+PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/usr/idc/ilitek_i2c.idc:/system/usr/idc/ilitek_i2c.idc \
     device/amazon/otter/prebuilt/usr/idc/twl6030_pwrbutton.idc:/system/usr/idc/twl6030_pwrbutton.idc \
     device/amazon/otter/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:/system/usr/keylayout/twl6030_pwrbutton.kl \
@@ -143,7 +152,8 @@ PRODUCT_PROPERTY_OVERRIDES := \
     ro.opengles.version=131072 \
     persist.lab126.chargeprotect=1 \
     com.ti.omap_enhancement=true \
-    omap.enhancement=true
+    omap.enhancement=true \
+    persist.sys.usb.config=mass_storage,adb
 
 
 PRODUCT_CHARACTERISTICS := tablet,nosdcard
