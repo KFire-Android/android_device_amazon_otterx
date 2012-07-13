@@ -1,4 +1,4 @@
-# CM9 for Kindle Fire
+# AOSP-Jellybean for Kindle Fire
 
 ## Info
 
@@ -18,19 +18,19 @@
 ### Download sources
 
 ```bash
-mkdir cm9
-cd cm9/
+mkdir jb-aosp
+cd jb-aosp/
 curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo > ~/repo
 chmod a+x ~/repo
-repo init -u git://github.com/CyanogenMod/android.git -b ics
-wget -O .repo/local_manifest.xml https://raw.github.com/KFire-Android/android_local_manifest/ics/local_manifest.xml 
+repo init -u https://android.googlesource.com/platform/manifest -b android-4.1.1_r1
+wget -O .repo/local_manifest.xml https://raw.github.com/KFire-Android/android_local_manifest/jb-aosp/local_manifest.xml 
 repo sync -j16
-./vendor/cm/get-prebuilts
 ```
 
 ### Compile
 
 ```bash
-source build/envsetup.sh
-brunch otter -j$(grep -c processor /proc/cpuinfo)
+. build/envsetup.sh
+lunch full_otter-userdebug
+make otapackage (can add -j# for cores to use: make -j32 otapackage)
 ```
