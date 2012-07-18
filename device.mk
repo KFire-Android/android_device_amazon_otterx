@@ -131,7 +131,11 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig \
     device/amazon/otter/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
 
-# Prebuilt /system/usr
+# Prebuilts /system/lib
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/lib/libjackpal-androidterm4.so:/system/lib/libjackpal-androidterm4.so \
+
+# Prebuilt /system/media
 PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip \
 
