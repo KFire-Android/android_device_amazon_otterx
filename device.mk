@@ -33,17 +33,12 @@ PRODUCT_AAPT_PREF_CONFIG := mdpi
 PRODUCT_PACKAGES += \
     lights.otter \
     libinvensense_mpl \
-    hwcomposer.default \
-    parse_hdmi_edid \
-    libedid \
-    hwcomposer.otter \
     audio.primary.omap4430 \
     audio_policy.default \
+    audio.usb.default \
     libaudioutils \
     libwvm \
 
-#    wlan_loader \
-#    wlan_cu \
 # Wifi
 PRODUCT_PACKAGES += \
     lib_driver_cmd_wl12xx \
@@ -92,10 +87,10 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/root/pvrsrvkm_sgx540_120.ko:/root/modules/pvrsrvkm_sgx540_120.ko \
 
 # Permissions
+#    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
-    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/native/data/etc/android.hardware.sensor.barometer.xml:system/etc/permissions/android.hardware.sensor.barometer.xml \
@@ -124,7 +119,7 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/media_profiles.xml:/system/etc/media_profiles.xml \
     device/amazon/otter/prebuilt/etc/mountd.conf:/system/etc/mountd.conf \
     device/amazon/otter/prebuilt/etc/vold.fstab:/system/etc/vold.fstab \
-    device/amazon/otter/prebuilt/etc/firmware/ducati-m3.bin:/system/etc/firmware/ducati-m3.bin \
+    device/amazon/otter/prebuilt/etc/firmware/ducati-m3.512MB.bin:/system/etc/firmware/ducati-m3.512MB.bin \
     device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
     device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
     device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
@@ -133,6 +128,7 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilts /system/lib
 PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/lib/libion.so:/system/lib/libion.so \
     device/amazon/otter/prebuilt/lib/libjackpal-androidterm4.so:/system/lib/libjackpal-androidterm4.so \
 
 # Prebuilt /system/media
