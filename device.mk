@@ -62,9 +62,9 @@ PRODUCT_PACKAGES += \
     setup_fs \
     dhcpcd.conf \
     calibrator \
-    iontest \
     busybox \
     su \
+    parse_hdmi_edid \
 
 # Apps
 PRODUCT_PACKAGES += \
@@ -127,8 +127,8 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
 
 # Prebuilts /system/lib
+#    device/amazon/otter/prebuilt/lib/libion.so:/system/lib/libion.so \
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/lib/libion.so:/system/lib/libion.so \
     device/amazon/otter/prebuilt/lib/libjackpal-androidterm4.so:/system/lib/libjackpal-androidterm4.so \
 
 # Prebuilt /system/media
