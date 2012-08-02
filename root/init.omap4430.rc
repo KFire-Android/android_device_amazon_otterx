@@ -23,9 +23,9 @@ on init
 
 on fs
     mount ext4 /dev/block/mmcblk0p9 /system wait ro
-    mount ext4 /dev/block/mmcblk0p10 /data wait noatime nosuid nodev errors=continue
-    mount ext4 /dev/block/mmcblk0p11 /cache wait noatime nosuid nodev errors=continue
-    mount ext4 /dev/block/mmcblk0p8 /dropbox wait noatime nosuid nodev errors=continue
+    mount ext4 /dev/block/mmcblk0p10 /data wait noatime nosuid nodev errors=continue discard
+    mount ext4 /dev/block/mmcblk0p11 /cache wait noatime nosuid nodev errors=continue discard
+    mount ext4 /dev/block/mmcblk0p8 /dropbox wait noatime nosuid nodev errors=continue discard
 
 on post-fs
     # forget what this fixed
