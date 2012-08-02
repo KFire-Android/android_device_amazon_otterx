@@ -1,6 +1,3 @@
-#for DSSCOMP
-/dev/dsscomp              0666   system     system
-/dev/tiler                0666   system     system
 
 /dev/pvrsrvkm             0666   system     system
 /dev/video0               0666   system     camera
@@ -17,12 +14,21 @@
 /dev/block/mtdblock5      0666   radio      radio
 /dev/mtd/mtd5ro           0666   radio      radio
 
-#for Sensors
+# for Sensor HAL
+/dev/akm8973              0666   system     system
+/dev/accelerometer        0666   system     system
 /dev/mpu                  0666   system     system
 /dev/mpuirq               0666   system     system
 /dev/accelirq             0666   system     system
 /dev/compassirq           0666   system     system
 /dev/timerirq             0666   system     system
+
+# for GPS
+/dev/s3c2410_serial1      0666   gps        gps
+
+#for DSSCOMP
+/dev/dsscomp              0666   system     system
+/dev/tiler                0666   system     system
 
 #for SYSLINK
 /dev/rpmsg-omx0           0666   drmrpc    drmrpc
@@ -31,21 +37,8 @@
 /dev/tf_driver            0666   drmrpc    drmrpc
 /dev/tf_ctrl              0666   drmrpc    drmrpc
 
-/dev/syslink-proc4430	  666    media      media 
-/dev/syslink-procmgr      666    media      media
-/dev/syslink_ipc          666    media      media
-/dev/omap-rproc0          444    media      media
-/dev/omap-rproc1          444    media      media
-/dev/omap-rproc2          444    media      media
-/dev/iovmm-omap0          444    media      media
-/dev/iovmm-omap1          444    media      media
-/dev/omap-devh0           444    media      media
-/dev/omap-devh1           444    media      media
-/dev/omap-devh2           444    media      media
+#for FM v4l2 Radio
+/dev/radio0               0600   fmradio    fmradio
 
-# for Sensor HAL
-/dev/akm8973              0666   system     system
-/dev/accelerometer        0666   system     system
-
-# for GPS
-/dev/s3c2410_serial1      0666   gps        gps
+#for GCX
+/dev/gcioctl              0666   system     system

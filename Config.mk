@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2011 The Android Open-Source Project
+# Copyright (C) 2012 Texas Instruments Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,15 +14,17 @@
 # limitations under the License.
 #
 
-# define OMAP_ENHANCEMENT variables
-include device/amazon/otter/Config.mk
+OMAP_ENHANCEMENT := true
+#OMAP_ENHANCEMENT_BURST_CAPTURE := true
+#OMAP_ENHANCEMENT_S3D := true
+#OMAP_ENHANCEMENT_CPCAM := true
+#OMAP_ENHANCEMENT_VTC := true
 
-PRODUCT_MAKEFILES := $(LOCAL_DIR)/full_otter.mk
+define ti-clear-vars
+$(eval OMAP_ENHANCEMENT:=) \
+$(eval OMAP_ENHANCEMENT_BURST_CAPTURE:=) \
+$(eval OMAP_ENHANCEMENT_S3D:=) \
+$(eval OMAP_ENHANCEMENT_CPCAM:=) \
+$(eval OMAP_ENHANCEMENT_VTC:=)
+endef
 
-ifdef OMAP_ENHANCEMENT_CPCAM
-PRODUCT_MAKEFILES += \
-    $(LOCAL_DIR)/sdk_addon/ti_omap_addon.mk
-endif
-
-# clear OMAP_ENHANCEMENT variables
-$(call ti-clear-vars)
