@@ -63,14 +63,11 @@ PRODUCT_PACKAGES += \
     dhcpcd.conf \
     calibrator \
     busybox \
-    su \
-    parse_hdmi_edid \
 
 # Apps
 PRODUCT_PACKAGES += \
     OtterParts \
     Superuser \
-    Term \
     FileManager \
 
 
@@ -83,15 +80,13 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/root/init.omap4430.rc:/root/init.omap4430.rc \
     device/amazon/otter/root/ueventd.rc:/root/ueventd.rc \
     device/amazon/otter/root/ueventd.omap4430.rc:/root/ueventd.omap4430.rc \
-    device/amazon/otter/root/omaplfb_sgx540_120.ko:/root/modules/omaplfb_sgx540_120.ko \
-    device/amazon/otter/root/pvrsrvkm_sgx540_120.ko:/root/modules/pvrsrvkm_sgx540_120.ko \
 
 # Permissions
-#    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
     frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/native/data/etc/android.hardware.sensor.barometer.xml:system/etc/permissions/android.hardware.sensor.barometer.xml \
     frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
@@ -107,7 +102,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/bin/fix-mac.sh:/system/bin/fix-mac.sh \
     device/amazon/otter/prebuilt/bin/strace:/system/bin/strace \
-    device/amazon/otter/prebuilt/bin/su:/system/xbin/su \
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
@@ -126,11 +120,6 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig \
     device/amazon/otter/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
 
-# Prebuilts /system/lib
-#    device/amazon/otter/prebuilt/lib/libion.so:/system/lib/libion.so \
-PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/lib/libjackpal-androidterm4.so:/system/lib/libjackpal-androidterm4.so \
-
 # Prebuilt /system/media
 PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip \
@@ -142,6 +131,25 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:/system/usr/keylayout/twl6030_pwrbutton.kl \
     device/amazon/otter/prebuilt/usr/keylayout/AVRCP.kl:/system/usr/keylayout/AVRCP.kl \
 
+
+# AOSP specific
+ifndef CM_BUILD
+
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/bin/su:/system/xbin/su \
+    device/amazon/otter/prebuilt/lib/libjackpal-androidterm4.so:/system/lib/libjackpal-androidterm4.so \
+
+PRODUCT_PACKAGES += \
+    parse_hdmi_edid \
+    Term \
+
+# copy all kernel modules under the "modules" directory to system/lib/modules
+PRODUCT_COPY_FILES += $(shell \
+    find device/amazon/otter/modules -name '*.ko' \
+    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
+    | tr '\n' ' ')
+
+endif
 
 PRODUCT_PROPERTY_OVERRIDES := \
     ro.sf.lcd_density=160 \
@@ -168,16 +176,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
-
-
-# Kernel Modules are now built dyanamically using the CM build system
-
-# copy all kernel modules under the "modules" directory to system/lib/modules
-PRODUCT_COPY_FILES += $(shell \
-    find device/amazon/otter/modules -name '*.ko' \
-    | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
-    | tr '\n' ' ')
-
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 
