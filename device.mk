@@ -45,12 +45,15 @@ PRODUCT_PACKAGES += \
     lib_driver_cmd_wl12xx \
     dhcpcd.conf \
     wpa_supplicant.conf \
+    ti_wfd_libs \
 
-# Sound
+# TI proprietary firmware / binaries
 PRODUCT_PACKAGES += \
-    tinyplay \
-    tinymix \
-    tinycap \
+    ti_omap4_sgx_libs \
+    wl1271-nvs_127x.bin \
+    wl127x-fw-4-mr \
+    wl127x-fw-4-plt \
+    wl127x-fw-4-sr
 
 # Misc
 PRODUCT_PACKAGES += \
@@ -68,9 +71,7 @@ PRODUCT_PACKAGES += \
 # Apps
 PRODUCT_PACKAGES += \
     OtterParts \
-    Superuser \
     FileManager \
-
 
 # Root
 PRODUCT_COPY_FILES += \
@@ -114,10 +115,6 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/mountd.conf:/system/etc/mountd.conf \
     device/amazon/otter/prebuilt/etc/vold.fstab:/system/etc/vold.fstab \
     device/amazon/otter/prebuilt/etc/firmware/ducati-m3.512MB.bin:/system/etc/firmware/ducati-m3.512MB.bin \
-    device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-mr.bin \
-    device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-plt.bin \
-    device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
-    device/amazon/otter/prebuilt/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin.orig \
     device/amazon/otter/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
 
 # Prebuilt /system/media
@@ -140,7 +137,6 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/lib/libjackpal-androidterm4.so:/system/lib/libjackpal-androidterm4.so \
 
 PRODUCT_PACKAGES += \
-    parse_hdmi_edid \
     Term \
 
 # copy all kernel modules under the "modules" directory to system/lib/modules
@@ -148,6 +144,11 @@ PRODUCT_COPY_FILES += $(shell \
     find device/amazon/otter/modules -name '*.ko' \
     | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
     | tr '\n' ' ')
+
+else
+PRODUCT_PACKAGES += \
+    Superuser \
+    su \
 
 endif
 
@@ -161,6 +162,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
     persist.lab126.chargeprotect=1 \
     com.ti.omap_enhancement=true \
     omap.enhancement=true \
+    ro.crypto.state=unencrypted \
     persist.sys.usb.config=mass_storage,adb
 
 
