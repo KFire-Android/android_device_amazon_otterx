@@ -19,10 +19,6 @@ PRODUCT_MODEL := Amazon Kindle Fire
 PRODUCT_MANUFACTURER := Amazon
 PRODUCT_RELEASE_NAME := KFire
 
-# for CM we hold prebuilts of omap4xxx bins so we don't need omapzoom gits
-PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/omap4xxx/libion.so:/system/lib/libion.so \
-
 PRODUCT_PACKAGES += \
     su \
 
