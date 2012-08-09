@@ -1,7 +1,8 @@
 import init.omap4430.usb.rc
 
-on early-init
+on init
     export EXTERNAL_STORAGE /storage/sdcard0
+    export DOWNLOAD_CACHE /cache/download
     mkdir /storage 0050 system sdcard_r
     mkdir /storage/sdcard0 0000 system system
     # for backwards compatibility
@@ -12,38 +13,21 @@ on early-init
     mkdir /storage/usb0 0000 system system
     mkdir /storage/usb1 0000 system system
 
-on init
-    export DOWNLOAD_CACHE /cache/download
-
 # power management
 # Enable off mode by default
 #    write /sys/kernel/debug/pm_debug/enable_off_mode 1
 
-on post-fs-data
-    mkdir /data/misc/wifi 0770 wifi wifi
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
-    mkdir /data/misc/dhcp 0770 dhcp dhcp
-    chown dhcp dhcp /data/misc/dhcp
-    mkdir /data/smc 0770 drmrpc drmrpc
-    chown drmrpc drmrpc /data/smc/counter.bin
-    chown drmrpc drmrpc /data/smc/storage.bin
-    chown drmrpc drmrpc /data/smc/system.bin
+on fs
+    mkdir /factory 0775 radio radio
+    mount ext4 /dev/block/mmcblk0p9 /system wait ro
+    mount ext4 /dev/block/mmcblk0p10 /data wait noatime nosuid nodev errors=continue discard
+    mount ext4 /dev/block/mmcblk0p11 /cache wait noatime nosuid nodev errors=continue discard
+    mount ext4 /dev/block/mmcblk0p8 /dropbox wait noatime nosuid nodev errors=continue discard
 
-# forget what this fixed
-    mkdir /data/tmp 0777 system system
-    symlink /data/tmp /tmp
+# pvr module
+    insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
 
-# make dir for trace
-    mkdir /data/trace 0777 system system
-    chmod 0777 /data/trace
-
-	# camera calibration
-#	mkdir /data/misc/camera 0770 media media
-#	mkdir /data/misc/camera/R5_MVEN003_LD2_ND0_IR0_SH0_FL1_SVEN003_DCCID1044 0770 media media
-
-#   mkdir /data/radio 0775 radio radio
-#   mkdir /data/radio/log 0775 radio radio
-
+on post-fs
 # make dir for cache
     mkdir /cache/download 0777 system system
 
@@ -51,24 +35,7 @@ on post-fs-data
 #    chown system system /data
 #    chmod 0771 /data
 
-    setprop vold.post_fs_data_done 1
-
-
-on boot
-    mount debugfs /sys/kernel/debug /sys/kernel/debug
-
-    setprop ro.build.product omap4sdp
-    setprop ro.product.device omap4sdp
-    setprop ro.radio.noril yes
-
-# fake some battery state
-    setprop status.battery.state Slow
-    setprop status.battery.level 5
-    setprop status.battery.level_raw  50
-    setprop status.battery.level_scale 9
-
     chmod 0666 /dev/pvrsrvkm
-    chmod 0444 /proc/kmsg
 
 # change permissions for mtd device
     chmod 0660 /dev/mtd/mtd0
@@ -101,8 +68,6 @@ on boot
     write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
 
 # wi-fi
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
-    mkdir /data/misc/dhcp 0770 dhcp dhcp
     insmod /system/lib/modules/compat.ko
     insmod /system/lib/modules/cfg80211.ko
     insmod /system/lib/modules/mac80211.ko
@@ -110,16 +75,6 @@ on boot
 
 # GPS
 #   insmod /system/lib/modules/gps_drv.ko
-
-on fs
-    mkdir /factory 0775 radio radio
-    mount ext4 /dev/block/mmcblk0p9 /system wait ro
-    mount ext4 /dev/block/mmcblk0p10 /data wait noatime nosuid nodev errors=continue discard
-    mount ext4 /dev/block/mmcblk0p11 /cache wait noatime nosuid nodev errors=continue discard
-    mount ext4 /dev/block/mmcblk0p8 /dropbox wait noatime nosuid nodev errors=continue discard
-
-# pvr module
-    insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
 
 # H264 Encoder Profile setting
 # 1 - Base Profile
@@ -176,6 +131,44 @@ on fs
     chown system system /system/bin/omapconf
     chown root root /system/bin/omapconf2
 
+    # change permissions for overlay managers and display devices
+    chown system system /sys/devices/platform/omapdss/display0/enabled
+    chown system system /sys/devices/platform/omapdss/display1/enabled
+    chown system system /sys/devices/platform/omapdss/display2/enabled
+    chown system system /sys/devices/platform/omapdss/display3/enabled
+    chown system system /sys/devices/platform/omapdss/display0/name
+    chown system system /sys/devices/platform/omapdss/display1/name
+    chown system system /sys/devices/platform/omapdss/display2/name
+    chown system system /sys/devices/platform/omapdss/display3/name
+    chown system system /sys/devices/platform/omapdss/overlay0/manager
+    chown system system /sys/devices/platform/omapdss/overlay1/manager
+    chown system system /sys/devices/platform/omapdss/overlay2/manager
+    chown system system /sys/devices/platform/omapdss/overlay3/manager
+    chown system system /sys/devices/platform/omapdss/overlay0/zorder
+    chown system system /sys/devices/platform/omapdss/overlay1/zorder
+    chown system system /sys/devices/platform/omapdss/overlay2/zorder
+    chown system system /sys/devices/platform/omapdss/overlay3/zorder
+    # change permissions for manager tranparency parameters
+    chown system system /sys/devices/platform/omapdss/manager0/name
+    chown system system /sys/devices/platform/omapdss/manager0/display
+    chown system system /sys/devices/platform/omapdss/manager1/name
+    chown system system /sys/devices/platform/omapdss/manager1/display
+    chown system system /sys/devices/platform/omapdss/manager2/name
+    chown system system /sys/devices/platform/omapdss/manager2/display
+    chown system system /sys/devices/platform/omapdss/overlay0/enabled
+    chown system system /sys/devices/platform/omapdss/overlay1/enabled
+    chown system system /sys/devices/platform/omapdss/overlay2/enabled
+    chown system system /sys/devices/platform/omapdss/overlay3/enabled
+    # change permissions for display timings to get the resolutions
+    chown system system /sys/devices/platform/omapdss/display0/timings
+    chown system system /sys/devices/platform/omapdss/display1/timings
+    chown system system /sys/devices/platform/omapdss/display2/timings
+    chown system system /sys/devices/platform/omapdss/display3/timings
+    chown system system /sys/devices/platform/omapdss/display2/code
+     # change permissions for Tiler driver
+    chown media media /dev/tiler
+    chmod 0666 /dev/tiler
+    chmod 0666 /dev/dmm
 # LEDs
     chmod 0777 /dev/ilitek_ctrl
     chmod 0777 /sys/class/leds/lcd-backlight/brightness
@@ -194,6 +187,48 @@ on fs
     chown system system /sys/class/power_supply/usb/device/charge_current
     chown system system /sys/class/power_supply/usb/device/float_voltage
     chown system system /sys/class/power_supply/usb/device/bad_battery
+
+on post-fs-data
+
+# forget what this fixed
+    mkdir /data/tmp 0777 system system
+    symlink /data/tmp /tmp
+
+# make dir for trace
+    mkdir /data/trace 0777 system system
+    chmod 0777 /data/trace
+
+	# camera calibration
+#	mkdir /data/misc/camera 0770 media media
+#	mkdir /data/misc/camera/R5_MVEN003_LD2_ND0_IR0_SH0_FL1_SVEN003_DCCID1044 0770 media media
+
+#   mkdir /data/radio 0775 radio radio
+#   mkdir /data/radio/log 0775 radio radio
+
+# wifi
+    mkdir /data/misc/wifi 0770 wifi wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+    chown dhcp dhcp /data/misc/dhcp
+    mkdir /data/smc 0770 drmrpc drmrpc
+    chown drmrpc drmrpc /data/smc/counter.bin
+    chown drmrpc drmrpc /data/smc/storage.bin
+    chown drmrpc drmrpc /data/smc/system.bin
+
+    setprop vold.post_fs_data_done 1
+
+on boot
+    mount debugfs /sys/kernel/debug /sys/kernel/debug
+
+    setprop ro.build.product omap4sdp
+    setprop ro.product.device omap4sdp
+    setprop ro.radio.noril yes
+
+# fake some battery state
+    setprop status.battery.state Slow
+    setprop status.battery.level 5
+    setprop status.battery.level_raw  50
+    setprop status.battery.level_scale 9
 
 service fixmac /system/bin/fix-mac.sh
     class core
@@ -299,4 +334,7 @@ service hostapd_bin /system/bin/hostapd -d /data/misc/wifi/hostapd.conf
 #service watchdog /sbin/watchdog
 #    user root
 #    oneshot
+
+on property:sys.boot_completed=1
+    log "== init.omap4430.rc: on property:sys.boot_completed=1 -----------------------"
 

@@ -50,10 +50,6 @@ PRODUCT_PACKAGES += \
 # TI proprietary firmware / binaries
 PRODUCT_PACKAGES += \
     ti_omap4_sgx_libs \
-    wl1271-nvs_127x.bin \
-    wl127x-fw-4-mr \
-    wl127x-fw-4-plt \
-    wl127x-fw-4-sr
 
 # Misc
 PRODUCT_PACKAGES += \
@@ -167,7 +163,8 @@ PRODUCT_PROPERTY_OVERRIDES := \
     com.ti.omap_enhancement=true \
     omap.enhancement=true \
     ro.crypto.state=unencrypted \
-    persist.sys.usb.config=mass_storage,adb
+    persist.sys.usb.config=mass_storage,adb \
+    persist.sys.root_access=1
 
 
 PRODUCT_CHARACTERISTICS := tablet,nosdcard
@@ -187,5 +184,6 @@ $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 
 $(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
+$(call inherit-product, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
 
 
