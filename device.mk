@@ -74,10 +74,11 @@ PRODUCT_PACKAGES += \
     FileManager \
 
 # Root
+#    system/core/device/amazon/otter/root/init.rc:/root/init.rc \
+
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel \
     device/amazon/otter/root/default.prop:/root/default.prop \
-    device/amazon/otter/root/init.rc:/root/init.rc \
     device/amazon/otter/root/init.omap4430.rc:/root/init.omap4430.rc \
     device/amazon/otter/root/init.omap4430.usb.rc:/root/init.omap4430.usb.rc \
     device/amazon/otter/root/ueventd.omap4430.rc:/root/ueventd.omap4430.rc \
@@ -144,6 +145,9 @@ PRODUCT_COPY_FILES += $(shell \
     find device/amazon/otter/modules -name '*.ko' \
     | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
     | tr '\n' ' ')
+
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/modules/pvrsrvkm_sgx540_120.ko:/system/lib/modules/pvrsrvkm_sgx540_120.ko \
 
 else
 PRODUCT_PACKAGES += \
