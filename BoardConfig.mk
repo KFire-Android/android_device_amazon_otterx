@@ -123,4 +123,4 @@ BOARD_NEEDS_CUTILS_LOG := true
 BOARD_USES_SECURE_SERVICES := true
 
 # Common device independent definitions
-include vendor/ti/common-open/BoardConfig.mk
+include device/ti/common-open/BoardConfig.mk
