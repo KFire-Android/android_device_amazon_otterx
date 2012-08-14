@@ -35,33 +35,27 @@ PRODUCT_PACKAGES += \
     lights.otter \
     libinvensense_mpl \
     audio.primary.omap4430 \
-    audio_policy.default \
-    audio.usb.default \
-    libaudioutils \
-    libwvm \
+    audio.a2dp.default
 
 # Wifi
 PRODUCT_PACKAGES += \
+    ti_wfd_libs \
     lib_driver_cmd_wl12xx \
     dhcpcd.conf \
+    hostapd.conf \
     wpa_supplicant.conf \
     ti_wfd_libs \
-
-# TI proprietary firmware / binaries
-PRODUCT_PACKAGES += \
-    ti_omap4_sgx_libs \
+    calibrator \
+    crda \
+    regulatory.bin \
 
 # Misc
 PRODUCT_PACKAGES += \
     hwprops \
     evtest \
-    librs_jni \
-    com.android.future.usb.accessory \
     libjni_pinyinime \
     make_ext4fs \
     setup_fs \
-    dhcpcd.conf \
-    calibrator \
     busybox \
 
 # Apps
@@ -78,6 +72,12 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/root/init.omap4430.rc:/root/init.omap4430.rc \
     device/amazon/otter/root/init.omap4430.usb.rc:/root/init.omap4430.usb.rc \
     device/amazon/otter/root/ueventd.omap4430.rc:/root/ueventd.omap4430.rc \
+
+ifdef CM_BUILD
+#PRODUCT_COPY_FILES += device/amazon/otter/root/init.rc.cm10:/root/init.rc
+else
+#PRODUCT_COPY_FILES += device/amazon/otter/root/init.rc.aosp:/root/init.rc
+endif
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -101,6 +101,8 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/bin/fix-mac.sh:/system/bin/fix-mac.sh \
     device/amazon/otter/prebuilt/bin/strace:/system/bin/strace \
 
+#    device/amazon/otter/prebuilt/etc/media_profiles.xml:/system/etc/media_profiles.xml \
+
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/audio_policy.conf:/system/etc/audio_policy.conf \
@@ -108,7 +110,6 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/gps.conf:/system/etc/gps.conf \
     device/amazon/otter/prebuilt/etc/hosts:/system/etc/hosts \
     device/amazon/otter/prebuilt/etc/media_codecs.xml:/system/etc/media_codecs.xml \
-    device/amazon/otter/prebuilt/etc/media_profiles.xml:/system/etc/media_profiles.xml \
     device/amazon/otter/prebuilt/etc/mountd.conf:/system/etc/mountd.conf \
     device/amazon/otter/prebuilt/etc/vold.fstab:/system/etc/vold.fstab \
     device/amazon/otter/prebuilt/etc/firmware/ducati-m3.512MB.bin:/system/etc/firmware/ducati-m3.512MB.bin \
@@ -125,25 +126,36 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:/system/usr/keylayout/twl6030_pwrbutton.kl \
     device/amazon/otter/prebuilt/usr/keylayout/AVRCP.kl:/system/usr/keylayout/AVRCP.kl \
 
+# Graphics
+PRODUCT_COPY_FILES += \
+    device/motorola/spyder/prebuilt/imgtec/lib/hw/gralloc.omap4430.so:/system/vendor/lib/hw/gralloc.omap4430.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/egl/libEGL_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libEGL_POWERVR_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/egl/libGLESv2_POWERVR_SGX540_120.so:/system/vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libglslcompiler_SGX540_120.so:/system/vendor/lib/libglslcompiler_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libIMGegl_SGX540_120.so:/system/vendor/lib/libIMGegl_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libpvr2d_SGX540_120.so:/system/vendor/lib/libpvr2d_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libpvrANDROID_WSEGL_SGX540_120.so:/system/vendor/lib/libpvrANDROID_WSEGL_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libPVRScopeServices_SGX540_120.so:/system/vendor/lib/libPVRScopeServices_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libsrv_init_SGX540_120.so:/system/vendor/lib/libsrv_init_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libsrv_um_SGX540_120.so:/system/vendor/lib/libsrv_um_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/lib/libusc_SGX540_120.so:/system/vendor/lib/libusc_SGX540_120.so \
+    device/motorola/spyder/prebuilt/imgtec/bin/pvrsrvinit:/system/vendor/bin/pvrsrvinit \
+    device/motorola/spyder/prebuilt/imgtec/bin/pvrsrvctl_SGX540_120:/system/vendor/bin/pvrsrvctl_SGX540_120 \
+    device/motorola/spyder/prebuilt/imgtec/etc/powervr.ini:/system/etc/powervr.ini \
+
+PRODUCT_PACKAGES += \
+    librs_jni \
+    com.android.future.usb.accessory \
 
 # AOSP specific
 ifndef CM_BUILD
-
-PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/bin/su:/system/xbin/su \
-    device/amazon/otter/prebuilt/lib/libjackpal-androidterm4.so:/system/lib/libjackpal-androidterm4.so \
-
-PRODUCT_PACKAGES += \
-    Term \
 
 # copy all kernel modules under the "modules" directory to system/lib/modules
 PRODUCT_COPY_FILES += $(shell \
     find device/amazon/otter/modules -name '*.ko' \
     | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
     | tr '\n' ' ')
-
-PRODUCT_COPY_FILES += \
-    device/amazon/otter/modules/pvrsrvkm_sgx540_120.ko:/system/lib/modules/pvrsrvkm_sgx540_120.ko \
 
 else
 PRODUCT_PACKAGES += \
@@ -181,9 +193,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
-
-$(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
-$(call inherit-product, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
+$(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
+$(call inherit-product-if-exists, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
 
 
