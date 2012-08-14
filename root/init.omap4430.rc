@@ -9,6 +9,9 @@ on init
     symlink /storage/sdcard0 /sdcard
     symlink /storage/sdcard0 /mnt/sdcard
 
+# pvr module
+    insmod /modules/pvrsrvkm_sgx540_120.ko
+
 # create removable USB Mass Storage mountpoints
     mkdir /storage/usb0 0000 system system
     mkdir /storage/usb1 0000 system system
@@ -23,9 +26,6 @@ on fs
     mount ext4 /dev/block/mmcblk0p10 /data wait noatime nosuid nodev errors=continue discard
     mount ext4 /dev/block/mmcblk0p11 /cache wait noatime nosuid nodev errors=continue discard
     mount ext4 /dev/block/mmcblk0p8 /dropbox wait noatime nosuid nodev errors=continue discard
-
-# pvr module
-    insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
 
 on post-fs
 # make dir for cache
