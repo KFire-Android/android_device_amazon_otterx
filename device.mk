@@ -113,7 +113,6 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/media_codecs.xml:/system/etc/media_codecs.xml \
     device/amazon/otter/prebuilt/etc/mountd.conf:/system/etc/mountd.conf \
     device/amazon/otter/prebuilt/etc/vold.fstab:/system/etc/vold.fstab \
-    device/amazon/otter/prebuilt/etc/firmware/ducati-m3.512MB.bin:/system/etc/firmware/ducati-m3.512MB.bin \
     device/amazon/otter/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
 
 # Prebuilt /system/usr
