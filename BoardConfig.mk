@@ -142,4 +142,4 @@ BOARD_NEEDS_CUTILS_LOG := true
 BOARD_USES_SECURE_SERVICES := true
 
 # Common device independent definitions
-include device/ti/common-open/BoardConfig.mk
+include device/amazon/otter/BoardConfigTI.mk
