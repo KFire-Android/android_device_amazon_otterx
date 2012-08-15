@@ -37,9 +37,6 @@ PRODUCT_PACKAGES += \
     audio.primary.omap4430 \
     audio.a2dp.default
 
-# Graphics
-PRODUCT_PACKAGES += ti_omap4_sgx_libs_otter
-
 # Wifi
 PRODUCT_PACKAGES += \
     ti_wfd_libs \
@@ -82,12 +79,12 @@ else
 #PRODUCT_COPY_FILES += device/amazon/otter/root/init.rc.aosp:/root/init.rc
 endif
 
+#    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
     frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/native/data/etc/android.hardware.sensor.barometer.xml:system/etc/permissions/android.hardware.sensor.barometer.xml \
     frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
@@ -118,10 +115,6 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/etc/firmware/ducati-m3.512MB.bin:/system/etc/firmware/ducati-m3.512MB.bin \
     device/amazon/otter/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
 
-# Prebuilt /system/media
-PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip \
-
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
     device/amazon/otter/prebuilt/usr/idc/ilitek_i2c.idc:/system/usr/idc/ilitek_i2c.idc \
@@ -142,6 +135,10 @@ PRODUCT_COPY_FILES += $(shell \
     | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
     | tr '\n' ' ')
 
+# Prebuilt /system/media
+PRODUCT_COPY_FILES += \
+    device/amazon/otter/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip \
+
 else
 PRODUCT_PACKAGES += \
     Superuser \
@@ -161,7 +158,8 @@ PRODUCT_PROPERTY_OVERRIDES := \
     omap.enhancement=true \
     ro.crypto.state=unencrypted \
     persist.sys.usb.config=mass_storage,adb \
-    persist.sys.root_access=1
+    persist.sys.root_access=3 \
+    ro.hwc.legacy_api=true
 
 
 PRODUCT_CHARACTERISTICS := tablet,nosdcard
@@ -178,8 +176,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
-$(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
-$(call inherit-product-if-exists, device/amazon/otter/imgtec/sgx-imgtec-bins.mk)
+$(call inherit-product-if-exists, vendor/amazon/otter/proprietary/imgtec/sgx-imgtec-bins.mk)
 $(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
+ifndef CM_BUILD
+$(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor-prebuilt.mk)
+else
+$(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
 $(call inherit-product-if-exists, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
+endif
 
