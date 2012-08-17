@@ -19,13 +19,13 @@
 #
 # Everything in this directory will become public
 
-USE_PREBUILT_OMAP4XXX := true
-
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 LOCAL_KERNEL := device/amazon/otter/kernel
 else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
+
+BUILD_VENDOR_FILES := true
 
 
 PRODUCT_AAPT_CONFIG := normal mdpi
@@ -178,7 +178,7 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product-if-exists, vendor/amazon/otter/proprietary/imgtec/sgx-imgtec-bins.mk)
 $(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
-ifdef USE_PREBUILT_OMAP4XXX
+ifndef BUILD_VENDOR_FILES
 $(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor-prebuilt.mk)
 else
 $(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
