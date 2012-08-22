@@ -83,6 +83,10 @@ WIFI_FIRMWARE_LOADER             := ""
 COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
 endif
 
+# adb has root
+ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
+ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
+
 # Graphics
 BOARD_EGL_CFG := device/amazon/otter/egl.cfg
 USE_OPENGL_RENDERER := true

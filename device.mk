@@ -34,7 +34,8 @@ PRODUCT_PACKAGES += \
     lights.otter \
     libinvensense_mpl \
     audio.primary.omap4430 \
-    audio.a2dp.default
+    audio.a2dp.default \
+    hwcomposer.otter \
 
 # Wifi
 PRODUCT_PACKAGES += \
@@ -165,8 +166,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
-$(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
+#$(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product-if-exists, vendor/amazon/otter/proprietary/imgtec/sgx-imgtec-bins.mk)
+$(call inherit-product-if-exists, vendor/motorola/common/proprietary/custom-omap4xxx/custom-omap4.mk)
 $(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
 $(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
 $(call inherit-product-if-exists, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
