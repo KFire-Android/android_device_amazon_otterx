@@ -221,9 +221,6 @@ on post-fs-data
 
 on boot
     mount debugfs /sys/kernel/debug /sys/kernel/debug
-
-    setprop ro.build.product omap4sdp
-    setprop ro.product.device omap4sdp
     setprop ro.radio.noril yes
 
 # fake some battery state
