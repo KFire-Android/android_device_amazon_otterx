@@ -25,8 +25,6 @@ else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
-BUILD_VENDOR_FILES := true
-
 
 PRODUCT_AAPT_CONFIG := normal mdpi
 PRODUCT_AAPT_PREF_CONFIG := mdpi
@@ -64,9 +62,6 @@ PRODUCT_PACKAGES += \
     OtterParts \
     FileManager \
 
-# Root
-#    system/core/device/amazon/otter/root/init.rc:/root/init.rc \
-
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel \
     device/amazon/otter/root/default.prop:/root/default.prop \
@@ -74,18 +69,12 @@ PRODUCT_COPY_FILES += \
     device/amazon/otter/root/init.omap4430.usb.rc:/root/init.omap4430.usb.rc \
     device/amazon/otter/root/ueventd.omap4430.rc:/root/ueventd.omap4430.rc \
 
-ifdef CM_BUILD
-#PRODUCT_COPY_FILES += device/amazon/otter/root/init.rc.cm10:/root/init.rc
-else
-#PRODUCT_COPY_FILES += device/amazon/otter/root/init.rc.aosp:/root/init.rc
-endif
-
-#    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
     frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/native/data/etc/android.hardware.sensor.barometer.xml:system/etc/permissions/android.hardware.sensor.barometer.xml \
     frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
@@ -161,9 +150,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
     ro.crypto.state=unencrypted \
     persist.sys.usb.config=mass_storage,adb \
     persist.sys.root_access=3 \
-
-#    ro.hwc.legacy_api=true
-
+    ro.hwc.legacy_api=true
 
 PRODUCT_CHARACTERISTICS := tablet,nosdcard
 
@@ -181,10 +168,7 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product-if-exists, vendor/amazon/otter/proprietary/imgtec/sgx-imgtec-bins.mk)
 $(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
-ifndef BUILD_VENDOR_FILES
-$(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor-prebuilt.mk)
-else
 $(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
 $(call inherit-product-if-exists, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
-endif
+
 

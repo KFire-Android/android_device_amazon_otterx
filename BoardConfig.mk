@@ -54,13 +54,7 @@ WLAN_MODULES:
 	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_spi.ko $(KERNEL_MODULES_OUT)
 	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
 
-SGX_MODULES:
-	make clean -C vendor/amazon/otter/proprietary/imgtec/eurasia_km/eurasiacon/build/linux2/omap4430_android
-	cp kernel/amazon/otter/drivers/video/omap2/omapfb/omapfb.h $(KERNEL_OUT)/drivers/video/omap2/omapfb/omapfb.h
-	make -j8 -C vendor/amazon/otter/proprietary/imgtec/eurasia_km/eurasiacon/build/linux2/omap4430_android ARCH=arm KERNEL_CROSS_COMPILE=arm-eabi- CROSS_COMPILE=arm-eabi- KERNELDIR=$(KERNEL_OUT) TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
-	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm_sgx540_120.ko $(KERNEL_MODULES_OUT)
-
-TARGET_KERNEL_MODULES := WLAN_MODULES SGX_MODULES
+TARGET_KERNEL_MODULES += WLAN_MODULES
 endif
 
 # Filesystem
@@ -78,13 +72,7 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_
 USES_TI_MAC80211 := true
 ifdef USES_TI_MAC80211
 BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-ifndef BUILD_VENDOR_FILES
-WPA_SUPPLICANT_VERSION           := VER_0_8_X
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
-BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
-else
 WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI
-endif
 BOARD_HOSTAPD_DRIVER             := NL80211
 PRODUCT_WIRELESS_TOOLS           := true
 BOARD_WLAN_DEVICE                := wl12xx_mac80211
@@ -113,6 +101,9 @@ BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 TARGET_RECOVERY_PRE_COMMAND := "idme postmode 1;"
+
+# adb has root
+ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
 
 ifdef OMAP_ENHANCEMENT
 COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
