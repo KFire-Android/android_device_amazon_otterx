@@ -2,7 +2,7 @@
 # Setup device specific product configuration.
 #
 
-TARGET_BOOTANIMATION_NAME := vertical-600
+TARGET_BOOTANIMATION_NAME := 600.zip
 
 # Inherit some common cyanogenmod stuff.
 $(call inherit-product-if-exists, vendor/cm/config/common_full_tablet_wifionly.mk)

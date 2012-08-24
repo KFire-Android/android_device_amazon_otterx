@@ -129,5 +129,17 @@ endif
 BOARD_NEEDS_CUTILS_LOG := true
 BOARD_USES_SECURE_SERVICES := true
 
+# CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
+# added by twa_priv
+TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
+TARGET_USE_KRAIT_PLD_SET := true
+TARGET_KRAIT_BIONIC_PLDOFFS := 10
+TARGET_KRAIT_BIONIC_PLDTHRESH := 10
+TARGET_KRAIT_BIONIC_BBTHRESH := 64
+TARGET_KRAIT_BIONIC_PLDSIZE := 64
+
+# Bootanimation
+TARGET_BOOTANIMATION_PRELOAD := true
+
 # Common device independent definitions
 include device/amazon/otter/BoardConfigTI.mk
