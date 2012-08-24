@@ -19,8 +19,10 @@
 #
 # Everything in this directory will become public
 
+DEVICE_FOLDER := device/amazon/otter
+
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/amazon/otter/kernel
+LOCAL_KERNEL := $(DEVICE_FOLDER)/kernel
 else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
@@ -36,6 +38,7 @@ PRODUCT_PACKAGES += \
     audio.primary.omap4430 \
     audio.a2dp.default \
     hwcomposer.otter \
+    libedid \
 
 # Wifi
 PRODUCT_PACKAGES += \
@@ -65,10 +68,10 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel \
-    device/amazon/otter/root/default.prop:/root/default.prop \
-    device/amazon/otter/root/init.omap4430.rc:/root/init.omap4430.rc \
-    device/amazon/otter/root/init.omap4430.usb.rc:/root/init.omap4430.usb.rc \
-    device/amazon/otter/root/ueventd.omap4430.rc:/root/ueventd.omap4430.rc \
+    $(DEVICE_FOLDER)/root/default.prop:/root/default.prop \
+    $(DEVICE_FOLDER)/root/init.omap4430.rc:/root/init.omap4430.rc \
+    $(DEVICE_FOLDER)/root/init.omap4430.usb.rc:/root/init.omap4430.usb.rc \
+    $(DEVICE_FOLDER)/root/ueventd.omap4430.rc:/root/ueventd.omap4430.rc \
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -89,28 +92,28 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/bin/fix-mac.sh:/system/bin/fix-mac.sh \
-    device/amazon/otter/prebuilt/bin/strace:/system/bin/strace \
+    $(DEVICE_FOLDER)/prebuilt/bin/fix-mac.sh:/system/bin/fix-mac.sh \
+    $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/strace \
 
-#    device/amazon/otter/prebuilt/etc/media_profiles.xml:/system/etc/media_profiles.xml \
+#    $(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:/system/etc/media_profiles.xml \
 
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/etc/audio_policy.conf:/system/etc/audio_policy.conf \
-    device/amazon/otter/prebuilt/etc/dbus.conf:/system/etc/dbus.conf \
-    device/amazon/otter/prebuilt/etc/gps.conf:/system/etc/gps.conf \
-    device/amazon/otter/prebuilt/etc/hosts:/system/etc/hosts \
-    device/amazon/otter/prebuilt/etc/media_codecs.xml:/system/etc/media_codecs.xml \
-    device/amazon/otter/prebuilt/etc/mountd.conf:/system/etc/mountd.conf \
-    device/amazon/otter/prebuilt/etc/vold.fstab:/system/etc/vold.fstab \
-    device/amazon/otter/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
+    $(DEVICE_FOLDER)/prebuilt/etc/audio_policy.conf:/system/etc/audio_policy.conf \
+    $(DEVICE_FOLDER)/prebuilt/etc/dbus.conf:/system/etc/dbus.conf \
+    $(DEVICE_FOLDER)/prebuilt/etc/gps.conf:/system/etc/gps.conf \
+    $(DEVICE_FOLDER)/prebuilt/etc/hosts:/system/etc/hosts \
+    $(DEVICE_FOLDER)/prebuilt/etc/media_codecs.xml:/system/etc/media_codecs.xml \
+    $(DEVICE_FOLDER)/prebuilt/etc/mountd.conf:/system/etc/mountd.conf \
+    $(DEVICE_FOLDER)/prebuilt/etc/vold.fstab:/system/etc/vold.fstab \
+    $(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:system/etc/wifi/TQS_S_2.6.ini \
 
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/usr/idc/ilitek_i2c.idc:/system/usr/idc/ilitek_i2c.idc \
-    device/amazon/otter/prebuilt/usr/idc/twl6030_pwrbutton.idc:/system/usr/idc/twl6030_pwrbutton.idc \
-    device/amazon/otter/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:/system/usr/keylayout/twl6030_pwrbutton.kl \
-    device/amazon/otter/prebuilt/usr/keylayout/AVRCP.kl:/system/usr/keylayout/AVRCP.kl \
+    $(DEVICE_FOLDER)/prebuilt/usr/idc/ilitek_i2c.idc:/system/usr/idc/ilitek_i2c.idc \
+    $(DEVICE_FOLDER)/prebuilt/usr/idc/twl6030_pwrbutton.idc:/system/usr/idc/twl6030_pwrbutton.idc \
+    $(DEVICE_FOLDER)/prebuilt/usr/keylayout/twl6030_pwrbutton.kl:/system/usr/keylayout/twl6030_pwrbutton.kl \
+    $(DEVICE_FOLDER)/prebuilt/usr/keylayout/AVRCP.kl:/system/usr/keylayout/AVRCP.kl \
 
 PRODUCT_PACKAGES += \
     librs_jni \
@@ -121,13 +124,13 @@ ifndef CM_BUILD
 
 # copy all kernel modules under the "modules" directory to system/lib/modules
 PRODUCT_COPY_FILES += $(shell \
-    find device/amazon/otter/modules -name '*.ko' \
+    find $(DEVICE_FOLDER)/modules -name '*.ko' \
     | sed -r 's/^\/?(.*\/)([^/ ]+)$$/\1\2:system\/lib\/modules\/\2/' \
     | tr '\n' ' ')
 
 # Prebuilt /system/media
 PRODUCT_COPY_FILES += \
-    device/amazon/otter/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip \
+    $(DEVICE_FOLDER)/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip \
 
 else
 PRODUCT_PACKAGES += \
@@ -155,7 +158,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
 
 PRODUCT_CHARACTERISTICS := tablet,nosdcard
 
-DEVICE_PACKAGE_OVERLAYS := device/amazon/otter/overlay/aosp
+DEVICE_PACKAGE_OVERLAYS := $(DEVICE_FOLDER)/overlay/aosp
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
