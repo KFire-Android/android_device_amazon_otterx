@@ -22,7 +22,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := audio.primary.omap4430
+LOCAL_MODULE := audio.primary.otter
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_SRC_FILES := audio_hw.c
 LOCAL_SRC_FILES += ril_interface.c

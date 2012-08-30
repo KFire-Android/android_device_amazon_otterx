@@ -19,23 +19,12 @@
  */
 
 #define LOG_TAG "audio_hw_primary"
-/*#define LOG_NDEBUG 0*/
+#define LOG_NDEBUG 0
 /*#define LOG_NDEBUG_FUNCTION*/
 #ifndef LOG_NDEBUG_FUNCTION
 #define LOGFUNC(...) ((void)0)
 #else
 #define LOGFUNC(...) (ALOGV(__VA_ARGS__))
-#endif
-
-// #ifndef OMAP_ENHANCEMENT
-#if 1
-/* Setting these values to zero effectively disables all the FM_RADIO
- * code paths.
- */
-#define AUDIO_DEVICE_OUT_FM_RADIO_TX 0
-#define AUDIO_DEVICE_IN_FM_RADIO_RX 0
-#define AUDIO_PARAMETER_STREAM_FM_ROUTING "fm_routing"
-#define AUDIO_PARAMETER_STREAM_FM_MUTE "fm_mute"
 #endif
 
 #include <errno.h>
@@ -59,6 +48,17 @@
 #include <audio_effects/effect_aec.h>
 
 #include "ril_interface.h"
+
+// #ifndef OMAP_ENHANCEMENT
+#if 1
+/* Setting these values to zero effectively disables all the FM_RADIO
+ * code paths.
+ */
+#define AUDIO_DEVICE_OUT_FM_RADIO_TX 0
+#define AUDIO_DEVICE_IN_FM_RADIO_RX 0
+#define AUDIO_PARAMETER_STREAM_FM_ROUTING "fm_routing"
+#define AUDIO_PARAMETER_STREAM_FM_MUTE "fm_mute"
+#endif
 
 /* Mixer control names */
 #define MIXER_DL1_EQUALIZER                 "DL1 Equalizer"
@@ -221,10 +221,9 @@
 #define DB_TO_ABE_GAIN(x) ((x) + MIXER_ABE_GAIN_0DB)
 #define DB_TO_CAPTURE_PREAMPLIFIER_VOLUME(x) (((x) + 6) / 6)
 #define DB_TO_CAPTURE_VOLUME(x) (((x) - 6) / 6)
-#define DB_TO_HEADSET_VOLUME(x) (((x) + 30) / 2)
+#define DB_TO_HEADSET_VOLUME(x) (((x) + 15) / 2) // was 30
 #define DB_TO_SPEAKER_VOLUME(x) (((x) + 52) / 2)
-/* FIXME-HASHCODE: lowered EARPIECE volume was originally: (((x) + 24) / 2) */
-#define DB_TO_EARPIECE_VOLUME(x) (((x) + 12) / 2)
+#define DB_TO_EARPIECE_VOLUME(x) (((x) + 24) / 2)
 
 /* use-case specific mic volumes, all in dB */
 #define CAPTURE_DIGITAL_MIC_VOLUME            26
@@ -357,7 +356,7 @@ struct route_setting defaults[] = {
     },
     {
         .ctl_name = MIXER_EARPHONE_PLAYBACK_VOLUME,
-        .intval = DB_TO_EARPIECE_VOLUME(4),
+        .intval = DB_TO_EARPIECE_VOLUME(6),
     },
     {
         .ctl_name = MIXER_AUDUL_VOICE_UL_VOLUME,
@@ -1623,9 +1622,9 @@ static void select_input_device(struct omap_audio_device *adev)
         } else if(adev->board_type == OMAP4_KC1) {
             /* Select front end */
             ALOGE(">>> [ASoC]select_input_device:: devices==%d, headset_on==%d, main_mic_on==%d, sub_mic_on==%d\n", adev->devices, headset_on, main_mic_on, sub_mic_on);
-            if (main_mic_on || sub_mic_on) {
+            if (main_mic_on || sub_mic_on || headset_on) {
                 set_route_by_array(adev->mixer, mm_ul2_dmic0, 1);
-                hw_is_stereo_only = 1;
+                // hw_is_stereo_only = 1;
             }
 
             /* Select back end */
