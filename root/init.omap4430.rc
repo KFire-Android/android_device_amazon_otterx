@@ -53,18 +53,12 @@ on post-fs
     chmod 0777 /dev/dmm
 
 # Set default maximum of 1008 on cpu0 (peformance settings will change this if set by user)
-# FIXME-HASHCODE: Removing this for AOSP where there's no built-in CPU manager.
-#    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1008000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1008000
 
 #Give system ownership and permission to boost clock for specified timeout
 #Note boost_timeout cannot be changed from application because of dynamic sysfs creation. It will have default value of 3 sec.
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
     chmod 0664  /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq
-
-# cpufreq interactive governor: timer 20ms, min sample 20ms, hispeed 800MHz
-#    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
-#    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 20000
-#    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 800000
 
 # Boost the CPU for 30 secs during boot
     write /sys/devices/system/cpu/cpufreq/interactive/boost_timeout 30000000
@@ -90,28 +84,21 @@ on post-fs
 
     # change permissions for alsa nodes
     chmod 0777 /dev/snd/controlC0
-    chmod 0777 /dev/snd/pcmC0D0c
     chmod 0777 /dev/snd/pcmC0D0p
     chmod 0777 /dev/snd/pcmC0D1c
     chmod 0777 /dev/snd/pcmC0D1p
     chmod 0777 /dev/snd/pcmC0D2c
-    chmod 0777 /dev/snd/pcmC0D2p
     chmod 0777 /dev/snd/pcmC0D3c
     chmod 0777 /dev/snd/pcmC0D3p
     chmod 0777 /dev/snd/pcmC0D4c
     chmod 0777 /dev/snd/pcmC0D4p
     chmod 0777 /dev/snd/pcmC0D5c
     chmod 0777 /dev/snd/pcmC0D5p
-    chmod 0777 /dev/snd/pcmC0D7p
     chmod 0777 /dev/snd/timer
 
     # change permissions for modem
     chmod 0660 /dev/ttyS0
     chown radio radio /dev/ttyS0
-
-    # change permissions for Camera
-    chmod 0777 /dev/video5
-    chmod 0777 /dev/video0
 
     # change permissions for Thermal sensor TMP105
     chmod 0777 /sys/class/hwmon/hwmon0/device/temp1_max
@@ -120,7 +107,7 @@ on post-fs
      # change permissions for Tiler driver
     chown media media /dev/tiler
     chmod 0666 /dev/tiler
-    chmod 0666 /dev/dmm
+
 # LEDs
     chmod 0777 /dev/ilitek_ctrl
     chmod 0777 /sys/class/leds/lcd-backlight/brightness
@@ -150,20 +137,12 @@ on post-fs
     insmod /system/lib/modules/wl12xx.ko
 
 on post-fs-data
-# forget what this fixed
     mkdir /data/tmp 0777 system system
     symlink /data/tmp /tmp
 
 # make dir for trace
     mkdir /data/trace 0777 system system
     chmod 0777 /data/trace
-
-	# camera calibration
-#	mkdir /data/misc/camera 0770 media media
-#	mkdir /data/misc/camera/R5_MVEN003_LD2_ND0_IR0_SH0_FL1_SVEN003_DCCID1044 0770 media media
-
-#   mkdir /data/radio 0775 radio radio
-#   mkdir /data/radio/log 0775 radio radio
 
 # wifi
     mkdir /data/misc/wifi 0770 wifi wifi
