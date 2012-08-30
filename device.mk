@@ -31,14 +31,16 @@ endif
 PRODUCT_AAPT_CONFIG := normal mdpi
 PRODUCT_AAPT_PREF_CONFIG := mdpi
 
+
 # Hardware HALs
 PRODUCT_PACKAGES += \
     lights.otter \
-    libinvensense_mpl \
-    audio.primary.omap4430 \
-    audio.a2dp.default \
+    power.otter \
     hwcomposer.otter \
+    audio.primary.otter \
+    audio.a2dp.default \
     libedid \
+    libinvensense_mpl \
 
 # Wifi
 PRODUCT_PACKAGES += \
@@ -47,7 +49,6 @@ PRODUCT_PACKAGES += \
     dhcpcd.conf \
     hostapd.conf \
     wpa_supplicant.conf \
-    ti_wfd_libs \
     calibrator \
     crda \
     regulatory.bin \
@@ -60,6 +61,12 @@ PRODUCT_PACKAGES += \
     make_ext4fs \
     setup_fs \
     busybox \
+
+# Audio testing
+PRODUCT_PACKAGES += \
+    tinymix \
+    tinyplay \
+    tinycap
 
 # Apps
 PRODUCT_PACKAGES += \
@@ -96,7 +103,6 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/bin/strace:/system/bin/strace \
 
 #    $(DEVICE_FOLDER)/prebuilt/etc/media_profiles.xml:/system/etc/media_profiles.xml \
-
 # Prebuilts /system/etc
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/etc/audio_policy.conf:/system/etc/audio_policy.conf \
@@ -171,7 +177,6 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 
 #$(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product-if-exists, vendor/amazon/otter/proprietary/imgtec/sgx-imgtec-bins.mk)
-$(call inherit-product-if-exists, vendor/motorola/common/proprietary/custom-omap4xxx/custom-omap4.mk)
 $(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
 $(call inherit-product-if-exists, hardware/ti/omap4xxx/omap4.mk)
 $(call inherit-product-if-exists, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)

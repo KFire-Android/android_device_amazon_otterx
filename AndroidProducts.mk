@@ -14,15 +14,6 @@
 # limitations under the License.
 #
 
-# define OMAP_ENHANCEMENT variables
-include device/amazon/otter/Config.mk
-
 PRODUCT_MAKEFILES := $(LOCAL_DIR)/full_otter.mk
 
-ifdef OMAP_ENHANCEMENT_CPCAM
-PRODUCT_MAKEFILES += \
-    $(LOCAL_DIR)/sdk_addon/ti_omap_addon.mk
-endif
 
-# clear OMAP_ENHANCEMENT variables
-$(call ti-clear-vars)
