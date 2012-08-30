@@ -12,9 +12,6 @@ $(call inherit-product, device/amazon/otter/full_otter.mk)
 
 DEVICE_PACKAGE_OVERLAYS := device/amazon/otter/overlay/cm
 
-# for CM we override libion
-TARGET_HAS_CUSTOM_LIBION := true
-
 PRODUCT_NAME := cm_otter
 PRODUCT_DEVICE := otter
 PRODUCT_BRAND := Android
