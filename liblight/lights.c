@@ -15,15 +15,21 @@
  */
 
 #define LOG_TAG "lights"
+
 #include <cutils/log.h>
+
 #include <stdint.h>
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <pthread.h>
+
 #include <sys/ioctl.h>
 #include <sys/types.h>
+
 #include <hardware/lights.h>
+
+/******************************************************************************/
 
 static pthread_once_t g_init = PTHREAD_ONCE_INIT;
 static pthread_mutex_t g_lock = PTHREAD_MUTEX_INITIALIZER;
@@ -31,33 +37,17 @@ static pthread_mutex_t g_lock = PTHREAD_MUTEX_INITIALIZER;
 char const *const LCD_FILE = "/sys/class/leds/lcd-backlight/brightness";
 char const *const ORANGE_LED_FILE = "/sys/class/leds/led-green";
 char const *const GREEN_LED_FILE = "/sys/class/leds/led-orange";
-char const *const LED_FILE = "/dev/an30259a_leds";
 
-#define IMAX 0 // 12.75mA power consumption
-
-// Slope values, based on total blink of 1000ms
-#define SLOPE_UP_1		450
-#define SLOPE_UP_2		(500-SLOPE_UP_1)
-#define SLOPE_DOWN_1	SLOPE_UP_2
-#define SLOPE_DOWN_2	SLOPE_UP_1
-// brightness at mid-slope, on 0 - 127 scale
-#define MID_BRIGHTNESS  31
-
-void init_g_lock(void)
-{
+void init_globals(void) {
+	// init the mutex
 	pthread_mutex_init(&g_lock, NULL);
 }
 
-static int write_int(char const *path, int value)
-{
+static int write_int(char const *path, int value) {
 	int fd;
-	static int already_warned;
+	static int already_warned = 0;
 
-	already_warned = 0;
-
-	ALOGV("write_int: path %s, value %d", path, value);
 	fd = open(path, O_RDWR);
-
 	if (fd >= 0) {
 		char buffer[20];
 		int bytes = sprintf(buffer, "%d\n", value);
@@ -73,102 +63,107 @@ static int write_int(char const *path, int value)
 	}
 }
 
-static int rgb_to_brightness(struct light_state_t const *state)
-{
-	int color = state->color & 0x00ffffff;
+static int is_lit(struct light_state_t const* state) {
+	return state->color & 0x00ffffff;
+}
 
+static int rgb_to_brightness(struct light_state_t const *state) {
+	int color = state->color & 0x00ffffff;
 	return ((77*((color>>16) & 0x00ff))
 		+ (150*((color>>8) & 0x00ff)) + (29*(color & 0x00ff))) >> 8;
 }
 
+/* Previous value of brightness */
+static int brightness_prev_value = -1;
+
 static int set_light_backlight(struct light_device_t *dev,
-			struct light_state_t const *state)
-{
+		struct light_state_t const *state) {
 	int err = 0;
 	int brightness = rgb_to_brightness(state);
 
+	if (brightness == brightness_prev_value) {
+		/* No need to set same value twice */
+		return err;
+	}
+
 	pthread_mutex_lock(&g_lock);
 	err = write_int(LCD_FILE, brightness);
-
 	pthread_mutex_unlock(&g_lock);
+
+	if (!err) {
+		brightness_prev_value = brightness;
+	}
 	return err;
+}
+
+static int set_light_keyboard(struct light_device_t* dev,
+		struct light_state_t const* state) {
+	/* There is not keyboard on the Kindle Fire */
+	return 0;
+}
+
+static int set_light_buttons(struct light_device_t* dev,
+		struct light_state_t const* state) {
+	/* There are no lit (non-battery) buttons on the Kindle Fire */
+	return 0;
+}
+
+static int set_light_battery(struct light_device_t* dev,
+		struct light_state_t const* state) {
+	/* Battery leds are handled by the kernel on the Kindle Fire */
+	return 0;
+}
+
+static int set_light_notification(struct light_device_t* dev,
+		struct light_state_t const* state) {
+	/* There is no dedicated notification LED on the Blaze Tablet */
+	return 0;
+}
+
+static int set_light_attention(struct light_device_t *dev,
+		struct light_state_t const *state) {
+	/* There is no dedicated attention LED on the Kindle Fire */
+	return 0;
 }
 
 static int close_lights(struct light_device_t *dev)
 {
-	ALOGV("close_light is called");
 	if (dev)
 		free(dev);
 
 	return 0;
 }
 
-/* LEDs */
-static int write_leds()
-{
-	int err = 0;
-	int imax = IMAX;
-	int fd;
-
-	pthread_mutex_lock(&g_lock);
-
-	fd = open(LED_FILE, O_RDWR);
-	if (fd >= 0) {
-		close(fd);
-	} else {
-		ALOGE("failed to open %s!", LED_FILE);
-		err =  -errno;
-	}
-
-	pthread_mutex_unlock(&g_lock);
-
-	return err;
-}
-
-static int set_light_leds(struct light_state_t const *state, int type)
-{
-
-	switch (state->flashMode) {
-	case LIGHT_FLASH_NONE:
-		break;
-	case LIGHT_FLASH_TIMED:
-	case LIGHT_FLASH_HARDWARE:
-		break;
-	default:
-		return -EINVAL;
-	}
-
-	return 0;
-}
-
-static int set_light_leds_notifications(struct light_device_t *dev,
-			struct light_state_t const *state)
-{
-	return set_light_leds(state, 0);
-}
-
-static int set_light_leds_attention(struct light_device_t *dev,
-			struct light_state_t const *state)
-{
-	return set_light_leds(state, 1);
-}
-
+/******************************************************************************/
 static int open_lights(const struct hw_module_t *module, char const *name,
-						struct hw_device_t **device)
-{
+			struct hw_device_t **device) {
+
 	int (*set_light)(struct light_device_t *dev,
 		struct light_state_t const *state);
 
-	if (0 == strcmp(LIGHT_ID_BACKLIGHT, name))
+	if (0 == strcmp(LIGHT_ID_BACKLIGHT, name)) {
 		set_light = set_light_backlight;
-	else if (0 == strcmp(LIGHT_ID_NOTIFICATIONS, name))
-		set_light = set_light_leds_notifications;
-	else if (0 == strcmp(LIGHT_ID_ATTENTION, name))
-		set_light = set_light_leds_attention;
-	else
+	}
+	else if (0 == strcmp(LIGHT_ID_KEYBOARD, name)) {
+		set_light = set_light_keyboard;
+	}
+	else if (0 == strcmp(LIGHT_ID_BUTTONS, name)) {
+		set_light = set_light_buttons;
+	}
+	else if (0 == strcmp(LIGHT_ID_BATTERY, name)) {
+		set_light = set_light_battery;
+	}
+	else if (0 == strcmp(LIGHT_ID_NOTIFICATIONS, name)) {
+		set_light = set_light_notification;
+	}
+	else if (0 == strcmp(LIGHT_ID_ATTENTION, name)) {
+		set_light = set_light_attention;
+	}
+	else {
 		return -EINVAL;
+	}
 
-	pthread_once(&g_init, init_g_lock);
+	pthread_once(&g_init, init_globals);
 
 	struct light_device_t *dev = malloc(sizeof(struct light_device_t));
 	memset(dev, 0, sizeof(*dev));
@@ -180,7 +175,6 @@ static int open_lights(const struct hw_module_t *module, char const *name,
 	dev->set_light = set_light;
 
 	*device = (struct hw_device_t *)dev;
-
 	return 0;
 }
 
@@ -193,7 +187,7 @@ struct hw_module_t HAL_MODULE_INFO_SYM = {
 	.version_major = 1,
 	.version_minor = 0,
 	.id = LIGHTS_HARDWARE_MODULE_ID,
-	.name = "lights Module",
+	.name = "TI OMAP lights Module",
 	.author = "Google, Inc.",
 	.methods = &lights_module_methods,
 };
