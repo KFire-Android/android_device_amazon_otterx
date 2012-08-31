@@ -84,6 +84,9 @@ echo MODVERSION: $MODVERSION
 # Remove wl1271-nvs.bin so that wl1271-nvs_127x.bin can re-write it
 rm $REPACK/ota/system/etc/firmware/ti-connectivity/wl1271-nvs.bin
 
+# Remove camera.omap4.so -- it hangs media server
+rm $REPACK/ota/system/lib/hw/camera.omap4.so
+
 # Pack it up and sign
 printf "Zipping package..."
 ( cd $REPACK/ota; zip $QUIET -r $REPACK/update.zip . )
