@@ -1,4 +1,4 @@
-ifdef BOARD_HAS_CUSTOM_LIBION
+ifdef TARGET_HAS_CUSTOM_LIBION
 
 LOCAL_PATH:= $(call my-dir)
 
