@@ -306,5 +306,4 @@ service hostapd_bin /system/bin/hostapd -d /data/misc/wifi/hostapd.conf
 #    oneshot
 
 on property:sys.boot_completed=1
-    log "== init.omap4430.rc: on property:sys.boot_completed=1 -----------------------"
 
