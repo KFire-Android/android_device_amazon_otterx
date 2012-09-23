@@ -12,6 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Camera and Gallery
+PRODUCT_PACKAGES := \
+        Gallery
+
 # Live Wallpapers
 PRODUCT_PACKAGES += \
         LiveWallpapers \

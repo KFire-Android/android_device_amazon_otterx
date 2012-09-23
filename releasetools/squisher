@@ -1,7 +1,7 @@
 #!/bin/sh
 #
-# Squish a CM otapackage for distribution
-# cyanogen
+# Squish an otapackage for distribution
+# cyanogen w/ AOKP changes
 #
 
 OUT_TARGET_HOST=`uname -a | grep Darwin`
@@ -23,13 +23,6 @@ if [ -z "$OUT" -o ! -d "$OUT" ]; then
 	exit 1
 fi
 
-if [ "$TARGET_BUILD_TYPE" = "debug" ]; then
-    OTAPACKAGE=$OUT/${TARGET_PRODUCT}_debug-ota-$TARGET_BUILD_VARIANT.$USER.zip
-elif [ "$TARGET_BUILD_VARIANT" = "userdebug" ]; then
-    OTAPACKAGE=$OUT/$TARGET_PRODUCT-ota-eng.$USER.zip
-else
-    OTAPACKAGE=$OUT/$TARGET_PRODUCT-ota-$TARGET_BUILD_VARIANT.$USER.zip
-fi
 if [ ! -f "$OTAPACKAGE" ]; then
 	echo "$OTAPACKAGE doesn't exist!";
 	exit 1
@@ -77,9 +70,21 @@ rm -rf $REPACK/ota/recovery
 	find $REPACK/ota/system/lib/modules -name "*.ko" -print0 | xargs -0 arm-eabi-strip --strip-unneeded
 
 # Determine what to name the new signed package
+REALDATE=`date -u +%Y%m%d`
+
+if [ -f $ANDROID_BUILD_TOP/vendor/cm/LICENSE ];
+then
 MODVERSION=`sed -n -e'/ro\.cm\.version/s/^.*=//p' $REPACK/ota/system/build.prop`
 OUTFILE=$OUT/cm-$MODVERSION.zip
 echo MODVERSION: $MODVERSION
+elif [ -f $ANDROID_BUILD_TOP/vendor/aokp/vendorsetup.sh ];
+then
+VERSION=`sed -n -e'/ro.aokp.version/s/^.*=//p' $REPACK/ota/system/build.prop`
+MODVERSION="$VERSION"
+OUTFILE=$OUT/JB-$MODVERSION.zip
+else
+OUTFILE=$OUT/$TARGET_PRODUCT-JB-$REALDATE.zip
+fi
 
 # Remove wl1271-nvs.bin so that wl1271-nvs_127x.bin can re-write it
 rm $REPACK/ota/system/etc/firmware/ti-connectivity/wl1271-nvs.bin
