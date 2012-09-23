@@ -28,7 +28,7 @@ if [ ! -f "$OTAPACKAGE" ]; then
 	exit 1
 fi
 
-OPTICHARGER=$ANDROID_BUILD_TOP/vendor/cm/tools/opticharger
+OPTICHARGER=$ANDROID_BUILD_TOP/device/amazon/otter/releasetools/opticharger
 QUIET=-q
 DELETE_BINS="applypatch applypatch_static check_prereq recovery updater"
 
@@ -69,6 +69,12 @@ rm -rf $REPACK/ota/recovery
 [ -d $REPACK/ota/system/lib/modules ] && \
 	find $REPACK/ota/system/lib/modules -name "*.ko" -print0 | xargs -0 arm-eabi-strip --strip-unneeded
 
+# Remove wl1271-nvs.bin so that wl1271-nvs_127x.bin can re-write it
+rm $REPACK/ota/system/etc/firmware/ti-connectivity/wl1271-nvs.bin
+
+# Remove camera.omap4.so -- it hangs media server
+rm $REPACK/ota/system/lib/hw/camera.omap4.so
+
 # Determine what to name the new signed package
 REALDATE=`date -u +%Y%m%d`
 
@@ -85,12 +91,6 @@ OUTFILE=$OUT/JB-$MODVERSION.zip
 else
 OUTFILE=$OUT/$TARGET_PRODUCT-JB-$REALDATE.zip
 fi
-
-# Remove wl1271-nvs.bin so that wl1271-nvs_127x.bin can re-write it
-rm $REPACK/ota/system/etc/firmware/ti-connectivity/wl1271-nvs.bin
-
-# Remove camera.omap4.so -- it hangs media server
-rm $REPACK/ota/system/lib/hw/camera.omap4.so
 
 # Pack it up and sign
 printf "Zipping package..."
