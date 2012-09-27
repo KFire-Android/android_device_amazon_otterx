@@ -91,13 +91,7 @@ BOARD_EGL_CFG := device/amazon/otter/egl.cfg
 USE_OPENGL_RENDERER := true
 
 # OTA Packaging
-TARGET_PROVIDES_RELEASETOOLS := true
-TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/amazon/otter/releasetools/otter_ota_from_target_files
-TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/amazon/otter/releasetools/otter_img_from_target_files
-
-ifneq ($(TARGET_PRODUCT),full_maserati)
 TARGET_CUSTOM_RELEASETOOL := ./device/amazon/otter/releasetools/squisher
-endif
 
 # Recovery
 TARGET_PREBUILT_RECOVERY_KERNEL := device/amazon/otter/recovery-kernel
