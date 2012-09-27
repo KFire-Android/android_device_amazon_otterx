@@ -44,7 +44,6 @@ TARGET_KERNEL_SOURCE := kernel/amazon/otter
 TARGET_KERNEL_CONFIG := otter_android_defconfig
 TARGET_PREBUILT_KERNEL := device/amazon/otter/kernel
 
-ifdef CM_BUILD
 WLAN_MODULES:
 	make clean -C hardware/ti/wlan/mac80211/compat_wl12xx
 	make -j8 -C hardware/ti/wlan/mac80211/compat_wl12xx KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=arm CROSS_COMPILE="arm-eabi-"
@@ -56,7 +55,6 @@ WLAN_MODULES:
 	mv hardware/ti/wlan/mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/wl12xx_sdio.ko $(KERNEL_MODULES_OUT)
 
 TARGET_KERNEL_MODULES += WLAN_MODULES
-endif
 
 # Filesystem
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -96,7 +94,10 @@ USE_OPENGL_RENDERER := true
 TARGET_PROVIDES_RELEASETOOLS := true
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/amazon/otter/releasetools/otter_ota_from_target_files
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := device/amazon/otter/releasetools/otter_img_from_target_files
+
+ifneq ($(TARGET_PRODUCT),full_maserati)
 TARGET_CUSTOM_RELEASETOOL := ./device/amazon/otter/releasetools/squisher
+endif
 
 # Recovery
 TARGET_PREBUILT_RECOVERY_KERNEL := device/amazon/otter/recovery-kernel
