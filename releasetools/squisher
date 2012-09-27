@@ -95,7 +95,7 @@ rm -rf $REPACK/ota/recovery
 rm $REPACK/ota/system/etc/firmware/ti-connectivity/wl1271-nvs.bin
 
 # Remove camera.omap4.so -- it hangs media server
-rm $REPACK/ota/system/lib/hw/camera.omap4.so
+#rm $REPACK/ota/system/lib/hw/camera.omap4.so
 
 # Determine what to name the new signed package
 REALDATE=`date -u +%Y%m%d`
