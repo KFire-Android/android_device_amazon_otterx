@@ -126,17 +126,18 @@ PRODUCT_PACKAGES += \
     com.android.future.usb.accessory \
 
 # AOSP specific
-ifeq ($(TARGET_PRODUCT),full_maserati)
-
+ifeq ($(TARGET_PRODUCT),full_otter)
 # Prebuilt /system/media
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip \
-
+    $(DEVICE_FOLDER)/prebuilt/bin/su:/system/bin/su
+else
+PRODUCT_PACKAGES += \
+    su
 endif
 
 PRODUCT_PACKAGES += \
     Superuser \
-    su \
 
 PRODUCT_PROPERTY_OVERRIDES := \
     ro.sf.lcd_density=160 \
