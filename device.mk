@@ -131,13 +131,11 @@ ifeq ($(TARGET_PRODUCT),full_otter)
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip \
     $(DEVICE_FOLDER)/prebuilt/bin/su:/system/bin/su
-else
-PRODUCT_PACKAGES += \
-    su
 endif
 
 PRODUCT_PACKAGES += \
     Superuser \
+    su
 
 PRODUCT_PROPERTY_OVERRIDES := \
     ro.sf.lcd_density=160 \
