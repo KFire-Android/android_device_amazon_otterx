@@ -75,16 +75,16 @@
 
     <bool name="config_sf_limitedAlpha">false</bool>
 
-    <!-- <string name="config_legacyUmsLunFile">/sys/devices/platform/usb_mass_storage/lun0/file</string> -->
-
     <!-- Base "touch slop" value used by ViewConfiguration as a
          movement threshold where scrolling should begin. -->
     <dimen name="config_viewConfigurationTouchSlop">16dp</dimen>
 
-    <!-- Select our netloc provider -->
-    <string name="config_networkLocationProviderPackageName">com.google.android.location.NetworkLocationProvider</string>
-
-    <string name="config_geocodeProviderPackageName">com.google.android.location.GeocodeProvider</string>
+    <string-array name="config_locationProviderPackageNames" translatable="false">
+        <!-- The standard AOSP fused location provider -->
+        <item>com.android.location.fused</item>
+        <!-- The Google Network Location Services location provider -->
+        <item>com.google.android.location</item>
+    </string-array>
 
     <!-- We don't have automatic brightness (yet). -->
     <bool name="config_automatic_brightness_available">false</bool>

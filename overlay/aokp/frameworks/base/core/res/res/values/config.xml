@@ -85,11 +85,12 @@
          This feature should be disabled for most devices. -->
     <integer name="config_virtualKeyQuietTimeMillis">100</integer>
 
-    <!-- Package name providing network location support. -->
-    <string name="config_networkLocationProviderPackageName">com.google.android.location.NetworkLocationProvider</string>
-
-    <!-- Package name providing geocoder API support. -->
-    <string name="config_geocodeProviderPackageName">com.google.android.location.GeocodeProvider</string>
+    <string-array name="config_locationProviderPackageNames" translatable="false">
+        <!-- The standard AOSP fused location provider -->
+        <item>com.android.location.fused</item>
+        <!-- The Google Network Location Services location provider -->
+        <item>com.google.android.location</item>
+    </string-array>
 
     <!-- Flag indicating whether the current device is "voice capable".
          If true, this means that the device supports circuit-switched
