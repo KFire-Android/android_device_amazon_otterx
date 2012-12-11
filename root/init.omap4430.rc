@@ -4,7 +4,6 @@ on init
     loglevel 8
 
     export EXTERNAL_STORAGE /storage/sdcard0
-    export DOWNLOAD_CACHE /cache/download
     mkdir /storage 0050 system sdcard_r
     mkdir /storage/sdcard0 0000 system system
     # for backwards compatibility
@@ -31,8 +30,6 @@ on fs
     insmod /system/lib/modules/omaplfb_sgx540_120.ko
 
 on post-fs
-# make dir for cache
-    mkdir /cache/download 0777 system system
 
 # We chown/chmod /data again so because mount is run as root + defaults
 #    chown system system /data
