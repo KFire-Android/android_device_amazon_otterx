@@ -1,4 +1,4 @@
-# AOSP-Jellybean for Kindle Fire
+# Jellybean for Kindle Fire
 
 ## Info
 
