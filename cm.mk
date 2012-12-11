@@ -10,7 +10,7 @@ $(call inherit-product-if-exists, vendor/cm/config/common_full_tablet_wifionly.m
 # Inherit device configuration for Kindle Fire
 $(call inherit-product, device/amazon/otter/full_otter.mk)
 
-DEVICE_PACKAGE_OVERLAYS := device/amazon/otter/overlay/cm
+DEVICE_PACKAGE_OVERLAYS += device/amazon/otter/overlay/cm
 
 TARGET_HAS_CUSTOM_LIBION := true
 

@@ -1,9 +1,14 @@
+PRODUCT_VENDOR_KERNEL_HEADERS := device/amazon/otter/kernel-headers
+
 # This variable is set first, so it can be overridden
 # by BoardConfigVendor.mk
 BOARD_USES_GENERIC_AUDIO := false
-USE_CAMERA_STUB := true
+
 BOARD_HAVE_BLUETOOTH := false
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/amazon/otter/bluetooth
+
 TI_OMAP4_CAMERAHAL_VARIANT := false
+USE_CAMERA_STUB := true
 
 OMAP_ENHANCEMENT := true
 #OMAP_ENHANCEMENT_BURST_CAPTURE := true
@@ -12,6 +17,7 @@ OMAP_ENHANCEMENT := true
 #OMAP_ENHANCEMENT_VTC := true
 OMAP_ENHANCEMENT_MULTIGPU := true
 ENHANCED_DOMX := true
+BOARD_PROVIDES_CUSTOM_DOMX := true
 
 # Use the non-open-source parts, if they're present
 -include vendor/amazon/otter/BoardConfigVendor.mk
@@ -21,6 +27,7 @@ ENHANCED_DOMX := true
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
+TARGET_ARCH := arm
 TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
 
@@ -34,7 +41,6 @@ TARGET_NO_BOOTLOADER := true
 TARGET_BOOTLOADER_BOARD_NAME := otter
 TARGET_OTA_ASSERT_DEVICE := blaze
 TARGET_BOARD_INFO_FILE := device/amazon/otter/board-info.txt
-#TARGET_PROVIDES_INIT_RC := true
 BOARD_HAS_SDCARD_INTERNAL := true
 BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/platform/omap/omap_hsmmc.1/by-name/media
 BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/platform/omap/omap_hsmmc.1/by-name/media
@@ -70,9 +76,11 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_
 # Connectivity - Wi-Fi
 USES_TI_MAC80211 := true
 ifdef USES_TI_MAC80211
+WPA_SUPPLICANT_VERSION           := VER_0_8_X
 BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
 BOARD_HOSTAPD_DRIVER             := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
 PRODUCT_WIRELESS_TOOLS           := true
 BOARD_WLAN_DEVICE                := wl12xx_mac80211
 BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
@@ -102,14 +110,9 @@ BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/l
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 TARGET_RECOVERY_PRE_COMMAND := "idme postmode 1;"
 
-# adb has root
-ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
-
-TARGET_SPECIFIC_HEADER_PATH := device/amazon/otter/src-headers
-
 ifdef ENHANCED_DOMX
     COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
-    DOMX_PATH := hardware/ti/domx
+    DOMX_PATH := device/amazon/otter/domx
 else
     DOMX_PATH := hardware/ti/omap4xxx/domx
 endif
