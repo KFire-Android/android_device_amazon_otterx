@@ -15,8 +15,7 @@
 ## Example of a standard sdcard mount for the emulator / Dream
 # Mounts the first usable partition of the specified device
 dev_mount sdcard /storage/sdcard0 12 /devices/platform/omap/omap_hsmmc.1/mmc_host/mmc0
-
-## Example of a dual card setup
-# dev_mount left_sdcard  /sdcard1  auto /devices/platform/goldfish_mmc.0 /devices/platform/msm_sdcc.2/mmc_host/mmc1
-# dev_mount right_sdcard /sdcard2  auto /devices/platform/goldfish_mmc.1 /devices/platform/msm_sdcc.3/mmc_host/mmc1
-
+# automount usb storage devices
+# HASHCODE: Will uncomment when ehci is put back into the kernel
+#dev_mount usbflash1  /storage/usb0  auto /devices/platform/usbhs_omap/ehci-omap.0/usb1/1-1/1-1.2/1-1.2.1 /devices/platform/omap/usbhs_omap/ehci-omap.0/usb1/1-1/1-1.2/1-1.2.1
+#dev_mount usbflash2  /storage/usb1  auto /devices/platform/usbhs_omap/ehci-omap.0/usb1/1-1/1-1.2/1-1.2.2 /devices/platform/omap/usbhs_omap/ehci-omap.0/usb1/1-1/1-1.2/1-1.2.2
