@@ -1,4 +1,5 @@
 PRODUCT_VENDOR_KERNEL_HEADERS := device/amazon/otter/kernel-headers
+TARGET_SPECIFIC_HEADER_PATH := device/amazon/otter/src-headers
 
 # This variable is set first, so it can be overridden
 # by BoardConfigVendor.mk
