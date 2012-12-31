@@ -2,7 +2,7 @@
 $(call inherit-product, device/amazon/otter/full_otter.mk)
 
 # Inherit common product files.
-$(call inherit-product, vendor/aokp/configs/common_tablet_small.mk)
+$(call inherit-product, vendor/aokp/configs/common_tablet.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/amazon/otter/overlay/aokp
 
