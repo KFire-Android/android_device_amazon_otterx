@@ -103,7 +103,7 @@ USE_OPENGL_RENDERER := true
 TARGET_CUSTOM_RELEASETOOL := ./device/amazon/otter/releasetools/squisher
 
 # Recovery
-TARGET_PREBUILT_RECOVERY_KERNEL := device/amazon/otter/recovery-kernel
+#TARGET_PREBUILT_RECOVERY_KERNEL := device/amazon/otter/recovery-kernel
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
