@@ -11,8 +11,8 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../mm_osal/inc \
 	$(LOCAL_PATH)/../domx \
 	$(LOCAL_PATH)/../domx/omx_rpc/inc \
-	$(HARDWARE_TI_OMAP4_BASE)/../../libhardware/include \
-	device/amazon/otter/hwc/
+	hardware/libhardware/include \
+	$(COMMON_FOLDER)/hwc/
 
 LOCAL_SHARED_LIBRARIES := \
 	libmm_osal \
@@ -78,7 +78,7 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../omx_core/inc \
 	$(LOCAL_PATH)/../mm_osal/inc \
 	$(LOCAL_PATH)/../domx \
-	device/amazon/otter/include/ \
+	$(COMMON_FOLDER)/include/ \
 	$(LOCAL_PATH)/../domx/omx_rpc/inc
 
 LOCAL_SHARED_LIBRARIES := \
@@ -110,10 +110,10 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../domx \
 	$(LOCAL_PATH)/../domx/omx_rpc/inc \
 	system/core/include/cutils \
-	device/amazon/otter/hwc \
+	$(COMMON_FOLDER)/hwc \
 	$(HARDWARE_TI_OMAP4_BASE)/camera/inc \
 	frameworks/native/include/media/hardware \
-	device/amazon/otter/include/camera \
+	$(COMMON_FOLDER)/include/camera \
 
 LOCAL_SHARED_LIBRARIES := \
 	libmm_osal \
@@ -146,10 +146,10 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../domx \
 	$(LOCAL_PATH)/../domx/omx_rpc/inc \
 	system/core/include/cutils \
-	device/amazon/otter/hwc \
+	$(COMMON_FOLDER)/hwc \
 	$(HARDWARE_TI_OMAP4_BASE)/camera/inc \
 	frameworks/native/include/media/hardware \
-	device/amazon/otter/include/camera \
+	$(COMMON_FOLDER)/include/camera \
 
 LOCAL_SHARED_LIBRARIES := \
 	libmm_osal \
@@ -181,8 +181,8 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../mm_osal/inc \
 	$(LOCAL_PATH)/../domx \
 	$(LOCAL_PATH)/../domx/omx_rpc/inc \
-	$(HARDWARE_TI_OMAP4_BASE)/../../libhardware/include \
-	device/amazon/otter/hwc/
+	hardware/libhardware/include \
+	$(COMMON_FOLDER)/hwc/
 
 LOCAL_SHARED_LIBRARIES := \
 	libmm_osal \
