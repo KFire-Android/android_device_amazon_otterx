@@ -1,7 +1,3 @@
-#
-# Setup device specific product configuration.
-#
-
 TARGET_SCREEN_WIDTH := 600
 TARGET_SCREEN_HEIGHT := 1024
 
@@ -12,8 +8,6 @@ $(call inherit-product-if-exists, vendor/cm/config/common_full_tablet_wifionly.m
 $(call inherit-product, device/amazon/otter/full_otter.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/amazon/otter/overlay/cm
-
-TARGET_HAS_CUSTOM_LIBION := true
 
 PRODUCT_NAME := cm_otter
 PRODUCT_DEVICE := otter

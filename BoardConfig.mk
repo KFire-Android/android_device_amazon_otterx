@@ -1,47 +1,23 @@
-PRODUCT_VENDOR_KERNEL_HEADERS := device/amazon/otter/kernel-headers
-TARGET_SPECIFIC_HEADER_PATH := device/amazon/otter/src-headers
+DEVICE_FOLDER := device/amazon/otter
 
-# This variable is set first, so it can be overridden
-# by BoardConfigVendor.mk
-BOARD_USES_GENERIC_AUDIO := false
+# inherit from common
+-include device/amazon/omap4-common/BoardConfigCommon.mk
 
+# Bluetooth
 BOARD_HAVE_BLUETOOTH := false
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/amazon/otter/bluetooth
 
+# Camera
 TI_OMAP4_CAMERAHAL_VARIANT := false
 USE_CAMERA_STUB := true
-
-OMAP_ENHANCEMENT := true
-#OMAP_ENHANCEMENT_BURST_CAPTURE := true
-#OMAP_ENHANCEMENT_S3D := true
-#OMAP_ENHANCEMENT_CPCAM := true
-#OMAP_ENHANCEMENT_VTC := true
-OMAP_ENHANCEMENT_MULTIGPU := true
-ENHANCED_DOMX := true
-BOARD_PROVIDES_CUSTOM_DOMX := true
 
 # Use the non-open-source parts, if they're present
 -include vendor/amazon/otter/BoardConfigVendor.mk
 
-
-# Processor
-TARGET_CPU_ABI := armeabi-v7a
-TARGET_CPU_ABI2 := armeabi
-TARGET_CPU_SMP := true
-TARGET_ARCH := arm
-TARGET_ARCH_VARIANT := armv7-a-neon
-ARCH_ARM_HAVE_TLS_REGISTER := true
-
 # Kernel
-BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_CMDLINE := mem=512M console=ttyO2,115200n8
-TARGET_NO_RADIOIMAGE := true
-TARGET_BOARD_PLATFORM := omap4
-TARGET_NO_BOOTLOADER := true
 TARGET_BOOTLOADER_BOARD_NAME := otter
 TARGET_OTA_ASSERT_DEVICE := blaze,otter
-TARGET_BOARD_INFO_FILE := device/amazon/otter/board-info.txt
 BOARD_HAS_SDCARD_INTERNAL := true
 BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/platform/omap/omap_hsmmc.1/by-name/media
 BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/platform/omap/omap_hsmmc.1/by-name/media
@@ -49,7 +25,6 @@ BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/platform/omap/omap_hsmmc.1/by-name/me
 # Kernel Build
 TARGET_KERNEL_SOURCE := kernel/amazon/otter
 TARGET_KERNEL_CONFIG := otter_android_defconfig
-TARGET_PREBUILT_KERNEL := device/amazon/otter/kernel
 
 WLAN_MODULES:
 	make clean -C hardware/ti/wlan/mac80211/compat_wl12xx
@@ -70,8 +45,6 @@ BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 536870912
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 1192230912
 BOARD_FLASH_BLOCK_SIZE := 4096
-BOARD_VOLD_MAX_PARTITIONS := 32
-BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 
 # Connectivity - Wi-Fi
@@ -82,85 +55,26 @@ BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wl12xx
 BOARD_HOSTAPD_DRIVER             := NL80211
 BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_wl12xx
-PRODUCT_WIRELESS_TOOLS           := true
 BOARD_WLAN_DEVICE                := wl12xx_mac80211
 BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
 WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wl12xx_sdio.ko"
 WIFI_DRIVER_MODULE_NAME          := "wl12xx_sdio"
 WIFI_FIRMWARE_LOADER             := ""
+PRODUCT_WIRELESS_TOOLS           := true
 COMMON_GLOBAL_CFLAGS += -DUSES_TI_MAC80211
 endif
 
-# adb has root
-ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
-ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
-
 # Graphics
-BOARD_EGL_CFG := device/amazon/otter/egl.cfg
-USE_OPENGL_RENDERER := true
-
-# OTA Packaging
-TARGET_CUSTOM_RELEASETOOL := ./device/amazon/otter/releasetools/squisher
+BOARD_EGL_CFG := $(DEVICE_FOLDER)/prebuilt/etc/egl.cfg
 
 # Recovery
-#TARGET_PREBUILT_RECOVERY_KERNEL := device/amazon/otter/recovery-kernel
-BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_ALWAYS_INSECURE := true
-BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
-TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
+TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/recovery/init.recovery.rc
 TARGET_RECOVERY_PRE_COMMAND := "idme postmode 1;"
+BOARD_ALWAYS_INSECURE := true
 
-ifdef ENHANCED_DOMX
-    COMMON_GLOBAL_CFLAGS += -DENHANCED_DOMX
-    DOMX_PATH := device/amazon/otter/domx
-else
-    DOMX_PATH := hardware/ti/omap4xxx/domx
-endif
-
-ifdef OMAP_ENHANCEMENT
-    COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT -DTARGET_OMAP4
-endif
-
-ifdef OMAP_ENHANCEMENT_BURST_CAPTURE
-    COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT_BURST_CAPTURE
-endif
-
-ifdef OMAP_ENHANCEMENT_S3D
-    COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT_S3D
-endif
-
-ifdef OMAP_ENHANCEMENT_CPCAM
-    COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT_CPCAM
-    PRODUCT_MAKEFILES += $(LOCAL_DIR)/sdk_addon/ti_omap_addon.mk
-endif
-
-ifdef OMAP_ENHANCEMENT_VTC
-    COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT_VTC
-endif
-
-ifdef USE_ITTIAM_AAC
-    COMMON_GLOBAL_CFLAGS += -DUSE_ITTIAM_AAC
-endif
-
-ifdef OMAP_ENHANCEMENT_MULTIGPU
-    COMMON_GLOBAL_CFLAGS += -DOMAP_ENHANCEMENT_MULTIGPU
-endif
-
-
-# Misc.
-BOARD_NEEDS_CUTILS_LOG := true
-BOARD_USES_SECURE_SERVICES := true
-
-# CodeAurora Optimizations: msm8960: Improve performance of memmove, bcopy, and memmove_words
-# added by twa_priv
-TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
-TARGET_USE_KRAIT_PLD_SET := true
-TARGET_KRAIT_BIONIC_PLDOFFS := 10
-TARGET_KRAIT_BIONIC_PLDTHRESH := 10
-TARGET_KRAIT_BIONIC_BBTHRESH := 64
-TARGET_KRAIT_BIONIC_PLDSIZE := 64
-
-# Bootanimation
-TARGET_BOOTANIMATION_PRELOAD := true
+# TWRP Config
+DEVICE_RESOLUTION := 1024x600
+RECOVERY_TOUCHSCREEN_SWAP_XY := true
+RECOVERY_TOUCHSCREEN_FLIP_Y := true
+TARGET_USERIMAGES_USE_EXT4 := true
 

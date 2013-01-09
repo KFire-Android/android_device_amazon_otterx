@@ -1,4 +1,4 @@
-# Jellybean for Kindle Fire
+# Jellybean 4.2.1 (CM10.1) Device for Kindle Fire (1st Gen)
 
 ## Info
 
@@ -16,12 +16,12 @@
 ### Download sources
 
 ```bash
-mkdir jb-aosp
-cd jb-aosp/
+mkdir android
+cd android
 curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo > ~/repo
 chmod a+x ~/repo
-repo init -u git://github.com/CyanogenMod/android.git -b jellybean
-wget -O .repo/local_manifest.xml https://raw.github.com/KFire-Android/android_local_manifest/jb-cm/local_manifest.xml 
+repo init -u git://github.com/CyanogenMod/android.git -b cm-10.1
+wget -O .repo/local_manifest.xml https://raw.github.com/KFire-Android/android_local_manifest/cm-10.1/local_manifest.xml 
 repo sync -j16
 ```
 
@@ -29,6 +29,7 @@ repo sync -j16
 
 ```bash
 . build/envsetup.sh
-lunch full_otter-userdebug
-make otapackage (can add -j# for cores to use: make -j32 otapackage)
+lunch cm_otter-userdebug
+. vendor/cm/get-prebuilts
+mka bacon
 ```
