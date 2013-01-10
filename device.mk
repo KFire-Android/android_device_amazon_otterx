@@ -107,4 +107,4 @@ PRODUCT_PROPERTY_OVERRIDES := \
     ro.sf.hwrotation=270 \
 
 
-$(call inherit-product-if-exists, $(DEVICE_FOLDER)/imgtec/sgx-imgtec-bins-540.mk)
+$(call inherit-product-if-exists, $(COMMON_FOLDER)/imgtec/sgx-imgtec-bins-540.mk)
