@@ -98,7 +98,7 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip
 endif
 
-PRODUCT_PROPERTY_OVERRIDES := \
+PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=160 \
     dalvik.vm.heapstartsize=5m \
     dalvik.vm.heapgrowthlimit=42m \
