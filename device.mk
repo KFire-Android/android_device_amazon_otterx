@@ -72,6 +72,7 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/etc/mountd.conf:/system/etc/mountd.conf \
     $(DEVICE_FOLDER)/prebuilt/etc/vold.fstab:/system/etc/vold.fstab \
     $(DEVICE_FOLDER)/prebuilt/etc/wifi/TQS_S_2.6.ini:/system/etc/wifi/TQS_S_2.6.ini \
+    $(DEVICE_FOLDER)/mixer_paths.xml:/system/etc/mixer_paths.xml \
 
 # Prebuilt /system/usr
 PRODUCT_COPY_FILES += \
@@ -100,11 +101,8 @@ endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=160 \
-    dalvik.vm.heapstartsize=5m \
-    dalvik.vm.heapgrowthlimit=42m \
-    dalvik.vm.heapsize=128m \
     persist.lab126.chargeprotect=1 \
     ro.sf.hwrotation=270 \
 
-
+$(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product-if-exists, $(COMMON_FOLDER)/imgtec/sgx-imgtec-bins-540.mk)
