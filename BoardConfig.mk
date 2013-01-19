@@ -69,7 +69,7 @@ BOARD_EGL_CFG := $(DEVICE_FOLDER)/prebuilt/etc/egl.cfg
 
 # Recovery
 TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/recovery/init.recovery.rc
-TARGET_RECOVERY_PRE_COMMAND := "idme postmode 1;"
+TARGET_RECOVERY_PRE_COMMAND := "/system/bin/idme postmode 1; sync;"
 BOARD_ALWAYS_INSECURE := true
 
 # TWRP Config
