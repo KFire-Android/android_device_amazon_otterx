@@ -97,6 +97,8 @@ ifeq ($(TARGET_PRODUCT),full_otter)
 # Prebuilt /system/media
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/media/bootanimation.zip:/system/media/bootanimation.zip
+# Make sure "Email" package gets into the build.
+PRODUCT_PACKAGES += Email
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
