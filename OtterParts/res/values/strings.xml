@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Kindle Fire Settings</string>
-
-    <string name="category_touchscreen_title">Touchscreen</string>
-    <string name="touch_filter_title">Touchscreen Filter Level</string>
-</resources>
