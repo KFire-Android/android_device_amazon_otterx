@@ -2,6 +2,9 @@ DEVICE_FOLDER := device/amazon/otter
 
 $(call inherit-product, device/amazon/otter-common/common.mk)
 
+# Device overlay
+DEVICE_PACKAGE_OVERLAYS += $(DEVICE_FOLDER)/overlay
+
 # Hardware HALs
 PRODUCT_PACKAGES += \
     hwcomposer.otter \
@@ -11,7 +14,7 @@ PRODUCT_PACKAGES += \
 
 # Rootfs
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/root/init.omap4430.rc:/root/init.omap4430.rc
+    $(DEVICE_FOLDER)/init.omap4430.rc:/root/init.omap4430.rc
 
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
