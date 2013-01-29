@@ -6,4 +6,6 @@ PRODUCT_NAME := cm_otter
 PRODUCT_DEVICE := otter
 PRODUCT_MODEL := Amazon Kindle Fire
 PRODUCT_RELEASE_NAME := KFire
+PRODUCT_BRAND := Android
+PRODUCT_MANUFACTURER := Amazon
 
