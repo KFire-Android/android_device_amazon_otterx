@@ -10,11 +10,12 @@ PRODUCT_PACKAGES += \
     hwcomposer.otter \
     lights.otter \
     power.otter \
-    audio.primary.otter \
+    audio.primary.otter
 
 # Rootfs
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/init.omap4430.rc:/root/init.omap4430.rc
+    $(DEVICE_FOLDER)/init.omap4430.rc:/root/init.omap4430.rc \
+    $(DEVICE_FOLDER)/init.omap4430.usb.rc:/root/init.omap4430.usb.rc
 
 # Prebuilts /system/bin
 PRODUCT_COPY_FILES += \
@@ -35,5 +36,5 @@ PRODUCT_COPY_FILES += \
 # Recovery /sbin/
 #PRODUCT_COPY_FILES += \
 #    $(DEVICE_FOLDER)/prebuilt/lib/libidme.so:$(TARGET_RECOVERY_OUT)/root/sbin/libidme.so \
-#    $(DEVICE_FOLDER)/recovery/idme:$(TARGET_RECOVERY_OUT)/root/sbin/idme \
+#    $(DEVICE_FOLDER)/recovery/idme:$(TARGET_RECOVERY_OUT)/root/sbin/idme
 
