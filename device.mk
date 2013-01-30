@@ -33,7 +33,7 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/lib/sensors.otter.so:system/lib/hw/sensors.otter.so
 
 # Recovery /sbin/
-PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/lib/libidme.so:$(TARGET_RECOVERY_OUT)/root/sbin/libidme.so \
-    $(DEVICE_FOLDER)/recovery/idme:$(TARGET_RECOVERY_OUT)/root/sbin/idme \
+#PRODUCT_COPY_FILES += \
+#    $(DEVICE_FOLDER)/prebuilt/lib/libidme.so:$(TARGET_RECOVERY_OUT)/root/sbin/libidme.so \
+#    $(DEVICE_FOLDER)/recovery/idme:$(TARGET_RECOVERY_OUT)/root/sbin/idme \
 
