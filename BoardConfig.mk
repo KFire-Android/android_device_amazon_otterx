@@ -27,6 +27,6 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 1192230912
 
 # Recovery
 TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/recovery/init.recovery.rc
-TARGET_RECOVERY_PRE_COMMAND := "/system/bin/idme postmode 1; sync;"
+TARGET_RECOVERY_PRE_COMMAND := "idme postmode 1;"
 BOARD_ALWAYS_INSECURE := true
 
