@@ -17,24 +17,15 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/init.omap4430.rc:/root/init.omap4430.rc \
     $(DEVICE_FOLDER)/init.omap4430.usb.rc:/root/init.omap4430.usb.rc
 
-# Prebuilts /system/bin
+# WLAN MAC fix script
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/bin/fix-mac.sh:/system/bin/fix-mac.sh \
-    $(DEVICE_FOLDER)/prebuilt/bin/idme:system/bin/idme
 
-# Prebuilts /system/etc
+# Misc system/etc files
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/etc/mixer_paths.xml:/system/etc/mixer_paths.xml \
     $(DEVICE_FOLDER)/prebuilt/etc/mountd.conf:/system/etc/mountd.conf \
     $(DEVICE_FOLDER)/prebuilt/etc/vold.fstab:/system/etc/vold.fstab
 
-# Prebuilt /system/lib
-PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/prebuilt/lib/libidme.so:system/lib/libidme.so \
-    $(DEVICE_FOLDER)/prebuilt/lib/sensors.otter.so:system/lib/hw/sensors.otter.so
-
-# Recovery /sbin/
-#PRODUCT_COPY_FILES += \
-#    $(DEVICE_FOLDER)/prebuilt/lib/libidme.so:$(TARGET_RECOVERY_OUT)/root/sbin/libidme.so \
-#    $(DEVICE_FOLDER)/recovery/idme:$(TARGET_RECOVERY_OUT)/root/sbin/idme
+$(call inherit-product-if-exists, vendor/amazon/otter/otter-vendor.mk)
 
