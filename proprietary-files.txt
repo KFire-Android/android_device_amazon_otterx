@@ -1,0 +1,29 @@
+#
+# This file lists all of the proprietary blobs that need to be
+# extracted from a stock device. The extract-files.sh script
+# parses this file and copies the blobs into the vendor and build
+# trees as needed.
+#
+# File format:
+#   - Comments lines start with a hash (#) character and will be
+#     ignore.
+#   - Blobs should be listed with their path relative to /system
+#     on the device.
+#   - A different destination path may be specified after a colon on
+#     the same line as the blob source path. Otherwise, the
+#     destination path with be the same as it was on the device.
+#   - Options for a particular blob are specified in a comment
+#     after the blob path.
+#
+# Blob options:
+#   - needed_for_build: the blob will also be copied into the obj
+#     directory for use in the build of other open source files.
+#   - optional: if the blob is not found, extraction will not abort.
+#     directory for use in the build of other open source files.
+#
+
+# Misc
+bin/idme
+lib/libidme.so
+lib/hw/sensors.otter.so
+
