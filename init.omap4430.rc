@@ -20,10 +20,9 @@ on init
 
 on fs
     mkdir /factory 0775 radio radio
-    mount ext4 /dev/block/mmcblk0p9 /system wait ro
-    mount ext4 /dev/block/mmcblk0p10 /data wait noatime nosuid nodev errors=continue discard
-    mount ext4 /dev/block/mmcblk0p11 /cache wait noatime nosuid nodev errors=continue discard
-    mount ext4 /dev/block/mmcblk0p8 /dropbox wait noatime nosuid nodev errors=continue discard
+    mount ext4 /dev/block/mmcblk0p9 /system wait rw
+    mount ext4 /dev/block/mmcblk0p9 /system ro remount
+    mount_all /fstab.otter
 
 # pvr module
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
