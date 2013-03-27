@@ -17,4 +17,5 @@ done
 ./setup-makefiles.sh
 
 # Call up to otter-common
-../otter-common/extract-files.sh
+cd ../otter-common
+./extract-files.sh
