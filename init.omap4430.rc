@@ -21,7 +21,6 @@ on init
 on fs
     mkdir /factory 0775 radio radio
     mount ext4 /dev/block/mmcblk0p9 /system wait rw
-    mount ext4 /dev/block/mmcblk0p9 /system ro remount
     mount_all /fstab.otter
 
 # pvr module
@@ -137,8 +136,14 @@ on post-fs-data
     symlink /data/tmp /tmp
 
 # make dir for trace
-    mkdir /data/trace 0777 system system
-    chmod 0777 /data/trace
+    mkdir /cache/trace 0777 system system
+    chmod 0777 /cache/trace
+
+# symlink egl.cfg
+    symlink /sys/egl/egl.cfg /system/lib/egl/egl.cfg
+
+# mount system ro
+    mount ext4 /dev/block/mmcblk0p9 /system ro remount
 
 # wifi
     mkdir /data/misc/wifi 0770 wifi wifi
