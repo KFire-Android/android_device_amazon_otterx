@@ -24,7 +24,8 @@ PRODUCT_PACKAGES += \
     hwcomposer.otter \
     lights.otter \
     power.otter \
-    audio.primary.otter
+    audio.primary.otter \
+    sensors.otter
 
 # Rootfs
 PRODUCT_COPY_FILES += \

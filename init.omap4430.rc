@@ -76,6 +76,10 @@ on post-fs
     chmod 0771 /sys/devices/virtual/input/input0/mode
     chown system system /sys/devices/virtual/input/input0/delay
     chmod 0771 /sys/devices/virtual/input/input0/delay
+    chown system system /sys/devices/virtual/input/input1/mode
+    chmod 0771 /sys/devices/virtual/input/input1/mode
+    chown system system /sys/devices/virtual/input/input1/delay
+    chmod 0771 /sys/devices/virtual/input/input1/delay
 
     # change permissions for alsa nodes
     chmod 0777 /dev/snd/controlC0
