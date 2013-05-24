@@ -25,5 +25,4 @@
 # Misc
 bin/idme
 lib/libidme.so
-lib/hw/sensors.otter.so
 
