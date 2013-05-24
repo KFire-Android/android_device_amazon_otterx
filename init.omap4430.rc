@@ -72,14 +72,14 @@ on post-fs
 
 
 # change permissions for Sensors
-    chown system system /sys/devices/virtual/input/input0/mode
-    chmod 0771 /sys/devices/virtual/input/input0/mode
-    chown system system /sys/devices/virtual/input/input0/delay
-    chmod 0771 /sys/devices/virtual/input/input0/delay
-    chown system system /sys/devices/virtual/input/input1/mode
-    chmod 0771 /sys/devices/virtual/input/input1/mode
-    chown system system /sys/devices/virtual/input/input1/delay
-    chmod 0771 /sys/devices/virtual/input/input1/delay
+    # bma250
+    chown system system /sys/bus/i2c/devices/4-0018/delay
+    chmod 0771 /sys/bus/i2c/devices/4-0018/delay
+    chown system system /sys/bus/i2c/devices/4-0018/enable
+    chmod 0771 /sys/bus/i2c/devices/4-0018/enable
+    # stk-als22x7
+    chown system system /sys/bus/i2c/devices/4-0010/enable
+    chmod 0771 /sys/bus/i2c/devices/4-0010/enable
 
     # change permissions for alsa nodes
     chmod 0777 /dev/snd/controlC0
