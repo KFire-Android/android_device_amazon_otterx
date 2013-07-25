@@ -3,16 +3,18 @@ import init.omap4430.usb.rc
 on init
     loglevel 8
 
+    # See storage config details at http://source.android.com/tech/storage/
+    mkdir /storage/sdcard0 0555 root root
+
     export EXTERNAL_STORAGE /storage/sdcard0
-    mkdir /storage 0050 system sdcard_r
-    mkdir /storage/sdcard0 0000 system system
-    # for backwards compatibility
+
+    # Support legacy paths
     symlink /storage/sdcard0 /sdcard
     symlink /storage/sdcard0 /mnt/sdcard
 
 # create removable USB Mass Storage mountpoints
-    mkdir /storage/usb0 0000 system system
-    mkdir /storage/usb1 0000 system system
+    mkdir /storage/usb0 0555 root root
+    mkdir /storage/usb1 0555 root root
 
 # power management
 # Enable off mode by default
@@ -20,24 +22,14 @@ on init
 
 on fs
     mkdir /factory 0775 radio radio
-    mount ext4 /dev/block/mmcblk0p9 /system wait rw
-    mount_all /fstab.otter
+    mount_all /fstab.omap4430
 
 # pvr module
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
     insmod /system/lib/modules/omaplfb_sgx540_120.ko
 
 on post-fs
-
-# We chown/chmod /data again so because mount is run as root + defaults
-#    chown system system /data
-#    chmod 0771 /data
-
     chmod 0666 /dev/pvrsrvkm
-
-# change permissions for mtd device
-    chmod 0660 /dev/mtd/mtd0
-    chown media media /dev/mtd/mtd0
 
 # change permissions for i2c-2 device
     chmod 0660 /dev/i2c-2
@@ -46,9 +38,6 @@ on post-fs
 # change permissions for Tiler driver
     chmod 0777 /dev/tiler
     chmod 0777 /dev/dmm
-
-# Set default maximum of 1008 on cpu0 (peformance settings will change this if set by user)
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1008000
 
 #Give system ownership and permission to boost clock for specified timeout
 #Note boost_timeout cannot be changed from application because of dynamic sysfs creation. It will have default value of 3 sec.
@@ -80,24 +69,6 @@ on post-fs
     # stk-als22x7
     chown system system /sys/bus/i2c/devices/4-0010/enable
     chmod 0771 /sys/bus/i2c/devices/4-0010/enable
-
-    # change permissions for alsa nodes
-    chmod 0777 /dev/snd/controlC0
-    chmod 0777 /dev/snd/pcmC0D0p
-    chmod 0777 /dev/snd/pcmC0D1c
-    chmod 0777 /dev/snd/pcmC0D1p
-    chmod 0777 /dev/snd/pcmC0D2c
-    chmod 0777 /dev/snd/pcmC0D3c
-    chmod 0777 /dev/snd/pcmC0D3p
-    chmod 0777 /dev/snd/pcmC0D4c
-    chmod 0777 /dev/snd/pcmC0D4p
-    chmod 0777 /dev/snd/pcmC0D5c
-    chmod 0777 /dev/snd/pcmC0D5p
-    chmod 0777 /dev/snd/timer
-
-    # change permissions for modem
-    chmod 0660 /dev/ttyS0
-    chown radio radio /dev/ttyS0
 
     # change permissions for Thermal sensor TMP105
     chmod 0777 /sys/class/hwmon/hwmon0/device/temp1_max
@@ -135,6 +106,15 @@ on post-fs
     insmod /system/lib/modules/mac80211.ko
     insmod /system/lib/modules/wl12xx.ko
 
+# symlink egl.cfg
+    symlink /sys/egl/egl.cfg /system/lib/egl/egl.cfg
+
+# run mac script
+    start fixmac
+
+# mount system ro
+    mount ext4 /dev/block/mmcblk0p9 /system ro remount
+
 on post-fs-data
     mkdir /data/tmp 0777 system system
     symlink /data/tmp /tmp
@@ -142,12 +122,6 @@ on post-fs-data
 # make dir for trace
     mkdir /cache/trace 0777 system system
     chmod 0777 /cache/trace
-
-# symlink egl.cfg
-    symlink /sys/egl/egl.cfg /system/lib/egl/egl.cfg
-
-# mount system ro
-    mount ext4 /dev/block/mmcblk0p9 /system ro remount
 
 # wifi
     mkdir /data/misc/wifi 0770 wifi wifi
@@ -210,6 +184,7 @@ service fixmac /system/bin/fix-mac.sh
     user root
     group root
     oneshot
+    disabled
 
 service hwprops /sbin/hwprops
     critical
