@@ -6,5 +6,4 @@ omap.audio.mic.sub=AMic1
 omap.audio.power=PingPong
 af.resampler.quality=3
 sys.mem.max_hidden_apps=10
-dalvik.vm.debug.alloc=0
 
