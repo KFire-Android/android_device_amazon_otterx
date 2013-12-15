@@ -56,5 +56,4 @@ PRODUCT_PACKAGES += \
 
 # Mark as low ram device
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.config.low_ram=true \
-    dalvik.vm.jit.codecachesize=0
+    ro.config.low_ram=true
