@@ -20,6 +20,7 @@ on init
 on fs
     mkdir /factory 0775 radio radio
     mount_all /fstab.omap4430
+    swapon_all /fstab.omap4430
 
     # pvr module
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko

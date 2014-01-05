@@ -10,3 +10,4 @@
 /dev/block/mmcblk0p5                              /recovery          emmc      defaults                                   defaults
 /dev/block/mmcblk0p2                              /bootloader        emmc      defaults                                   defaults
 
+/dev/block/zram0                                  none               swap      defaults                                   zramsize=134217728
