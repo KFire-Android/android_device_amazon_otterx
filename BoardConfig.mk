@@ -43,7 +43,7 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 1192230912
 
 # Recovery
 TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/init.recovery.rc
-TARGET_RECOVERY_PRE_COMMAND := "idme postmode 1; \#"
+TARGET_RECOVERY_PRE_COMMAND := "/system/bin/pre-recovery.sh \#"
 BOARD_ALWAYS_INSECURE := true
 
 # Enable dalvik startup with a low memory footprint

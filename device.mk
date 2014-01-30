@@ -36,6 +36,7 @@ PRODUCT_COPY_FILES += \
 # Prebuilt system/bin
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/bin/fix-mac.sh:/system/bin/fix-mac.sh \
+    $(DEVICE_FOLDER)/prebuilt/bin/pre-recovery.sh:/system/bin/pre-recovery.sh \
     $(DEVICE_FOLDER)/prebuilt/bin/idme:/system/bin/idme
 
 # Prebuilt system/etc
