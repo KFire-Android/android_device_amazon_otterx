@@ -25,6 +25,7 @@ on fs
     # pvr module
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
     insmod /system/lib/modules/omaplfb_sgx540_120.ko
+    start pvrsrvinit
 
     # change permissions for mtd device
     chmod 0660 /dev/mtd/mtd0
@@ -90,8 +91,6 @@ on fs
     chown system system /sys/class/power_supply/usb/device/bad_battery
 
 on post-fs
-    chmod 0666 /dev/pvrsrvkm
-
     # wi-fi
     setprop wifi.interface "wlan0"
     setprop softap.interface "wlan0"
@@ -133,6 +132,7 @@ on post-fs-data
 
 on boot
     mount debugfs /sys/kernel/debug /sys/kernel/debug
+    chmod 0666 /dev/pvrsrvkm
     setprop ro.radio.noril yes
 
 # fake some battery state
@@ -159,6 +159,7 @@ service pvrsrvinit /system/vendor/bin/pvrsrvinit
     user root
     group root
     oneshot
+    disabled
 
 ###################################################
 # MSHIELD SMC Daemon - component required to store persistent data coming
