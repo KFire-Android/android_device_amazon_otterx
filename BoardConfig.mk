@@ -22,7 +22,7 @@ DEVICE_FOLDER := device/amazon/otter
 
 # Kernel
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_CMDLINE := mem=512M console=/dev/null androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := mem=512M console=null androidboot.selinux=permissive
 TARGET_BOOTLOADER_BOARD_NAME := otter
 TARGET_OTA_ASSERT_DEVICE := blaze,otter
 BOARD_HAS_SDCARD_INTERNAL := true
