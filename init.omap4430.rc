@@ -22,6 +22,9 @@ on fs
     mount_all /fstab.omap4430
     swapon_all /fstab.omap4430
 
+    # zRAM read only 1 page at a time
+    write /proc/sys/vm/page-cluster 0
+
     # pvr module
     insmod /system/lib/modules/pvrsrvkm_sgx540_120.ko
     insmod /system/lib/modules/omaplfb_sgx540_120.ko
