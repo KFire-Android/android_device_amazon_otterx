@@ -4,14 +4,18 @@ on init
     loglevel 8
 
     # See storage config details at http://source.android.com/tech/storage/
-    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
-    mkdir /storage/sdcard0 0700 root root
+    mkdir /mnt/shell/emulated 0700 shell shell
+    mkdir /storage/emulated 0555 root root
 
-    export EXTERNAL_STORAGE /storage/sdcard0
+    export EXTERNAL_STORAGE /storage/emulated/legacy
+    export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
+    export EMULATED_STORAGE_TARGET /storage/emulated
 
     # Support legacy paths
-    symlink /storage/sdcard0 /sdcard
-    symlink /storage/sdcard0 /mnt/sdcard
+    symlink /storage/emulated/legacy /sdcard
+    symlink /storage/emulated/legacy /mnt/sdcard
+    symlink /storage/emulated/legacy /storage/sdcard0
+    symlink /mnt/shell/emulated/0 /storage/emulated/legacy
 
     # create removable USB Mass Storage mountpoints
     mkdir /storage/usb0 0555 root root
@@ -21,6 +25,7 @@ on fs
     mkdir /factory 0775 radio radio
     mount_all /fstab.omap4430
     swapon_all /fstab.omap4430
+    setprop ro.crypto.fuse_sdcard true
 
     # zRAM read only 1 page at a time
     write /proc/sys/vm/page-cluster 0
@@ -107,6 +112,7 @@ on post-fs
     symlink /sys/egl/egl.cfg /system/lib/egl/egl.cfg
 
 on post-fs-data
+    mkdir /data/media 0770 media_rw media_rw
     mkdir /data/tmp 0777 system system
     symlink /data/tmp /tmp
 
@@ -246,7 +252,7 @@ service hostapd_bin /system/bin/hostapd -d -e/data/misc/wifi/entropy.bin /data/m
     disabled
     oneshot
 
-service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
+service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
     class late_start
 
 #on property:init.svc.smc_pa=stopped
