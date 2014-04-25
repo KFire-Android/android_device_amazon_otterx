@@ -53,7 +53,8 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/twrp.fstab:recovery/root/etc/twrp.fstab
 
 PRODUCT_PACKAGES += \
-    sdcard
+    sdcard \
+    setup_fs
 
 # Mark as low ram device
 PRODUCT_PROPERTY_OVERRIDES += \
