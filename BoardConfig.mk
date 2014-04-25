@@ -22,7 +22,7 @@ DEVICE_FOLDER := device/amazon/otterx
 
 # Kernel
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_CMDLINE := mem=512M androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := mem=512M androidboot.selinux=permissive newbootargs
 TARGET_BOOTLOADER_BOARD_NAME := otterx
 TARGET_OTA_ASSERT_DEVICE := otterx
 
@@ -41,6 +41,11 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 1192230912
 # Recovery
 TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/init.recovery.rc
 BOARD_ALWAYS_INSECURE := true
+TW_INTERNAL_STORAGE_PATH := "/data/media"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+BOARD_HAS_NO_REAL_SDCARD := true
+RECOVERY_SDCARD_ON_DATA := true
+TARGET_USERIMAGES_USE_EXT4 := true
 
 # Enable dalvik startup with a low memory footprint
 TARGET_ARCH_LOWMEM := true
