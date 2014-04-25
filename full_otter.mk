@@ -25,12 +25,12 @@ PRODUCT_PACKAGES += \
         librs_jni
 
 # Inherit from those products. Most specific first.
-$(call inherit-product, device/amazon/otter/device.mk)
+$(call inherit-product, device/amazon/otterx/device.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 
-PRODUCT_NAME := full_otter
-PRODUCT_DEVICE := otter
+PRODUCT_NAME := full_otterx
+PRODUCT_DEVICE := otterx
 PRODUCT_BRAND := google
-PRODUCT_MODEL := Amazon Otter
+PRODUCT_MODEL := Amazon OtterX
 PRODUCT_MANUFACTURER := android
 

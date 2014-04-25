@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DEVICE_FOLDER := device/amazon/otter
+DEVICE_FOLDER := device/amazon/otterx
 
 $(call inherit-product, device/amazon/otter-common/common.mk)
 
@@ -21,11 +21,11 @@ DEVICE_PACKAGE_OVERLAYS += $(DEVICE_FOLDER)/overlay
 
 # Hardware HALs
 PRODUCT_PACKAGES += \
-    hwcomposer.otter \
-    lights.otter \
-    power.otter \
-    audio.primary.otter \
-    sensors.otter
+    hwcomposer.otterx \
+    lights.otterx \
+    power.otterx \
+    audio.primary.otterx \
+    sensors.otterx
 
 # Rootfs
 PRODUCT_COPY_FILES += \

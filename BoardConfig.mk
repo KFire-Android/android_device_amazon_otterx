@@ -12,26 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DEVICE_FOLDER := device/amazon/otter
+DEVICE_FOLDER := device/amazon/otterx
 
 # inherit from common
 -include device/amazon/otter-common/BoardConfigCommon.mk
 
 # Use the non-open-source parts, if they're present
--include vendor/amazon/otter/BoardConfigVendor.mk
+-include vendor/amazon/otterx/BoardConfigVendor.mk
 
 # Kernel
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_CMDLINE := mem=512M console=null androidboot.selinux=permissive
-TARGET_BOOTLOADER_BOARD_NAME := otter
-TARGET_OTA_ASSERT_DEVICE := blaze,otter
-BOARD_HAS_SDCARD_INTERNAL := true
-BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/platform/omap/omap_hsmmc.1/by-name/media
-BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/platform/omap/omap_hsmmc.1/by-name/media
+BOARD_KERNEL_CMDLINE := mem=512M androidboot.selinux=permissive
+TARGET_BOOTLOADER_BOARD_NAME := otterx
+TARGET_OTA_ASSERT_DEVICE := otterx
 
 # Kernel Build
 TARGET_KERNEL_SOURCE := kernel/amazon/otter-common
-TARGET_KERNEL_CONFIG := otter_android_defconfig
+TARGET_KERNEL_CONFIG := otterx_android_defconfig
 
 # Filesystem
 TARGET_RECOVERY_FSTAB = $(DEVICE_FOLDER)/fstab.otter
@@ -43,7 +40,6 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 1192230912
 
 # Recovery
 TARGET_RECOVERY_INITRC := $(DEVICE_FOLDER)/init.recovery.rc
-TARGET_RECOVERY_PRE_COMMAND := "/system/bin/pre-recovery.sh \#"
 BOARD_ALWAYS_INSECURE := true
 
 # Enable dalvik startup with a low memory footprint
