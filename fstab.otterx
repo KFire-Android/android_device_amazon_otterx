@@ -1,12 +1,12 @@
 # Android fstab file.
-#<src>                                            <mnt_point>        <type>    <mnt_flags and options>                            <fs_mgr_flags>
+#<src>                                                    <mnt_point>        <type>    <mnt_flags and options>                    <fs_mgr_flags>
 # The filesystem that contains the filesystem checker binary (typically /system) cannot
 # specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
-/dev/block/mmcblk0p9                              /system            ext4      rw,nodev,noatime,errors=continue           wait
-/dev/block/mmcblk0p12                             /data              ext4      rw,nosuid,nodev,noatime,errors=continue    wait,check,encryptable=footer
-/dev/block/mmcblk0p11                             /cache             ext4      rw,nosuid,nodev,noatime,errors=continue    wait,check
-/dev/block/mmcblk0p7                              /boot              emmc      defaults                                   defaults
-/dev/block/mmcblk0p5                              /recovery          emmc      defaults                                   defaults
-/dev/block/mmcblk0p2                              /bootloader        emmc      defaults                                   defaults
+/dev/block/platform/omap/omap_hsmmc.1/by-name/system      /system            ext4      rw,nodev,noatime,errors=continue           wait
+/dev/block/platform/omap/omap_hsmmc.1/by-name/userdata    /data              ext4      rw,nosuid,nodev,noatime,errors=continue    wait,check,encryptable=footer
+/dev/block/platform/omap/omap_hsmmc.1/by-name/cache       /cache             ext4      rw,nosuid,nodev,noatime,errors=continue    wait,check
+/dev/block/platform/omap/omap_hsmmc.1/by-name/boot        /boot              emmc      defaults                                   defaults
+/dev/block/platform/omap/omap_hsmmc.1/by-name/recovery    /recovery          emmc      defaults                                   defaults
+/dev/block/platform/omap/omap_hsmmc.1/by-name/bootloader  /bootloader        emmc      defaults                                   defaults
 
-/dev/block/zram0                                  none               swap      defaults                                   zramsize=134217728
+/dev/block/zram0                                          none               swap      defaults                                   zramsize=134217728
