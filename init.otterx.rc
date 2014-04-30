@@ -267,7 +267,7 @@ service hostapd_bin /system/bin/hostapd -d -e/data/misc/wifi/entropy.bin /data/m
 service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
     class late_start
 
-service charger /charger
+service charger /charger_otterx
     class charger
 
 #on property:init.svc.smc_pa=stopped

@@ -50,7 +50,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     sdcard \
     setup_fs \
-    charger
+    charger_otterx \
+    charger_res_images_otterx
 
 # Mark as low ram device
 PRODUCT_PROPERTY_OVERRIDES += \
