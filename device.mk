@@ -29,7 +29,7 @@ PRODUCT_PACKAGES += \
 
 # Rootfs
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/fstab.otterx:/root/fstab.omap4430 \
+    $(DEVICE_FOLDER)/fstab.otterx:/root/fstab.otterx \
     $(DEVICE_FOLDER)/init.otterx.rc:/root/init.otterx.rc \
     $(DEVICE_FOLDER)/init.otterx.usb.rc:/root/init.otterx.usb.rc \
     $(DEVICE_FOLDER)/ueventd.otterx.rc:/root/ueventd.otterx.rc
