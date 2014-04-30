@@ -1,4 +1,4 @@
-import init.omap4430.usb.rc
+import init.otterx.usb.rc
 
 on init
     loglevel 8
@@ -134,10 +134,13 @@ on post-fs-data
     start fixmac
 
     # mount system ro
-    mount ext4 /dev/block/mmcblk0p9 /system ro remount
+    mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/system /system ro remount
 
     setprop vold.post_fs_data_done 1
 
+on charger
+    wait /dev/block/platform/omap/omap_hsmmc.1/by-name/system
+    mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/system /system ro barrier=1
 
 on boot
     mount debugfs /sys/kernel/debug /sys/kernel/debug
@@ -263,6 +266,9 @@ service hostapd_bin /system/bin/hostapd -d -e/data/misc/wifi/entropy.bin /data/m
 
 service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
     class late_start
+
+service charger /charger
+    class charger
 
 #on property:init.svc.smc_pa=stopped
 #	start tf_daemon
