@@ -30,8 +30,9 @@ PRODUCT_PACKAGES += \
 # Rootfs
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/fstab.otterx:/root/fstab.omap4430 \
-    $(DEVICE_FOLDER)/init.omap4430.rc:/root/init.omap4430.rc \
-    $(DEVICE_FOLDER)/init.omap4430.usb.rc:/root/init.omap4430.usb.rc
+    $(DEVICE_FOLDER)/init.otterx.rc:/root/init.otterx.rc \
+    $(DEVICE_FOLDER)/init.otterx.usb.rc:/root/init.otterx.usb.rc \
+    $(DEVICE_FOLDER)/ueventd.otterx.rc:/root/ueventd.otterx.rc
 
 # Prebuilt system/bin
 PRODUCT_COPY_FILES += \
@@ -45,9 +46,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/twrp.fstab:recovery/root/etc/twrp.fstab
 
+# Misc
 PRODUCT_PACKAGES += \
     sdcard \
-    setup_fs
+    setup_fs \
+    charger
 
 # Mark as low ram device
 PRODUCT_PROPERTY_OVERRIDES += \
