@@ -1,9 +1,9 @@
-# mount point	fstype	device
+# mount point   fstype  device                        flags
 
-/data		ext4	/dev/block/mmcblk0p12	  length=-16384
-/cache		ext4	/dev/block/mmcblk0p11
-/system		ext4	/dev/block/mmcblk0p9
-/boot		emmc	/dev/block/mmcblk0p7
-/recovery	emmc	/dev/block/mmcblk0p5
-/bootloader	emmc	/dev/block/mmcblk0p2
+/data           f2fs    /dev/block/mmcblk0p12         flags=fsflags="inline_xattr"
+/cache          ext4    /dev/block/mmcblk0p11
+/system         ext4    /dev/block/mmcblk0p9
+/boot           emmc    /dev/block/mmcblk0p7
+/recovery       emmc    /dev/block/mmcblk0p5
+/bootloader     emmc    /dev/block/mmcblk0p2
 

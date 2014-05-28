@@ -53,6 +53,12 @@ PRODUCT_PACKAGES += \
     charger_otterx \
     charger_res_images_otterx
 
+# F2FS
+PRODUCT_PACKAGES += \
+    mkfs.f2fs \
+    fsck.f2fs \
+    fibmap.f2fs
+
 # Mark as low ram device
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.low_ram=true
