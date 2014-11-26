@@ -7,7 +7,8 @@ NVS_BIN=/system/etc/firmware/ti-connectivity/wl1271-nvs.bin
 if [ ! -f "$NVS_BIN" ]; then
     mount -o remount,rw /system
     cp ${ORIG_NVS_BIN} ${NVS_BIN}
-    calibrator set nvs_mac $NVS_BIN $(getprop ro.boot.wifimac | sed 's/../&:/g;s/:$//')
+    calibrator set nvs_mac $NVS_BIN $(getprop ro.boot.wifimac | bbx sed 's/../&:/g;s/:$//')
+    chmod 644 ${NVS_BIN}
     mount -o remount,ro /system
 fi
 
