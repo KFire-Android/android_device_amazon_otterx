@@ -49,9 +49,8 @@ PRODUCT_COPY_FILES += \
 # Misc
 PRODUCT_PACKAGES += \
     sdcard \
-    setup_fs \
-    charger_otterx \
-    charger_res_images_otterx
+    charger_res_images \
+    setup_fs
 
 # F2FS
 PRODUCT_PACKAGES += \
