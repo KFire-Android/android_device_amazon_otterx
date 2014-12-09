@@ -113,6 +113,7 @@ on post-fs
     insmod /system/lib/modules/cfg80211.ko
     insmod /system/lib/modules/mac80211.ko
     insmod /system/lib/modules/wl12xx.ko
+    insmod /system/lib/modules/wl12xx_sdio.ko
 
     # symlink egl.cfg
     symlink /sys/egl/egl.cfg /system/lib/egl/egl.cfg
