@@ -32,6 +32,7 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/fstab.otterx:/root/fstab.otterx \
     $(DEVICE_FOLDER)/init.otterx.rc:/root/init.otterx.rc \
     $(DEVICE_FOLDER)/init.otterx.usb.rc:/root/init.otterx.usb.rc \
+    $(DEVICE_FOLDER)/init.recovery.otterx.rc:/root/init.recovery.otterx.rc \
     $(DEVICE_FOLDER)/ueventd.otterx.rc:/root/ueventd.otterx.rc
 
 # Prebuilt system/bin
