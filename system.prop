@@ -4,6 +4,5 @@ ro.cwm.forbid_format = /bootloader,/dfs,/backup,/splash
 omap.audio.mic.main=AMic0
 omap.audio.mic.sub=AMic1
 omap.audio.power=PingPong
-af.resampler.quality=3
 sys.mem.max_hidden_apps=10
 
