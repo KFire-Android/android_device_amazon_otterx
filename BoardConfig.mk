@@ -44,8 +44,6 @@ TW_INTERNAL_STORAGE_PATH := "/data/media/0"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
 BOARD_HAS_NO_REAL_SDCARD := true
 RECOVERY_SDCARD_ON_DATA := true
-TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
 
 # Enable dalvik startup with a low memory footprint
 TARGET_ARCH_LOWMEM := true

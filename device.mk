@@ -45,9 +45,7 @@ PRODUCT_COPY_FILES += \
 
 # Misc
 PRODUCT_PACKAGES += \
-    sdcard \
-    charger_res_images \
-    setup_fs
+    charger_res_images
 
 # Recovery USB
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -55,16 +53,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     usb.product.adb=0006 \
     usb.product.mtpadb=0006
 
-# F2FS
-PRODUCT_PACKAGES += \
-    mkfs.f2fs \
-    fsck.f2fs \
-    fibmap.f2fs
-
 # Mark as low ram device
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.low_ram=true
-
-# Enable KSM by default
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.ksm.default=1
