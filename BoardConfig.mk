@@ -28,7 +28,8 @@ TARGET_OTA_ASSERT_DEVICE := otterx
 
 # Kernel Build
 TARGET_KERNEL_SOURCE := kernel/amazon/otter-common
-TARGET_KERNEL_CONFIG := otterx_android_defconfig
+TARGET_KERNEL_CONFIG := android_omap4_defconfig
+TARGET_KERNEL_VARIANT_CONFIG := android_otterx_defconfig
 
 # Filesystem
 TARGET_RECOVERY_FSTAB = $(DEVICE_FOLDER)/fstab.otterx
