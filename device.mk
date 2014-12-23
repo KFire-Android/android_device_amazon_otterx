@@ -43,15 +43,17 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/prebuilt/etc/firmware/ducati-m3.512MB.bin:/system/etc/firmware/ducati-m3.512MB.bin
 
-# Recovery
-PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/twrp.fstab:recovery/root/etc/twrp.fstab
-
 # Misc
 PRODUCT_PACKAGES += \
     sdcard \
     charger_res_images \
     setup_fs
+
+# Recovery USB
+PRODUCT_PROPERTY_OVERRIDES += \
+    usb.vendor=1949 \
+    usb.product.adb=0006 \
+    usb.product.mtpadb=0006
 
 # F2FS
 PRODUCT_PACKAGES += \
