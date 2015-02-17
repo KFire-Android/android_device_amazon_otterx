@@ -14,9 +14,6 @@ on init
     symlink /mnt/shell/emulated/0 /storage/emulated/legacy
 
 on fs
-    # zRAM read only 1 page at a time
-    write /proc/sys/vm/page-cluster 0
-
     mkdir /factory 0775 radio radio
     mount_all /fstab.otterx
     swapon_all /fstab.otterx
