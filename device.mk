@@ -48,17 +48,17 @@ PRODUCT_PACKAGES += \
     charger_res_images
 
 # Recovery USB
-PRODUCT_PROPERTY_OVERRIDES += \
+ADDITIONAL_BUILD_PROPERTIES += \
     usb.vendor=1949 \
     usb.product.adb=0006 \
     usb.product.mtpadb=0006
 
 # Mark as low ram device
-PRODUCT_PROPERTY_OVERRIDES += \
+ADDITIONAL_BUILD_PROPERTIES += \
     ro.config.low_ram=true
 
 # Dalvik settings
-PRODUCT_PROPERTY_OVERRIDES += \
+ADDITIONAL_BUILD_PROPERTIES += \
     dalvik.vm.heapstartsize=5m \
     dalvik.vm.heapgrowthlimit=48m \
     dalvik.vm.heapsize=256m \
