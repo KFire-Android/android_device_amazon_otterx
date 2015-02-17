@@ -12,3 +12,4 @@ if [ ! -f "$NVS_BIN" ]; then
     mount -o remount,ro /system
 fi
 
+insmod /system/lib/modules/wl12xx_sdio.ko
