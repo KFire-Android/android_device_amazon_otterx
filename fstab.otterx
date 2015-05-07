@@ -2,10 +2,10 @@
 #<src>                                                    <mnt_point> <type> <mnt_flags and options>                                  <fs_mgr_flags>
 # The filesystem that contains the filesystem checker binary (typically /system) cannot
 # specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
-/dev/block/platform/omap/omap_hsmmc.1/by-name/system      /system     ext4   rw,nodev,noatime,errors=continue                         wait
-/dev/block/platform/omap/omap_hsmmc.1/by-name/userdata    /data       f2fs   rw,discard,nosuid,nodev,noatime,nodiratime,inline_xattr  wait,nonremovable,check,encryptable=footer,length=-16384
-/dev/block/platform/omap/omap_hsmmc.1/by-name/userdata    /data       ext4   rw,discard,nosuid,nodev,noatime                          wait,check,encryptable=footer,length=-16384
-/dev/block/platform/omap/omap_hsmmc.1/by-name/cache       /cache      ext4   rw,discard,nosuid,nodev,noatime                          wait,check
+/dev/block/platform/omap/omap_hsmmc.1/by-name/system      /system     ext4   ro,nodev,noatime,errors=continue               wait
+/dev/block/platform/omap/omap_hsmmc.1/by-name/userdata    /data       f2fs   discard,nosuid,nodev,noatime,nodiratime,inline_xattr     wait,nonremovable,check,encryptable=footer,length=-16384
+/dev/block/platform/omap/omap_hsmmc.1/by-name/userdata    /data       ext4   discard,nosuid,nodev,noatime                             wait,check,encryptable=footer,length=-16384
+/dev/block/platform/omap/omap_hsmmc.1/by-name/cache       /cache      ext4   discard,nosuid,nodev,noatime                             wait,check
 /dev/block/platform/omap/omap_hsmmc.1/by-name/boot        /boot       emmc   defaults                                                 defaults
 /dev/block/platform/omap/omap_hsmmc.1/by-name/recovery    /recovery   emmc   defaults                                                 defaults
 /dev/block/platform/omap/omap_hsmmc.1/by-name/bootloader  /bootloader emmc   defaults                                                 defaults
