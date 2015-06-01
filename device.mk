@@ -52,15 +52,6 @@ ADDITIONAL_BUILD_PROPERTIES += \
     usb.product.adb=0006 \
     usb.product.mtpadb=0006
 
-# Low-RAM optimizations
-ADDITIONAL_BUILD_PROPERTIES += \
-    ro.config.low_ram=true \
-    persist.sys.force_highendgfx=true \
-    dalvik.vm.jit.codecachesize=0 \
-    config.disable_atlas=true \
-    ro.config.max_starting_bg=8 \
-    ro.sys.fw.bg_apps_limit=16
-
 # Dalvik settings
 ADDITIONAL_BUILD_PROPERTIES += \
     dalvik.vm.heapstartsize=5m \
