@@ -1,5 +1,4 @@
 on early-init
-    setenforce permissive
     loglevel 7
 
 on fs

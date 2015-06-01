@@ -22,7 +22,7 @@ DEVICE_FOLDER := device/amazon/otterx
 
 # Kernel
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_CMDLINE := mem=512M androidboot.selinux=permissive newbootargs
+BOARD_KERNEL_CMDLINE := mem=512M newbootargs
 TARGET_BOOTLOADER_BOARD_NAME := otterx
 TARGET_OTA_ASSERT_DEVICE := otterx
 
